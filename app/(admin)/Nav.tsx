@@ -12,7 +12,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 const navLinks = [
-  { title: 'Dashboard', href: '/admin', icon: <HomeIcon /> },
+  { title: 'Dashboard', href: '/admin/dashboard', icon: <HomeIcon /> },
   { title: 'Products', href: '/admin/products', icon: <ArchiveBoxIcon /> },
   { title: 'Categories', href: '/admin/categories', icon: <ListBulletIcon /> },
   { title: 'Orders', href: '/admin/orders', icon: <QueueListIcon /> },
