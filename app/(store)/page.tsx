@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col">
       Home
-      <a href="/admin">Admin</a>
+      <a href="/admin/dashboard">Admin</a>
     </main>
   )
 }
