@@ -2,8 +2,8 @@ import { cn } from '@/lib/utils'
 import { ClerkProvider } from '@clerk/nextjs'
 import type { Metadata } from 'next'
 import { Inter as FontSans } from 'next/font/google'
-import '../../globals.css'
-import Nav from '../Nav'
+import '../globals.css'
+import Nav from './Nav'
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -25,12 +25,14 @@ export default function RootLayout({
       <html lang="en">
         <body
           className={cn(
-            'min-h-screen bg-background font-sans antialiased flex gap-6',
+            'min-h-screen bg-background font-sans antialiased flex',
             fontSans.variable
           )}
         >
           <Nav />
-          <main className="border-red-500 border-2 grow">{children}</main>
+          <main className="border-red-500 border-2 grow w-full">
+            {children}
+          </main>
         </body>
       </html>
     </ClerkProvider>
