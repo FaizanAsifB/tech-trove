@@ -2,7 +2,9 @@ import { Button } from '@/components/ui/button'
 import { Heading } from '@/components/ui/heading'
 import { Separator } from '@/components/ui/separator'
 import prismaDb from '@/lib/prisma'
+import axios from 'axios'
 import Link from 'next/link'
+import DeleteButton from './components/DeleteButton'
 
 const CategoriesPage = async () => {
   const categories = await prismaDb.category.findMany()
@@ -32,9 +34,9 @@ const CategoriesPage = async () => {
           <article key={category.id}>
             <h3>{category.title}</h3>
             <Button asChild>
-              <Link href={`/admin/categories/edit/${category.id}`}> edit</Link>
+              <Link href={`/admin/categories/edit/${category.id}`}>Edit</Link>
             </Button>
-            <Button>delete</Button>
+            <DeleteButton categoryId={category.id}></DeleteButton>
           </article>
         ))}
       </div>

@@ -16,7 +16,7 @@ import { Separator } from '@/components/ui/separator'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Category } from '@prisma/client'
 import axios from 'axios'
-import { useRouter } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -27,10 +27,11 @@ const categorySchema = z.object({
 type CategoryFormValues = z.infer<typeof categorySchema>
 
 type CategoryFormProps = {
-  initialData: Category | null
+  initialData?: Category | null
 }
 
 const CategoryForm = ({ initialData }: CategoryFormProps) => {
+  const params = useParams()
   const router = useRouter()
 
   const title = initialData ? 'Edit category' : 'Create category'
@@ -47,10 +48,14 @@ const CategoryForm = ({ initialData }: CategoryFormProps) => {
 
   async function handleSubmit(data: CategoryFormValues) {
     try {
-      await axios.post('http://localhost:3000/api/category', data)
+      if (initialData) {
+        await axios.patch(`/api/categories/${params.categoryId}`, data)
+      } else {
+        await axios.post('/api/categories', data)
+      }
 
       router.refresh()
-      router.push('/admin/categories')
+      router.push('/admin/categories/')
     } catch (error) {
       console.log(error)
     }
