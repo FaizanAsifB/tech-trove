@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
+import axios from 'axios'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -34,9 +35,8 @@ const CategoryForm = () => {
   })
 
   function handleSubmit(data: Category) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    createCategory(data)
+    //add axios post request
+    axios.post('http://localhost:3000/api/category', data)
   }
 
   return (
