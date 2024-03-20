@@ -6,7 +6,6 @@ import Link from 'next/link'
 
 const CategoriesPage = async () => {
   const categories = await prismaDb.category.findMany()
-  console.log(categories)
 
   return (
     <section>
@@ -14,6 +13,9 @@ const CategoriesPage = async () => {
         title="Categories"
         description="Manage categories for your products"
       />
+      <Button asChild>
+        <Link href="categories/create">Create Category</Link>
+      </Button>
       <Separator />
       <div>
         {categories.length === 0 ? (
@@ -29,8 +31,10 @@ const CategoriesPage = async () => {
         {categories.map(category => (
           <article key={category.id}>
             <h3>{category.title}</h3>
-            <button>edit</button>
-            <button>delete</button>
+            <Button asChild>
+              <Link href={`/admin/categories/edit/${category.id}`}> edit</Link>
+            </Button>
+            <Button>delete</Button>
           </article>
         ))}
       </div>

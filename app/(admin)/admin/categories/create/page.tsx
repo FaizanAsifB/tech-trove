@@ -1,4 +1,3 @@
-import prismaDb from '@/lib/prisma'
 import CategoryForm from '../components/CategoryForm'
 
 const NewCategoryPage = () => {

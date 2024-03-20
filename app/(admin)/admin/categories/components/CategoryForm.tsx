@@ -10,55 +10,76 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
+import { Heading } from '@/components/ui/heading'
 import { Input } from '@/components/ui/input'
+import { Separator } from '@/components/ui/separator'
 import { zodResolver } from '@hookform/resolvers/zod'
 import axios from 'axios'
+import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 const categorySchema = z.object({
-  title: z.string().min(1, 'Title is required').max(50),
+  title: z.string().trim().min(1, 'Title is required').max(50),
 })
 
 type Category = z.infer<typeof categorySchema>
 
 type CategoryFormProps = {
-  onSubmit: (data: Category) => Promise<void>
+  initialData: Category | null
 }
 
-const CategoryForm = () => {
+const CategoryForm = ({ initialData }: CategoryFormProps) => {
+  const router = useRouter()
+
+  const title = initialData ? 'Edit category' : 'Create category'
+  const description = initialData ? 'Edit a category.' : 'Add a new category'
+  //  const toastMessage = initialData ? 'Category updated.' : 'Category created.'
+  const action = initialData ? 'Save changes' : 'Create'
+
   const form = useForm<Category>({
     resolver: zodResolver(categorySchema),
-    defaultValues: {
+    defaultValues: initialData || {
       title: '',
     },
   })
 
-  function handleSubmit(data: Category) {
+  async function handleSubmit(data: Category) {
     //add axios post request
-    axios.post('http://localhost:3000/api/category', data)
+    try {
+      await axios.post('http://localhost:3000/api/category', data)
+
+      router.refresh()
+      router.push('/admin/categories')
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
-          name="title"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Title</FormLabel>
-              <FormControl>
-                <Input placeholder="Category title" {...field} />
-              </FormControl>
+    <>
+      <Heading title={title} description={description} />
+      <Separator />
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8">
+          <FormField
+            control={form.control}
+            name="title"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Title</FormLabel>
+                <FormControl>
+                  <Input placeholder="Category title" {...field} />
+                </FormControl>
 
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit">Submit</Button>
-      </form>
-    </Form>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button type="submit">{action}</Button>
+        </form>
+      </Form>
+    </>
   )
 }
 export default CategoryForm
