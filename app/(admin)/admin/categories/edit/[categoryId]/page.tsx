@@ -12,7 +12,6 @@ const EditCategoryPage = async ({
       id: categoryId,
     },
   })
-  console.log(category)
-  return <CategoryForm initialData={{ title: category.title }} />
+  return <CategoryForm initialData={category} />
 }
 export default EditCategoryPage

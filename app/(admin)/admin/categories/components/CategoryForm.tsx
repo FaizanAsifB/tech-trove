@@ -14,6 +14,7 @@ import { Heading } from '@/components/ui/heading'
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Category } from '@prisma/client'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
@@ -23,7 +24,7 @@ const categorySchema = z.object({
   title: z.string().trim().min(1, 'Title is required').max(50),
 })
 
-type Category = z.infer<typeof categorySchema>
+type CategoryFormValues = z.infer<typeof categorySchema>
 
 type CategoryFormProps = {
   initialData: Category | null
@@ -37,15 +38,14 @@ const CategoryForm = ({ initialData }: CategoryFormProps) => {
   //  const toastMessage = initialData ? 'Category updated.' : 'Category created.'
   const action = initialData ? 'Save changes' : 'Create'
 
-  const form = useForm<Category>({
+  const form = useForm<CategoryFormValues>({
     resolver: zodResolver(categorySchema),
     defaultValues: initialData || {
       title: '',
     },
   })
 
-  async function handleSubmit(data: Category) {
-    //add axios post request
+  async function handleSubmit(data: CategoryFormValues) {
     try {
       await axios.post('http://localhost:3000/api/category', data)
 
