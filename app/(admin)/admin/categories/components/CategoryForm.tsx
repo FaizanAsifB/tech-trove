@@ -54,8 +54,8 @@ const CategoryForm = ({ initialData }: CategoryFormProps) => {
         await axios.post('/api/categories', data)
       }
 
-      router.refresh()
-      router.push('/admin/categories/')
+      // router.refresh()
+      router.push('/admin/categories')
     } catch (error) {
       console.log(error)
     }

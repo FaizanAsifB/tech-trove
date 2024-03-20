@@ -31,7 +31,7 @@ export async function PATCH(
         title,
       },
     })
-    revalidatePath('admin/categories', 'page')
+    revalidatePath('admin/categories')
 
     return Response.json(category)
   } catch (error) {
