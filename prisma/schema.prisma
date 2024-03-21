@@ -24,6 +24,7 @@ model User {
 model Category {
   id          String      @id @default(uuid())
   title       String
+  images      Image[]    @relation("CategoryToImage")
   products    Product[]   @relation("CategoryToProduct")
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
@@ -40,12 +41,11 @@ model Product {
   isArchived  Boolean   @default(false)
   size        String
   color       String
-  images      String[]   
+  images      Image[]   @relation("ProductToImage")
   orderItems  OrderItem[]   // Relation to Order model
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 
-  @@index([categoryId])
 }
 
 model Order {
@@ -69,4 +69,13 @@ model OrderItem {
 
   @@index([orderId])
   @@index([productId])
+}
+
+model Image {
+  id        String  @id @default(uuid())
+  public_id String  @unique
+  productId String 
+  product  Product @relation("ProductToImage", fields: [productId], references: [id])
+  categoryId String 
+  category Category @relation("CategoryToImage", fields: [categoryId], references: [id])
 }

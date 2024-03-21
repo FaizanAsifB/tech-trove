@@ -1,5 +1,6 @@
 'use client'
 
+import ImageUpload from '@/components/ui/ImageUpload'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -13,18 +14,13 @@ import {
 import { Heading } from '@/components/ui/heading'
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
+import { createCategory, updateCategory } from '@/lib/actions'
+import { CategoryFormValues, CategorySchema } from '@/lib/definitions'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Category } from '@prisma/client'
 import axios from 'axios'
 import { useParams, useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
-import { z } from 'zod'
-
-const categorySchema = z.object({
-  title: z.string().trim().min(1, 'Title is required').max(50),
-})
-
-type CategoryFormValues = z.infer<typeof categorySchema>
 
 type CategoryFormProps = {
   initialData?: Category | null
@@ -40,22 +36,25 @@ const CategoryForm = ({ initialData }: CategoryFormProps) => {
   const action = initialData ? 'Save changes' : 'Create'
 
   const form = useForm<CategoryFormValues>({
-    resolver: zodResolver(categorySchema),
+    resolver: zodResolver(CategorySchema),
     defaultValues: initialData || {
       title: '',
+      images: [],
     },
   })
 
   async function handleSubmit(data: CategoryFormValues) {
     try {
       if (initialData) {
-        await axios.patch(`/api/categories/${params.categoryId}`, data)
+        await updateCategory(params.categoryId as string, data)
+        // await axios.patch(`/api/categories/${params.categoryId}`, data)
       } else {
-        await axios.post('/api/categories', data)
+        await createCategory(data)
+        // await axios.post('/api/categories', data)
       }
 
       // router.refresh()
-      router.push('/admin/categories')
+      // router.push('/admin/categories')
     } catch (error) {
       console.log(error)
     }
@@ -67,6 +66,30 @@ const CategoryForm = ({ initialData }: CategoryFormProps) => {
       <Separator />
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8">
+          <FormField
+            control={form.control}
+            name="images"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Images</FormLabel>
+                <FormControl>
+                  <ImageUpload
+                    value={field.value.map(image => image)}
+                    disabled={form.formState.isSubmitting}
+                    onChange={(url, public_id) =>
+                      field.onChange([...field.value, { url, public_id }])
+                    }
+                    onRemove={url =>
+                      field.onChange([
+                        ...field.value.filter(image => image.url !== url),
+                      ])
+                    }
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <FormField
             control={form.control}
             name="title"
