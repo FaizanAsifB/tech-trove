@@ -11,7 +11,7 @@ import Image from 'next/image'
 
 interface ImageUploadProps {
   disabled?: boolean
-  onChange: (url: string, public_id: string) => void
+  onChange: (images: { url: string; public_id: string }[]) => void
   onRemove: (url: string) => void
   value: { url: string; public_id: string }[]
 }
@@ -23,13 +23,22 @@ const ImageUpload = ({
   value,
 }: ImageUploadProps) => {
   const [isMounted, setIsMounted] = useState(false)
+  const [uploadedImages, setUploadedImages] = useState(value)
 
   useEffect(() => {
     setIsMounted(true)
   }, [])
 
+  useEffect(() => {
+    onChange(uploadedImages)
+  }, [onChange, uploadedImages])
+
   const onUpload = (result: any) => {
-    onChange(result.info?.secure_url, result.info?.public_id)
+    const newImage = {
+      url: result.info?.secure_url,
+      public_id: result.info?.public_id,
+    }
+    setUploadedImages(prev => [...prev, newImage])
   }
 
   const onRemoveHandler = async (url: string, public_id: string) => {

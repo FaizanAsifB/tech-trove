@@ -15,15 +15,14 @@ import { Heading } from '@/components/ui/heading'
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
 import { createCategory, updateCategory } from '@/lib/actions'
-import { CategoryFormValues, CategorySchema } from '@/lib/definitions'
+import { CategoryFormSchema, CategoryFormValues } from '@/lib/definitions'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Category } from '@prisma/client'
-import axios from 'axios'
+import { Category, Image } from '@prisma/client'
 import { useParams, useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 
 type CategoryFormProps = {
-  initialData?: Category | null
+  initialData?: (Category & { images: Image[] }) | null
 }
 
 const CategoryForm = ({ initialData }: CategoryFormProps) => {
@@ -36,7 +35,7 @@ const CategoryForm = ({ initialData }: CategoryFormProps) => {
   const action = initialData ? 'Save changes' : 'Create'
 
   const form = useForm<CategoryFormValues>({
-    resolver: zodResolver(CategorySchema),
+    resolver: zodResolver(CategoryFormSchema),
     defaultValues: initialData || {
       title: '',
       images: [],
@@ -74,11 +73,9 @@ const CategoryForm = ({ initialData }: CategoryFormProps) => {
                 <FormLabel>Images</FormLabel>
                 <FormControl>
                   <ImageUpload
-                    value={field.value.map(image => image)}
+                    value={field.value}
                     disabled={form.formState.isSubmitting}
-                    onChange={(url, public_id) =>
-                      field.onChange([...field.value, { url, public_id }])
-                    }
+                    onChange={field.onChange}
                     onRemove={url =>
                       field.onChange([
                         ...field.value.filter(image => image.url !== url),
