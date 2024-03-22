@@ -29,7 +29,6 @@ const ImageUpload = ({
   }, [])
 
   const onUpload = (result: any) => {
-    console.log(result)
     onChange(result.info?.secure_url, result.info?.public_id)
   }
 
