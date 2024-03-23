@@ -24,11 +24,10 @@ model User {
 model Category {
   id          String      @id @default(uuid())
   title       String
-  images      Image[]    @relation("CategoryToImage")
+  images      Image[]    
   products    Product[]   @relation("CategoryToProduct")
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
-
 }
 
 model Product {
@@ -67,15 +66,14 @@ model OrderItem {
   productId String  // Foreign Key to Product
   product   Product @relation(fields: [productId], references: [id])
 
-  @@index([orderId])
-  @@index([productId])
 }
 
 model Image {
   id        String  @id @default(uuid())
+  url       String @unique
   public_id String  @unique
-  productId String 
-  product  Product @relation("ProductToImage", fields: [productId], references: [id])
-  categoryId String 
-  category Category @relation("CategoryToImage", fields: [categoryId], references: [id])
+  product  Product? @relation("ProductToImage", fields: [productId], references: [id])
+  productId String?
+  category Category? @relation(fields: [categoryId], references: [id])
+  categoryId String?
 }

@@ -74,7 +74,9 @@ const ImageUpload = ({
       </div>
       <CldUploadWidget
         uploadPreset="xkdjouzr"
-        onSuccess={result => onUpload(result)}
+        onSuccess={result => {
+          onUpload(result)
+        }}
       >
         {({ open }) => {
           const onClick = () => {

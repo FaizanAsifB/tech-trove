@@ -1,16 +1,14 @@
 'use server'
 
+import cloudinary from 'cloudinary'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { CategoryFormValues, CategorySchema } from './definitions'
+import { CategoryFormSchema, CategoryFormValues } from './definitions'
 import prismaDb from './prisma'
-import cloudinary from 'cloudinary'
 
 export async function createCategory(formData: CategoryFormValues) {
-  // Validate form using Zod
-  const validatedFields = CategorySchema.safeParse(formData)
+  const validatedFields = CategoryFormSchema.safeParse(formData)
 
-  // If form validation fails, return errors early. Otherwise, continue.
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
@@ -18,25 +16,35 @@ export async function createCategory(formData: CategoryFormValues) {
     }
   }
 
-  // Insert data into the database
+  const { title, images } = validatedFields.data
+  const correctedImages = images.map(image => ({ ...image, productId: null }))
+
   try {
     await prismaDb.category.create({
-      data: validatedFields.data,
+      data: {
+        title,
+        images: {
+          createMany: {
+            data: images.map(image => ({ ...image, productId: null })),
+          },
+        },
+      },
+      include: {
+        images: true,
+      },
     })
   } catch (error) {
-    // If a database error occurs, return a more specific error.
     return {
       message: 'Database Error: Failed to Create Category.',
     }
   }
 
-  // Revalidate the cache for the invoices page and redirect the user.
   revalidatePath('/admin/categories')
   redirect('/admin/categories')
 }
 
 export async function updateCategory(id: string, formData: CategoryFormValues) {
-  const validatedFields = CategorySchema.parse(formData)
+  const validatedFields = CategoryFormSchema.parse(formData)
 
   try {
     await prismaDb.category.update({
