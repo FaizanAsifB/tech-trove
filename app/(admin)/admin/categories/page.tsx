@@ -5,19 +5,23 @@ import prismaDb from '@/lib/prisma'
 import axios from 'axios'
 import Link from 'next/link'
 import DeleteButton from './components/DeleteButton'
+import { DataTable } from '@/components/ui/data-table'
+import { columns } from './components/columns'
 
 const CategoriesPage = async () => {
   const categories = await prismaDb.category.findMany()
 
   return (
     <section>
-      <Heading
-        title="Categories"
-        description="Manage categories for your products"
-      />
-      <Button asChild>
-        <Link href="categories/create">Create Category</Link>
-      </Button>
+      <header className="flex justify-between items-center">
+        <Heading
+          title="Categories"
+          description="Manage categories for your products"
+        />
+        <Button asChild>
+          <Link href="categories/create">+ Add Category</Link>
+        </Button>
+      </header>
       <Separator />
       <div>
         {categories.length === 0 ? (
@@ -30,7 +34,8 @@ const CategoriesPage = async () => {
         ) : (
           ''
         )}
-        {categories.map(category => (
+        <DataTable columns={columns} data={categories} />
+        {/* {categories.map(category => (
           <article key={category.id}>
             <h3>{category.title}</h3>
             <Button asChild>
@@ -38,7 +43,7 @@ const CategoriesPage = async () => {
             </Button>
             <DeleteButton categoryId={category.id}></DeleteButton>
           </article>
-        ))}
+        ))} */}
       </div>
     </section>
   )
