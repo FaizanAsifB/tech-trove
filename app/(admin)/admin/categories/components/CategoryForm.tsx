@@ -45,7 +45,14 @@ const CategoryForm = ({ initialData }: CategoryFormProps) => {
   async function handleSubmit(data: CategoryFormValues) {
     try {
       if (initialData) {
-        await updateCategory(params.categoryId as string, data)
+        const newImages = data.images.filter(
+          newImage =>
+            !initialData.images
+              .map(img => img.public_id)
+              .includes(newImage.public_id)
+        )
+        const updatedData = { title: data.title, images: newImages }
+        await updateCategory(params.categoryId as string, updatedData)
         // await axios.patch(`/api/categories/${params.categoryId}`, data)
       } else {
         await createCategory(data)
@@ -67,6 +74,21 @@ const CategoryForm = ({ initialData }: CategoryFormProps) => {
         <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8">
           <FormField
             control={form.control}
+            name="title"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Title</FormLabel>
+                <FormControl>
+                  <Input placeholder="Category title" {...field} />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Separator />
+          <FormField
+            control={form.control}
             name="images"
             render={({ field }) => (
               <FormItem>
@@ -83,20 +105,6 @@ const CategoryForm = ({ initialData }: CategoryFormProps) => {
                     }
                   />
                 </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="title"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Title</FormLabel>
-                <FormControl>
-                  <Input placeholder="Category title" {...field} />
-                </FormControl>
-
                 <FormMessage />
               </FormItem>
             )}

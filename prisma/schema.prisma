@@ -72,6 +72,7 @@ model Image {
   id        String  @id @default(uuid())
   url       String @unique
   public_id String  @unique
+  isDefault Boolean @default(false)
   product  Product? @relation("ProductToImage", fields: [productId], references: [id])
   productId String?
   category Category? @relation(fields: [categoryId], references: [id])

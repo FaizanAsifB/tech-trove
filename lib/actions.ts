@@ -17,7 +17,6 @@ export async function createCategory(formData: CategoryFormValues) {
   }
 
   const { title, images } = validatedFields.data
-  const correctedImages = images.map(image => ({ ...image, productId: null }))
 
   try {
     await prismaDb.category.create({
@@ -44,14 +43,33 @@ export async function createCategory(formData: CategoryFormValues) {
 }
 
 export async function updateCategory(id: string, formData: CategoryFormValues) {
-  const validatedFields = CategoryFormSchema.parse(formData)
+  const validatedFields = CategoryFormSchema.safeParse(formData)
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Missing Fields. Failed to Create Category.',
+    }
+  }
+
+  const { title, images } = validatedFields.data
 
   try {
     await prismaDb.category.update({
       where: {
         id,
       },
-      data: validatedFields,
+      data: {
+        title,
+        images: {
+          createMany: {
+            data: images.map(image => ({ ...image, productId: null })),
+          },
+        },
+      },
+      include: {
+        images: true,
+      },
     })
   } catch (error) {
     return { message: 'Database Error: Failed to Update Category.' }

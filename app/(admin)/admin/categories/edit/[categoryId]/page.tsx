@@ -11,6 +11,9 @@ const EditCategoryPage = async ({
     where: {
       id: categoryId,
     },
+    include: {
+      images: true,
+    },
   })
   return <CategoryForm initialData={category} />
 }

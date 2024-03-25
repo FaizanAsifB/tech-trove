@@ -1,15 +1,27 @@
 import { Button } from '@/components/ui/button'
+import { DataTable } from '@/components/ui/data-table'
 import { Heading } from '@/components/ui/heading'
 import { Separator } from '@/components/ui/separator'
 import prismaDb from '@/lib/prisma'
+import { formattedDate } from '@/lib/utils'
 import axios from 'axios'
 import Link from 'next/link'
 import DeleteButton from './components/DeleteButton'
-import { DataTable } from '@/components/ui/data-table'
 import { columns } from './components/columns'
 
 const CategoriesPage = async () => {
-  const categories = await prismaDb.category.findMany()
+  const categories = await prismaDb.category.findMany({
+    include: {
+      images: true,
+    },
+  })
+
+  const formattedCategories = categories.map(category => ({
+    id: category.id,
+    title: category.title,
+    updatedAt: formattedDate(category.updatedAt),
+    media: category.images.map(img => img.id),
+  }))
 
   return (
     <section>
