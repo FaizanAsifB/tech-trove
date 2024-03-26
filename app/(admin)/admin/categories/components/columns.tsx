@@ -44,7 +44,7 @@ export const columns: ColumnDef<CategoryColumn>[] = [
                   variant={'ghost'}
                   size={'icon-sm'}
                   className="absolute"
-                  onClick={() => toggleIsDefault(img.id)}
+                  onClick={() => toggleIsDefault(img.public_id)}
                 >
                   <CheckCircleIcon
                     className={twMerge(

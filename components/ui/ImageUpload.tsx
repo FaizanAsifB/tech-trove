@@ -1,6 +1,6 @@
 'use client'
 
-import { CldUploadWidget, CloudinaryUploadWidgetResults } from 'next-cloudinary'
+import { CldUploadWidget } from 'next-cloudinary'
 import { useEffect, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
@@ -28,7 +28,6 @@ const ImageUpload = ({
 }: ImageUploadProps) => {
   const [isMounted, setIsMounted] = useState(false)
   const [uploadedImages, setUploadedImages] = useState<NewImage[]>(value)
-  // const [defaultImage, setDefaultImage] = useState('')
 
   useEffect(() => {
     setIsMounted(true)
@@ -43,10 +42,6 @@ const ImageUpload = ({
       url: result.info?.secure_url,
       public_id: result.info?.public_id,
     }
-
-    // if (!defaultImage) {
-    //   setDefaultImage(newImage.public_id)
-    // }
 
     setUploadedImages(prev => {
       const isDefault = prev.length === 0 ? true : false
@@ -69,7 +64,6 @@ const ImageUpload = ({
       return { ...image, isDefault: false }
     })
     setUploadedImages(updatedImages)
-    // setDefaultImage(public_id)
   }
 
   if (!isMounted) {
@@ -80,7 +74,6 @@ const ImageUpload = ({
     <div>
       <div className="mb-4 flex items-center gap-4">
         {value.map(image => {
-          // const isDefault = defaultImage === image.public_id
           return (
             <div
               key={image.url}

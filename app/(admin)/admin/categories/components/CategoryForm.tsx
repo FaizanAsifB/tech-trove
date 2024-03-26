@@ -14,7 +14,7 @@ import {
 import { Heading } from '@/components/ui/heading'
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
-import { createCategory, updateCategory } from '@/lib/actions'
+import { createCategory, toggleIsDefault, updateCategory } from '@/lib/actions'
 import { CategoryFormSchema, CategoryFormValues } from '@/lib/definitions'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Category, Image } from '@prisma/client'
@@ -53,14 +53,17 @@ const CategoryForm = ({ initialData }: CategoryFormProps) => {
         )
         const updatedData = { title: data.title, images: newImages }
         await updateCategory(params.categoryId as string, updatedData)
-        // await axios.patch(`/api/categories/${params.categoryId}`, data)
+
+        const newIsDefault = data.images.filter(img => img.isDefault)[0]
+        if (
+          newIsDefault.public_id !==
+          initialData.images.filter(img => img.isDefault)[0].public_id
+        ) {
+          await toggleIsDefault(newIsDefault.public_id)
+        }
       } else {
         await createCategory(data)
-        // await axios.post('/api/categories', data)
       }
-
-      // router.refresh()
-      // router.push('/admin/categories')
     } catch (error) {
       console.log(error)
     }

@@ -94,18 +94,18 @@ export async function deleteCategory(id: string) {
   }
 }
 
-export async function toggleIsDefault(id: string) {
+export async function toggleIsDefault(public_id: string) {
   try {
     await prismaDb.image.update({
       where: {
-        id,
+        public_id,
       },
       data: {
         isDefault: true,
       },
     })
     await prismaDb.image.updateMany({
-      where: { id: { not: id } },
+      where: { public_id: { not: public_id } },
       data: { isDefault: false },
     })
 
