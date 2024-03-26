@@ -1,5 +1,6 @@
 'use server'
 
+import { Image } from '@prisma/client'
 import cloudinary from 'cloudinary'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
@@ -90,6 +91,28 @@ export async function deleteCategory(id: string) {
     return { message: 'Deleted Category.' }
   } catch (error) {
     return { message: 'Database Error: Failed to Delete Category.' }
+  }
+}
+
+export async function toggleIsDefault(id: string) {
+  try {
+    await prismaDb.image.update({
+      where: {
+        id,
+      },
+      data: {
+        isDefault: true,
+      },
+    })
+    await prismaDb.image.updateMany({
+      where: { id: { not: id } },
+      data: { isDefault: false },
+    })
+
+    revalidatePath('/admin/products')
+    return { message: 'Default image updated.' }
+  } catch (error) {
+    return { message: 'Database Error: Failed to update default image.' }
   }
 }
 

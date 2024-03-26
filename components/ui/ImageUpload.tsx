@@ -11,12 +11,14 @@ import { ImagePlus, Trash } from 'lucide-react'
 import Image from 'next/image'
 import { twMerge } from 'tailwind-merge'
 
-interface ImageUploadProps {
+type ImageUploadProps = {
   disabled?: boolean
   onChange: (images: { url: string; public_id: string }[]) => void
   onRemove: (url: string) => void
-  value: { url: string; public_id: string }[]
+  value: NewImage[]
 }
+
+type NewImage = Pick<ImageDb, 'url' | 'public_id' | 'isDefault'>
 
 const ImageUpload = ({
   disabled,
@@ -25,8 +27,8 @@ const ImageUpload = ({
   value,
 }: ImageUploadProps) => {
   const [isMounted, setIsMounted] = useState(false)
-  const [uploadedImages, setUploadedImages] = useState(value)
-  const [defaultImage, setDefaultImage] = useState('')
+  const [uploadedImages, setUploadedImages] = useState<NewImage[]>(value)
+  // const [defaultImage, setDefaultImage] = useState('')
 
   useEffect(() => {
     setIsMounted(true)
@@ -37,25 +39,29 @@ const ImageUpload = ({
   }, [onChange, uploadedImages])
 
   const onUpload = (result: any) => {
-    const newImage: Pick<ImageDb, 'url' | 'public_id' | 'isDefault'> = {
+    const newImage = {
       url: result.info?.secure_url,
       public_id: result.info?.public_id,
-      isDefault: !defaultImage ? true : false,
-    }
-    if (!defaultImage) {
-      setDefaultImage(newImage.public_id)
     }
 
-    setUploadedImages(prev => [...prev, newImage])
+    // if (!defaultImage) {
+    //   setDefaultImage(newImage.public_id)
+    // }
+
+    setUploadedImages(prev => {
+      const isDefault = prev.length === 0 ? true : false
+      const updatedNewImage = { ...newImage, isDefault }
+      return [...prev, updatedNewImage]
+    })
   }
-  console.log(defaultImage)
+
   const onRemoveHandler = async (url: string, public_id: string) => {
     onRemove(url)
     await deleteCloudImage(public_id)
   }
 
-  const toggleIsDefault = (public_id: string) => {
-    if (defaultImage === public_id) return
+  const toggleIsDefault = (public_id: string, isDefault: boolean) => {
+    if (isDefault) return
     const updatedImages = uploadedImages.map(image => {
       if (image.public_id === public_id) {
         return { ...image, isDefault: true }
@@ -63,7 +69,7 @@ const ImageUpload = ({
       return { ...image, isDefault: false }
     })
     setUploadedImages(updatedImages)
-    setDefaultImage(public_id)
+    // setDefaultImage(public_id)
   }
 
   if (!isMounted) {
@@ -74,7 +80,7 @@ const ImageUpload = ({
     <div>
       <div className="mb-4 flex items-center gap-4">
         {value.map(image => {
-          const isDefault = defaultImage === image.public_id
+          // const isDefault = defaultImage === image.public_id
           return (
             <div
               key={image.url}
@@ -102,16 +108,18 @@ const ImageUpload = ({
                   variant={'secondary'}
                   size={'sm'}
                   type="button"
-                  onClick={() => toggleIsDefault(image.public_id)}
-                  disabled={isDefault}
+                  onClick={() =>
+                    toggleIsDefault(image.public_id, image.isDefault)
+                  }
+                  disabled={image.isDefault}
                 >
                   <CheckCircleIcon
                     className={twMerge(
                       'h-6 w-6 text-muted-foreground/40',
-                      isDefault ? 'text-green-600' : ''
+                      image.isDefault ? 'text-green-600' : ''
                     )}
                   />{' '}
-                  {isDefault ? 'Default Image' : 'Set as default'}
+                  {image.isDefault ? 'Default Image' : 'Set as default'}
                 </Button>
               </div>
             </div>

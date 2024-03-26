@@ -12,7 +12,14 @@ import { columns } from './components/columns'
 const CategoriesPage = async () => {
   const categories = await prismaDb.category.findMany({
     include: {
-      images: true,
+      images: {
+        orderBy: {
+          id: 'desc',
+        },
+      },
+    },
+    orderBy: {
+      updatedAt: 'desc',
     },
   })
 

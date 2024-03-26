@@ -1,11 +1,13 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
+import { toggleIsDefault } from '@/lib/actions'
 import { formattedDate } from '@/lib/utils'
 import { CheckCircleIcon } from '@heroicons/react/24/solid'
 import type { Category, Image as CategoryImage } from '@prisma/client'
 import { ColumnDef } from '@tanstack/react-table'
 import Image from 'next/image'
+import { twMerge } from 'tailwind-merge'
 import CellActions from './cell-actions'
 
 export type CategoryColumn = Category & { images: CategoryImage[] }
@@ -38,8 +40,18 @@ export const columns: ColumnDef<CategoryColumn>[] = [
                   src={img.url}
                   alt=""
                 />
-                <Button variant={'ghost'} size={'icon-sm'} className="absolute">
-                  <CheckCircleIcon className="h-6 w-6 text-muted-foreground/40 " />
+                <Button
+                  variant={'ghost'}
+                  size={'icon-sm'}
+                  className="absolute"
+                  onClick={() => toggleIsDefault(img.id)}
+                >
+                  <CheckCircleIcon
+                    className={twMerge(
+                      'h-6 w-6 text-muted-foreground/40 ',
+                      img.isDefault ? 'text-green-600' : ''
+                    )}
+                  />
                 </Button>
               </div>
             )
