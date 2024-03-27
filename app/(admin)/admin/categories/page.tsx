@@ -23,13 +23,6 @@ const CategoriesPage = async () => {
     },
   })
 
-  // const formattedCategories = categories.map(category => ({
-  //   id: category.id,
-  //   title: category.title,
-  //   updatedAt: formattedDate(category.updatedAt),
-  //   media: category.images.map(img => img.id),
-  // }))
-
   return (
     <section className="flex flex-col flex-1 space-y-6">
       <div className="flex justify-between items-center">

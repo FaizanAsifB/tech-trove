@@ -43,7 +43,13 @@ export async function createCategory(formData: CategoryFormValues) {
   redirect('/admin/categories')
 }
 
-export async function updateCategory(id: string, formData: CategoryFormValues) {
+export async function updateCategory(
+  id: string,
+  formData: {
+    title: string
+    images: { url: string; public_id: string; isDefault: boolean }[]
+  }
+) {
   const validatedFields = CategoryFormSchema.safeParse(formData)
 
   if (!validatedFields.success) {
@@ -75,9 +81,6 @@ export async function updateCategory(id: string, formData: CategoryFormValues) {
   } catch (error) {
     return { message: 'Database Error: Failed to Update Category.' }
   }
-
-  revalidatePath('/admin/categories')
-  redirect('/admin/categories')
 }
 
 export async function deleteCategory(id: string) {
@@ -94,7 +97,7 @@ export async function deleteCategory(id: string) {
   }
 }
 
-export async function toggleIsDefault(public_id: string) {
+export async function toggleIsDefault(public_id: string, categoryId: string) {
   try {
     await prismaDb.image.update({
       where: {
@@ -105,7 +108,7 @@ export async function toggleIsDefault(public_id: string) {
       },
     })
     await prismaDb.image.updateMany({
-      where: { public_id: { not: public_id } },
+      where: { public_id: { not: public_id }, categoryId },
       data: { isDefault: false },
     })
 
@@ -127,6 +130,11 @@ cloudinary.v2.config({
 
 export default async function deleteCloudImage(public_id: string) {
   try {
+    await prismaDb.image.delete({
+      where: {
+        public_id,
+      },
+    })
     await cloudinary.v2.uploader.destroy(public_id)
   } catch (error) {
     return { message: 'Internal server error' }

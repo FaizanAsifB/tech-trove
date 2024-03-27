@@ -16,6 +16,7 @@ type DeleteDialogProps = {
   open: boolean
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
   onConfirm: () => void
+  deletedItem: string
 }
 
 export function DeleteDialog({
@@ -23,6 +24,7 @@ export function DeleteDialog({
   open,
   setOpen,
   onConfirm,
+  deletedItem,
 }: DeleteDialogProps) {
   return (
     <AlertDialog open={open} onOpenChange={() => setOpen(!open)}>
@@ -34,13 +36,13 @@ export function DeleteDialog({
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
             This action cannot be undone. This will permanently delete the
-            category.
+            {` ${deletedItem}`}.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction className="bg-destructive" onClick={onConfirm}>
-            Continue
+            Confirm
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

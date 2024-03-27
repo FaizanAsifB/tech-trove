@@ -1,15 +1,18 @@
 'use client'
 
 import { CldUploadWidget } from 'next-cloudinary'
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
 import deleteCloudImage from '@/lib/actions'
 import { CheckCircleIcon } from '@heroicons/react/24/solid'
 import { Image as ImageDb } from '@prisma/client'
 import { ImagePlus, Trash } from 'lucide-react'
+import { revalidatePath } from 'next/cache'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { twMerge } from 'tailwind-merge'
+import { DeleteDialog } from './delete-dialog'
 
 type ImageUploadProps = {
   disabled?: boolean
@@ -28,6 +31,9 @@ const ImageUpload = ({
 }: ImageUploadProps) => {
   const [isMounted, setIsMounted] = useState(false)
   const [uploadedImages, setUploadedImages] = useState<NewImage[]>(value)
+  const [open, setOpen] = useState(false)
+
+  const router = useRouter()
 
   useEffect(() => {
     setIsMounted(true)
@@ -53,6 +59,9 @@ const ImageUpload = ({
   const onRemoveHandler = async (url: string, public_id: string) => {
     onRemove(url)
     await deleteCloudImage(public_id)
+    // setUploadedImages(prev =>
+    //   prev.filter(image => image.public_id !== public_id)
+    // )
   }
 
   const toggleIsDefault = (public_id: string, isDefault: boolean) => {
@@ -75,47 +84,52 @@ const ImageUpload = ({
       <div className="mb-4 flex items-center gap-4">
         {value.map(image => {
           return (
-            <div
-              key={image.url}
-              className="relative w-[200px] h-[200px] rounded-md overflow-hidden"
-            >
-              <div className="z-10 absolute top-2 right-2">
-                <Button
-                  type="button"
-                  onClick={() => onRemoveHandler(image.url, image.public_id)}
-                  variant="destructive"
-                  size="sm"
-                >
-                  <Trash className="h-4 w-4" />
-                </Button>
-              </div>
-              <Image
-                fill
-                className="object-cover"
-                alt="Image"
-                src={image.url}
+            <Fragment key={image.url}>
+              <DeleteDialog
+                open={open}
+                setOpen={setOpen}
+                onConfirm={() => onRemoveHandler(image.url, image.public_id)}
+                deletedItem={'image'}
               />
+              <div className="relative w-[200px] h-[200px] rounded-md overflow-hidden">
+                <div className="z-10 absolute top-2 right-2">
+                  <Button
+                    type="button"
+                    onClick={() => setOpen(true)}
+                    variant="destructive"
+                    size="sm"
+                  >
+                    <Trash className="h-4 w-4" />
+                  </Button>
+                </div>
+                <Image
+                  fill
+                  className="object-cover"
+                  alt="Image"
+                  src={image.url}
+                />
 
-              <div className="z-10 absolute bottom-2 left-1/2 -translate-x-1/2">
-                <Button
-                  variant={'secondary'}
-                  size={'sm'}
-                  type="button"
-                  onClick={() =>
-                    toggleIsDefault(image.public_id, image.isDefault)
-                  }
-                  disabled={image.isDefault}
-                >
-                  <CheckCircleIcon
-                    className={twMerge(
-                      'h-6 w-6 text-muted-foreground/40',
-                      image.isDefault ? 'text-green-600' : ''
-                    )}
-                  />{' '}
-                  {image.isDefault ? 'Default Image' : 'Set as default'}
-                </Button>
+                <div className="z-10 absolute bottom-2 left-1/2 -translate-x-1/2">
+                  <Button
+                    variant={'secondary'}
+                    size={'sm'}
+                    type="button"
+                    onClick={() =>
+                      toggleIsDefault(image.public_id, image.isDefault)
+                    }
+                    disabled={image.isDefault}
+                  >
+                    <CheckCircleIcon
+                      className={twMerge(
+                        'h-6 w-6 text-muted-foreground/40',
+                        image.isDefault ? 'text-green-600' : ''
+                      )}
+                    />{' '}
+                    {image.isDefault ? 'Default Image' : 'Set as default'}
+                  </Button>
+                </div>
               </div>
-            </div>
+            </Fragment>
           )
         })}
       </div>

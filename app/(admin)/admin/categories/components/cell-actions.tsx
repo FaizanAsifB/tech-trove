@@ -30,6 +30,7 @@ const CellActions = ({ category }: CellActionProps) => {
         open={open}
         setOpen={setOpen}
         onConfirm={() => deleteCategory(category.id)}
+        deletedItem="category"
       />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>

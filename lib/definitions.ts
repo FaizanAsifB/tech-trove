@@ -8,7 +8,9 @@ export const CategoryFormSchema = z.object({
       public_id: z.string(),
       isDefault: z.boolean(),
     })
-    .array(),
+    .array()
+    .nonempty({ message: 'At least one image is required' })
+    .max(3, { message: 'Maximum of 3 images allowed' }),
 })
 
 export type CategoryFormValues = z.infer<typeof CategoryFormSchema>

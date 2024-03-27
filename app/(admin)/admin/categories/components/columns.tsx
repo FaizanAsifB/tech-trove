@@ -18,13 +18,16 @@ export const columns: ColumnDef<CategoryColumn>[] = [
     accessorKey: 'title',
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          Title
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        <div className="flex items-center">
+          <span>Title</span>
+          <Button
+            variant="ghost"
+            size={'icon-sm'}
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          >
+            <ArrowUpDown className="h-4 w-4" />
+          </Button>
+        </div>
       )
     },
   },
@@ -55,7 +58,9 @@ export const columns: ColumnDef<CategoryColumn>[] = [
                   variant={'ghost'}
                   size={'icon-sm'}
                   className="absolute"
-                  onClick={() => toggleIsDefault(img.public_id)}
+                  onClick={() =>
+                    toggleIsDefault(img.public_id, img.categoryId!)
+                  }
                 >
                   <CheckCircleIcon
                     className={twMerge(
@@ -73,7 +78,20 @@ export const columns: ColumnDef<CategoryColumn>[] = [
   },
   {
     accessorKey: 'updatedAt',
-    header: 'Last Updated',
+    header: ({ column }) => {
+      return (
+        <div className="flex items-center">
+          <p>Last Updated</p>
+          <Button
+            variant="ghost"
+            size={'icon-sm'}
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          >
+            <ArrowUpDown className="h-4 w-4" />
+          </Button>
+        </div>
+      )
+    },
     cell: ({ row }) => {
       const formatted = formattedDate(row.getValue('updatedAt'))
 

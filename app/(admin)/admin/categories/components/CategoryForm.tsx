@@ -51,15 +51,18 @@ const CategoryForm = ({ initialData }: CategoryFormProps) => {
               .map(img => img.public_id)
               .includes(newImage.public_id)
         )
-        const updatedData = { title: data.title, images: newImages }
+        const updatedData = {
+          title: data.title,
+          images: newImages,
+        }
         await updateCategory(params.categoryId as string, updatedData)
-
-        const newIsDefault = data.images.filter(img => img.isDefault)[0]
+        const newDefault = data.images.filter(img => img.isDefault)[0]
+        console.log(newImages)
         if (
-          newIsDefault.public_id !==
+          newDefault.public_id !==
           initialData.images.filter(img => img.isDefault)[0].public_id
         ) {
-          await toggleIsDefault(newIsDefault.public_id)
+          await toggleIsDefault(newDefault.public_id, initialData.id)
         }
       } else {
         await createCategory(data)
