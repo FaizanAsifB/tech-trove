@@ -1,14 +1,11 @@
 import '@/app/globals.css'
+import { inter } from '@/app/ui/fonts'
+
 import { cn } from '@/lib/utils'
 import { ClerkProvider } from '@clerk/nextjs'
 import type { Metadata } from 'next'
-import { Inter as FontSans } from 'next/font/google'
-import Nav from './Nav'
-
-const fontSans = FontSans({
-  subsets: ['latin'],
-  variable: '--font-sans',
-})
+import Header from './components/Header'
+import Nav from './components/Nav'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -23,16 +20,16 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body
-          className={cn(
-            'min-h-screen bg-background font-sans antialiased flex',
-            fontSans.variable
-          )}
-        >
-          <Nav />
-          <main className="border-red-500 border-2 grow w-full">
-            {children}
-          </main>
+        <body className={cn('antialiased', inter.className)}>
+          <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr] antialiased">
+            <Nav />
+            <div className="flex flex-col">
+              <Header />
+              <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
+                {children}
+              </main>
+            </div>
+          </div>
         </body>
       </html>
     </ClerkProvider>

@@ -6,6 +6,7 @@ import { formattedDate } from '@/lib/utils'
 import { CheckCircleIcon } from '@heroicons/react/24/solid'
 import type { Category, Image as CategoryImage } from '@prisma/client'
 import { ColumnDef } from '@tanstack/react-table'
+import { ArrowUpDown, MoreHorizontal } from 'lucide-react'
 import Image from 'next/image'
 import { twMerge } from 'tailwind-merge'
 import CellActions from './cell-actions'
@@ -15,7 +16,17 @@ export type CategoryColumn = Category & { images: CategoryImage[] }
 export const columns: ColumnDef<CategoryColumn>[] = [
   {
     accessorKey: 'title',
-    header: 'Title',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Title
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
   },
   {
     accessorKey: 'id',

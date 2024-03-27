@@ -23,46 +23,36 @@ const CategoriesPage = async () => {
     },
   })
 
-  const formattedCategories = categories.map(category => ({
-    id: category.id,
-    title: category.title,
-    updatedAt: formattedDate(category.updatedAt),
-    media: category.images.map(img => img.id),
-  }))
+  // const formattedCategories = categories.map(category => ({
+  //   id: category.id,
+  //   title: category.title,
+  //   updatedAt: formattedDate(category.updatedAt),
+  //   media: category.images.map(img => img.id),
+  // }))
 
   return (
-    <section>
-      <header className="flex justify-between items-center">
+    <section className="flex flex-col flex-1 space-y-6">
+      <div className="flex justify-between items-center">
         <Heading
-          title="Categories"
+          title={`Categories (${categories.length})`}
           description="Manage categories for your products"
         />
         <Button asChild>
-          <Link href="categories/create">+ Add Category</Link>
+          <Link href="categories/create">Add Category</Link>
         </Button>
-      </header>
-      <Separator />
-      <div>
+      </div>
+
+      <div className="flex flex-col flex-1">
         {categories.length === 0 ? (
-          <>
+          <div className="flex flex-col flex-1 justify-center items-center gap-1 text-center">
             <p>No Categories found.</p>
             <Button asChild>
               <Link href="categories/create">Create Category</Link>
             </Button>
-          </>
+          </div>
         ) : (
-          ''
+          <DataTable columns={columns} data={categories} />
         )}
-        <DataTable columns={columns} data={categories} />
-        {/* {categories.map(category => (
-          <article key={category.id}>
-            <h3>{category.title}</h3>
-            <Button asChild>
-              <Link href={`/admin/categories/edit/${category.id}`}>Edit</Link>
-            </Button>
-            <DeleteButton categoryId={category.id}></DeleteButton>
-          </article>
-        ))} */}
       </div>
     </section>
   )
