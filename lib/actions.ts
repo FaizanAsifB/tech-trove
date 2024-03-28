@@ -81,6 +81,7 @@ export async function updateCategory(
   } catch (error) {
     return { message: 'Database Error: Failed to Update Category.' }
   }
+  revalidatePath('/admin/categories')
 }
 
 export async function deleteCategory(id: string) {
@@ -112,7 +113,7 @@ export async function toggleIsDefault(public_id: string, categoryId: string) {
       data: { isDefault: false },
     })
 
-    revalidatePath('/admin/products')
+    revalidatePath('/admin/categories')
     return { message: 'Default image updated.' }
   } catch (error) {
     return { message: 'Database Error: Failed to update default image.' }

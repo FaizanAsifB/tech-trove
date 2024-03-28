@@ -20,6 +20,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Category, Image } from '@prisma/client'
 import { useParams, useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 
 type CategoryFormProps = {
   initialData?: (Category & { images: Image[] }) | null
@@ -31,7 +32,7 @@ const CategoryForm = ({ initialData }: CategoryFormProps) => {
 
   const title = initialData ? 'Edit category' : 'Create category'
   const description = initialData ? 'Edit a category.' : 'Add a new category'
-  //  const toastMessage = initialData ? 'Category updated.' : 'Category created.'
+  const toastMessage = initialData ? 'Category updated.' : 'Category created.'
   const action = initialData ? 'Save changes' : 'Create'
 
   const form = useForm<CategoryFormValues>({
@@ -51,23 +52,26 @@ const CategoryForm = ({ initialData }: CategoryFormProps) => {
               .map(img => img.public_id)
               .includes(newImage.public_id)
         )
+
         const updatedData = {
           title: data.title,
           images: newImages,
         }
         await updateCategory(params.categoryId as string, updatedData)
-        const newDefault = data.images.filter(img => img.isDefault)[0]
-        console.log(newImages)
+        const defaultImg = data.images.filter(img => img.isDefault)[0]
         if (
-          newDefault.public_id !==
-          initialData.images.filter(img => img.isDefault)[0].public_id
+          defaultImg.public_id !==
+          initialData.images.filter(img => img.isDefault)[0]?.public_id
         ) {
-          await toggleIsDefault(newDefault.public_id, initialData.id)
+          await toggleIsDefault(defaultImg.public_id, initialData.id)
         }
       } else {
         await createCategory(data)
       }
+      toast.success(toastMessage)
+      router.push('/admin/categories')
     } catch (error) {
+      toast.error('An Error Occurred')
       console.log(error)
     }
   }
@@ -115,7 +119,9 @@ const CategoryForm = ({ initialData }: CategoryFormProps) => {
               </FormItem>
             )}
           />
-          <Button type="submit">{action}</Button>
+          <Button type="submit" disabled={form.formState.isSubmitting}>
+            {action}
+          </Button>
         </form>
       </Form>
     </>

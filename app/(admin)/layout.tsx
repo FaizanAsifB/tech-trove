@@ -1,6 +1,7 @@
 import '@/app/globals.css'
 import { inter } from '@/app/ui/fonts'
 
+import { Toaster } from '@/components/ui/sonner'
 import { cn } from '@/lib/utils'
 import { ClerkProvider } from '@clerk/nextjs'
 import type { Metadata } from 'next'
@@ -30,6 +31,7 @@ export default function RootLayout({
               </main>
             </div>
           </div>
+          <Toaster richColors />
         </body>
       </html>
     </ClerkProvider>
