@@ -8,9 +8,7 @@ import deleteCloudImage from '@/lib/actions'
 import { CheckCircleIcon } from '@heroicons/react/24/solid'
 import { Image as ImageDb } from '@prisma/client'
 import { ImagePlus, Trash } from 'lucide-react'
-import { revalidatePath } from 'next/cache'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
 import { twMerge } from 'tailwind-merge'
 import { DeleteDialog } from './delete-dialog'
 
@@ -21,7 +19,7 @@ type ImageUploadProps = {
   value: NewImage[]
 }
 
-type NewImage = Pick<ImageDb, 'url' | 'public_id' | 'isDefault'>
+type NewImage = Pick<ImageDb, 'url' | 'public_id' | 'isPrimary'>
 
 const ImageUpload = ({
   disabled,
@@ -32,8 +30,6 @@ const ImageUpload = ({
   const [isMounted, setIsMounted] = useState(false)
   const [uploadedImages, setUploadedImages] = useState<NewImage[]>(value)
   const [open, setOpen] = useState(false)
-
-  const router = useRouter()
 
   useEffect(() => {
     setIsMounted(true)
@@ -50,8 +46,8 @@ const ImageUpload = ({
     }
 
     setUploadedImages(prev => {
-      const isDefault = prev.length === 0 ? true : false
-      const updatedNewImage = { ...newImage, isDefault }
+      const isPrimary = prev.length === 0 ? true : false
+      const updatedNewImage = { ...newImage, isPrimary }
       return [...prev, updatedNewImage]
     })
   }
@@ -64,13 +60,13 @@ const ImageUpload = ({
     // )
   }
 
-  const toggleIsDefault = (public_id: string, isDefault: boolean) => {
-    if (isDefault) return
+  const toggleIsPrimary = (public_id: string, isPrimary: boolean) => {
+    if (isPrimary) return
     const updatedImages = uploadedImages.map(image => {
       if (image.public_id === public_id) {
-        return { ...image, isDefault: true }
+        return { ...image, isPrimary: true }
       }
-      return { ...image, isDefault: false }
+      return { ...image, isPrimary: false }
     })
     setUploadedImages(updatedImages)
   }
@@ -81,7 +77,7 @@ const ImageUpload = ({
 
   return (
     <div>
-      <div className="mb-4 flex items-center gap-4">
+      <div className="mb-4 flex items-center gap-4 flex-wrap">
         {value.map(image => {
           return (
             <Fragment key={image.url}>
@@ -91,41 +87,43 @@ const ImageUpload = ({
                 onConfirm={() => onRemoveHandler(image.url, image.public_id)}
                 deletedItem={'image'}
               />
-              <div className="relative w-[200px] h-[200px] rounded-md overflow-hidden">
-                <div className="z-10 absolute top-2 right-2">
-                  <Button
-                    type="button"
-                    onClick={() => setOpen(true)}
-                    variant="destructive"
-                    size="sm"
-                  >
-                    <Trash className="h-4 w-4" />
-                  </Button>
-                </div>
-                <Image
-                  fill
-                  className="object-cover"
-                  alt="Image"
-                  src={image.url}
-                />
+              <div className="space-y-4">
+                <div className="relative w-[200px] h-[200px] rounded-md overflow-hidden ">
+                  <div className="z-10 absolute top-2 right-2">
+                    <Button
+                      type="button"
+                      onClick={() => setOpen(true)}
+                      variant="destructive"
+                      size="sm"
+                    >
+                      <Trash className="h-4 w-4" />
+                    </Button>
+                  </div>
 
-                <div className="z-10 absolute bottom-2 left-1/2 -translate-x-1/2">
+                  <Image
+                    fill
+                    className="object-contain"
+                    alt="Image"
+                    src={image.url}
+                  />
+                </div>
+                <div className="">
                   <Button
                     variant={'secondary'}
                     size={'sm'}
                     type="button"
                     onClick={() =>
-                      toggleIsDefault(image.public_id, image.isDefault)
+                      toggleIsPrimary(image.public_id, image.isPrimary)
                     }
-                    disabled={image.isDefault}
+                    disabled={image.isPrimary}
                   >
                     <CheckCircleIcon
                       className={twMerge(
                         'h-6 w-6 text-muted-foreground/40',
-                        image.isDefault ? 'text-green-600' : ''
+                        image.isPrimary ? 'text-green-600' : ''
                       )}
                     />{' '}
-                    {image.isDefault ? 'Default Image' : 'Set as default'}
+                    {image.isPrimary ? 'Default Image' : 'Set as default'}
                   </Button>
                 </div>
               </div>

@@ -1,10 +1,14 @@
 'use server'
 
-import { Image } from '@prisma/client'
 import cloudinary from 'cloudinary'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { CategoryFormSchema, CategoryFormValues } from './definitions'
+import {
+  CategoryFormSchema,
+  CategoryFormValues,
+  ProductFormSchema,
+  ProductFormValues,
+} from './definitions'
 import prismaDb from './prisma'
 
 export async function createCategory(formData: CategoryFormValues) {
@@ -43,11 +47,47 @@ export async function createCategory(formData: CategoryFormValues) {
   redirect('/admin/categories')
 }
 
+export async function createProduct(formData: ProductFormValues) {
+  const validatedFields = ProductFormSchema.safeParse(formData)
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Missing Fields. Failed to Create Product.',
+    }
+  }
+
+  const { images, ...productInfo } = validatedFields.data
+
+  try {
+    const res = await prismaDb.product.create({
+      data: {
+        ...productInfo,
+        images: {
+          createMany: {
+            data: images.map(image => ({ ...image, categoryId: null })),
+          },
+        },
+      },
+      include: {
+        images: true,
+      },
+    })
+    console.log(res)
+  } catch (error) {
+    return {
+      message: 'Database Error: Failed to Create Product.',
+    }
+  }
+
+  // revalidatePath('/admin/products')
+  // redirect('/admin/products')
+}
+
 export async function updateCategory(
   id: string,
   formData: {
     title: string
-    images: { url: string; public_id: string; isDefault: boolean }[]
+    images: { url: string; public_id: string; isPrimary: boolean }[]
   }
 ) {
   const validatedFields = CategoryFormSchema.safeParse(formData)
@@ -98,25 +138,25 @@ export async function deleteCategory(id: string) {
   }
 }
 
-export async function toggleIsDefault(public_id: string, categoryId: string) {
+export async function toggleIsPrimary(public_id: string, categoryId: string) {
   try {
     await prismaDb.image.update({
       where: {
         public_id,
       },
       data: {
-        isDefault: true,
+        isPrimary: true,
       },
     })
     await prismaDb.image.updateMany({
       where: { public_id: { not: public_id }, categoryId },
-      data: { isDefault: false },
+      data: { isPrimary: false },
     })
 
     revalidatePath('/admin/categories')
-    return { message: 'Default image updated.' }
+    return { message: 'Primary image updated.' }
   } catch (error) {
-    return { message: 'Database Error: Failed to update default image.' }
+    return { message: 'Database Error: Failed to update primary image.' }
   }
 }
 

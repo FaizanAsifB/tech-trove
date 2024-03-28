@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button'
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -14,7 +13,7 @@ import {
 import { Heading } from '@/components/ui/heading'
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
-import { createCategory, toggleIsDefault, updateCategory } from '@/lib/actions'
+import { createCategory, toggleIsPrimary, updateCategory } from '@/lib/actions'
 import { CategoryFormSchema, CategoryFormValues } from '@/lib/definitions'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Category, Image } from '@prisma/client'
@@ -58,12 +57,12 @@ const CategoryForm = ({ initialData }: CategoryFormProps) => {
           images: newImages,
         }
         await updateCategory(params.categoryId as string, updatedData)
-        const defaultImg = data.images.filter(img => img.isDefault)[0]
+        const primaryImg = data.images.filter(img => img.isPrimary)[0]
         if (
-          defaultImg.public_id !==
-          initialData.images.filter(img => img.isDefault)[0]?.public_id
+          primaryImg.public_id !==
+          initialData.images.filter(img => img.isPrimary)[0]?.public_id
         ) {
-          await toggleIsDefault(defaultImg.public_id, initialData.id)
+          await toggleIsPrimary(primaryImg.public_id, initialData.id)
         }
       } else {
         await createCategory(data)
@@ -96,7 +95,6 @@ const CategoryForm = ({ initialData }: CategoryFormProps) => {
               </FormItem>
             )}
           />
-          <Separator />
           <FormField
             control={form.control}
             name="images"
