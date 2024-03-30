@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { toggleIsDefault } from '@/lib/actions'
+import { toggleIsPrimary } from '@/lib/actions'
 import { CheckCircleIcon } from '@heroicons/react/24/solid'
 import { Image as CategoryImage } from '@prisma/client'
 import Image from 'next/image'
@@ -44,7 +44,7 @@ const RowImages = ({ images }: RowImagesProps) => {
           >
             <Image
               fill
-              className="object-cover object-center translate-y-2"
+              className="object-contain object-center"
               src={img.url}
               alt=""
             />
@@ -53,15 +53,15 @@ const RowImages = ({ images }: RowImagesProps) => {
               size={'icon-sm'}
               className="absolute"
               onClick={() => {
-                if (img.isDefault) return
+                if (img.isPrimary) return
                 startTransition(() => addOptimisticImages(img.id))
-                toggleIsDefault(img.public_id, img.categoryId!)
+                toggleIsPrimary(img.public_id, img.categoryId!)
               }}
             >
               <CheckCircleIcon
                 className={twMerge(
                   'h-6 w-6 text-muted-foreground/40 ',
-                  img.isDefault ? 'text-green-600' : ''
+                  img.isPrimary ? 'text-green-600' : ''
                 )}
               />
             </Button>

@@ -17,11 +17,18 @@ const ProductsPage = async () => {
           id: 'desc',
         },
       },
+      category: {
+        select: {
+          title: true,
+        },
+      },
     },
     orderBy: {
       updatedAt: 'desc',
     },
   })
+
+  console.log(products)
 
   return (
     <section className="flex flex-col flex-1 space-y-6">

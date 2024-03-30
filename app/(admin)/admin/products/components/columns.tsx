@@ -50,7 +50,7 @@ export const columns: ColumnDef<CategoryColumn>[] = [
     },
   },
   {
-    accessorKey: 'category',
+    accessorKey: 'category.title',
     header: ({ column }) => {
       return (
         <div className="flex items-center">

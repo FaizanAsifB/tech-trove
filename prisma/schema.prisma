@@ -35,9 +35,10 @@ model Product {
   categoryId  String    // Foreign Key to Category
   category    Category  @relation("CategoryToProduct", fields: [categoryId], references: [id])
   title        String
+  description String
   price       Decimal
   isFeatured  Boolean   @default(false)
-  // isArchived  Boolean   @default(false)
+  isArchived  Boolean   @default(false)
   // size        String
   // color       String
   images      Image[]   @relation("ProductToImage")

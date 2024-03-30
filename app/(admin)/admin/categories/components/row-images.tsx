@@ -44,7 +44,7 @@ const RowImages = ({ images }: RowImagesProps) => {
           >
             <Image
               fill
-              className="object-cover object-center translate-y-2"
+              className="object-contain object-center"
               src={img.url}
               alt=""
             />

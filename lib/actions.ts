@@ -59,7 +59,7 @@ export async function createProduct(formData: ProductFormValues) {
   const { images, ...productInfo } = validatedFields.data
 
   try {
-    const res = await prismaDb.product.create({
+    await prismaDb.product.create({
       data: {
         ...productInfo,
         images: {
@@ -72,15 +72,14 @@ export async function createProduct(formData: ProductFormValues) {
         images: true,
       },
     })
-    console.log(res)
   } catch (error) {
     return {
       message: 'Database Error: Failed to Create Product.',
     }
   }
 
-  // revalidatePath('/admin/products')
-  // redirect('/admin/products')
+  revalidatePath('/admin/products')
+  redirect('/admin/products')
 }
 
 export async function updateCategory(
