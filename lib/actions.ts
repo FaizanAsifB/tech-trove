@@ -8,6 +8,7 @@ import {
   CategoryFormValues,
   ProductFormSchema,
   ProductFormValues,
+  ProductUpdateSchema,
 } from './definitions'
 import prismaDb from './prisma'
 
@@ -121,6 +122,40 @@ export async function updateCategory(
     return { message: 'Database Error: Failed to Update Category.' }
   }
   revalidatePath('/admin/categories')
+}
+
+export async function updateProduct(id: string, formData: ProductFormValues) {
+  const validatedFields = ProductUpdateSchema.safeParse(formData)
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Missing Fields. Failed to Create Product.',
+    }
+  }
+
+  const { images, ...productInfo } = validatedFields.data
+
+  try {
+    await prismaDb.product.update({
+      where: {
+        id,
+      },
+      data: {
+        ...productInfo,
+        images: {
+          createMany: {
+            data: images.map(image => ({ ...image, categoryId: null })),
+          },
+        },
+      },
+      include: {
+        images: true,
+      },
+    })
+    revalidatePath('/admin/products')
+  } catch (error) {
+    return { message: 'Database Error: Failed to Update Product.' }
+  }
 }
 
 export async function deleteCategory(id: string) {

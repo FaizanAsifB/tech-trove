@@ -30,9 +30,10 @@ import { Category, Image, Product } from '@prisma/client'
 import { useParams, useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
+import { ProductColumn } from './columns'
 
 type ProductFormProps = {
-  initialData?: (Product & { images: Image[] }) | null
+  initialData?: ProductColumn | null
   categories: Pick<Category, 'id' | 'title'>[]
 }
 
@@ -70,22 +71,23 @@ const ProductForm = ({ initialData, categories }: ProductFormProps) => {
         )
 
         const updatedData = {
-          title: data.title,
+          ...data,
           images: newImages,
         }
         await updateProduct(params.productId as string, updatedData)
-        const defaultImg = data.images.filter(img => img.isPrimary)[0]
+        const primaryImg = data.images.filter(img => img.isPrimary)[0]
         if (
-          defaultImg.public_id !==
+          primaryImg.public_id !==
           initialData.images.filter(img => img.isPrimary)[0]?.public_id
         ) {
-          await toggleIsPrimary(defaultImg.public_id, initialData.id)
+          await toggleIsPrimary(primaryImg.public_id, initialData.id)
         }
-        router.push('/admin/products')
       } else {
         await createProduct(data)
       }
       toast.success(toastMessage)
+
+      router.push('/admin/products')
     } catch (error) {
       toast.error('An Error Occurred')
       console.log(error)
@@ -161,7 +163,7 @@ const ProductForm = ({ initialData, categories }: ProductFormProps) => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {categories.map(category => (
+                    {categories?.map(category => (
                       <SelectItem key={category.id} value={category.id}>
                         {category.title}
                       </SelectItem>

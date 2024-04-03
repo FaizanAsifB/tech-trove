@@ -68,7 +68,7 @@ const CategoryForm = ({ initialData }: CategoryFormProps) => {
         await createCategory(data)
       }
       toast.success(toastMessage)
-      router.push('/admin/categories')
+      // router.push('/admin/categories')
     } catch (error) {
       toast.error('An Error Occurred')
       console.log(error)

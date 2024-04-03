@@ -1,12 +1,8 @@
 import { Button } from '@/components/ui/button'
 import { DataTable } from '@/components/ui/data-table'
 import { Heading } from '@/components/ui/heading'
-import { Separator } from '@/components/ui/separator'
 import prismaDb from '@/lib/prisma'
-import { formattedDate } from '@/lib/utils'
-import axios from 'axios'
 import Link from 'next/link'
-import DeleteButton from './components/DeleteButton'
 import { columns } from './components/columns'
 
 const ProductsPage = async () => {
@@ -28,8 +24,9 @@ const ProductsPage = async () => {
     },
   })
 
-  console.log(products)
-
+  const formattedProducts = products.map(product => {
+    return { ...product, price: parseFloat(String(product?.price)) }
+  })
   return (
     <section className="flex flex-col flex-1 space-y-6">
       <div className="flex justify-between items-center">
@@ -51,7 +48,7 @@ const ProductsPage = async () => {
             </Button>
           </div>
         ) : (
-          <DataTable columns={columns} data={products} />
+          <DataTable columns={columns} data={formattedProducts} />
         )}
       </div>
     </section>

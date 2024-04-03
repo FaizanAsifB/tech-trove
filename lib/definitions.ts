@@ -10,7 +10,7 @@ export const CategoryFormSchema = z
         isPrimary: z.boolean().default(false),
       })
       .array()
-      .nonempty({ message: 'At least one image is required' })
+      .min(1, { message: 'At least one image is required' })
       .max(3, { message: 'Maximum of 3 images allowed' }),
   })
   .refine(
@@ -56,5 +56,21 @@ export const ProductFormSchema = z
       path: ['images'],
     }
   )
+
+export const ProductUpdateSchema = z.object({
+  title: z.string().trim().min(1, 'Title is required').max(50),
+  description: z.string().trim().min(1, 'Description is required').max(300),
+  price: z.coerce.number().min(1, 'Price must be greater than 0').max(1000000),
+  isFeatured: z.boolean().default(false).optional(),
+  categoryId: z.string().min(1, 'Category is required'),
+  images: z
+    .object({
+      url: z.string().url(),
+      public_id: z.string(),
+      isPrimary: z.boolean(),
+    })
+    .array()
+    .max(6, { message: 'Maximum of 6 images allowed' }),
+})
 
 export type ProductFormValues = z.infer<typeof ProductFormSchema>

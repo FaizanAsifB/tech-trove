@@ -2,15 +2,18 @@
 
 import { Button } from '@/components/ui/button'
 import { formattedDate } from '@/lib/utils'
-import type { Category, Image as CategoryImage } from '@prisma/client'
+import { Product, Image as ProductImage } from '@prisma/client'
 import { ColumnDef } from '@tanstack/react-table'
-import { ArrowUpDown, MoreHorizontal } from 'lucide-react'
+import { ArrowUpDown, CheckCircleIcon, MoreHorizontal } from 'lucide-react'
+import Image from 'next/image'
 import CellActions from './cell-actions'
 import RowImages from './row-images'
 
-export type CategoryColumn = Category & { images: CategoryImage[] }
+export type ProductColumn = Omit<Product, 'price'> & { price: number } & {
+  images: ProductImage[]
+}
 
-export const columns: ColumnDef<CategoryColumn>[] = [
+export const columns: ColumnDef<ProductColumn>[] = [
   {
     accessorKey: 'title',
     header: ({ column }) => {
@@ -28,10 +31,7 @@ export const columns: ColumnDef<CategoryColumn>[] = [
       )
     },
   },
-  {
-    accessorKey: 'id',
-    header: 'Id',
-  },
+
   {
     accessorKey: 'description',
     header: ({ column }) => {
@@ -88,7 +88,7 @@ export const columns: ColumnDef<CategoryColumn>[] = [
     header: ({ column }) => {
       return (
         <div className="flex items-center">
-          <span>IsFeatured</span>
+          <span>Featured</span>
           <Button
             variant="ghost"
             size={'icon-sm'}
@@ -99,13 +99,27 @@ export const columns: ColumnDef<CategoryColumn>[] = [
         </div>
       )
     },
+    cell: ({ row }) => {
+      return row.getValue('isFeatured') ? (
+        <CheckCircleIcon className="h-6 w-6 text-green-600 mx-auto" />
+      ) : null
+    },
   },
   {
     accessorKey: 'images',
     header: 'Media',
     cell: ({ row }) => {
-      const images: CategoryImage[] = row.getValue('images')
-      return <RowImages images={images} />
+      const images: ProductImage[] = row.getValue('images')
+      return images.map(img => (
+        <div key={img.id} className="relative w-16 h-16 overflow-hidden">
+          <Image
+            fill
+            className="object-contain object-center"
+            src={img.url}
+            alt=""
+          />
+        </div>
+      ))
     },
   },
   {
@@ -132,6 +146,6 @@ export const columns: ColumnDef<CategoryColumn>[] = [
   },
   {
     id: 'actions',
-    cell: ({ row }) => <CellActions category={row.original} />,
+    cell: ({ row }) => <CellActions product={row.original} />,
   },
 ]

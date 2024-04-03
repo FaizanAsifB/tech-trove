@@ -54,6 +54,9 @@ const ImageUpload = ({
 
   const onRemoveHandler = async (url: string, public_id: string) => {
     onRemove(url)
+    setUploadedImages(prev => {
+      return prev.filter(image => image.public_id !== public_id)
+    })
     await deleteCloudImage(public_id)
     // setUploadedImages(prev =>
     //   prev.filter(image => image.public_id !== public_id)
