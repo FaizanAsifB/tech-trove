@@ -82,12 +82,11 @@ const ProductForm = ({ initialData, categories }: ProductFormProps) => {
         ) {
           await toggleIsPrimary(primaryImg.public_id, initialData.id)
         }
+        router.push('/admin/products')
       } else {
         await createProduct(data)
       }
       toast.success(toastMessage)
-
-      router.push('/admin/products')
     } catch (error) {
       toast.error('An Error Occurred')
       console.log(error)

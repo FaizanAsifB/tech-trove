@@ -126,7 +126,7 @@ const ImageUpload = ({
                         image.isPrimary ? 'text-green-600' : ''
                       )}
                     />{' '}
-                    {image.isPrimary ? 'Default Image' : 'Set as default'}
+                    {image.isPrimary ? 'Primary Image' : 'Set as primary image'}
                   </Button>
                 </div>
               </div>
