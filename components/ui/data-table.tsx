@@ -28,11 +28,13 @@ import { useState } from 'react'
 type DataTableProps<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  placeHolder: string
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  placeHolder,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
@@ -56,7 +58,7 @@ export function DataTable<TData, TValue>({
     <div>
       <div className="flex items-center py-4">
         <Input
-          placeholder="Filter categories..."
+          placeholder={`Filter ${placeHolder}...`}
           value={(table.getColumn('title')?.getFilterValue() as string) ?? ''}
           onChange={event =>
             table.getColumn('title')?.setFilterValue(event.target.value)

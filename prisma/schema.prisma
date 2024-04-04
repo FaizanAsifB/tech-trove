@@ -42,7 +42,7 @@ model Product {
   // size        String
   // color       String
   images      Image[]   @relation("ProductToImage")
-  // orderItems  OrderItem[]   // Relation to Order model
+  orderItems  OrderItem[]   // Relation to Order model
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 
@@ -64,8 +64,8 @@ model OrderItem {
   id        String  @id @default(uuid())
   orderId   String  // Foreign Key to Order
   order     Order   @relation(fields: [orderId], references: [id])
-  // productId String  // Foreign Key to Product
-  // product   Product @relation(fields: [productId], references: [id])
+  productId String  // Foreign Key to Product
+  product   Product @relation(fields: [productId], references: [id])
 
 }
 

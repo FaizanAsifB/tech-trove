@@ -48,7 +48,11 @@ const ProductsPage = async () => {
             </Button>
           </div>
         ) : (
-          <DataTable columns={columns} data={formattedProducts} />
+          <DataTable
+            columns={columns}
+            data={formattedProducts}
+            placeHolder="products"
+          />
         )}
       </div>
     </section>

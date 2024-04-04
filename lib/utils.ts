@@ -12,3 +12,8 @@ export const formattedDate = (date: Date) => {
     day: 'numeric',
   })
 }
+
+export const formatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+})
