@@ -26,11 +26,18 @@ const FeaturedProducts = async ({ currentPage }: { currentPage: number }) => {
     },
   })
 
+  const maxOnPage = currentPage * FEATURED_PER_PAGE
+
   const totalPages = Math.ceil(featuredCount / FEATURED_PER_PAGE)
   return (
     <section>
       <div className="container space-y-8">
         <h2>Featured Products</h2>
+        <p className="font-semibold">
+          Showing {(currentPage - 1) * FEATURED_PER_PAGE + 1} -{' '}
+          {maxOnPage > featuredCount ? featuredCount : maxOnPage} of{' '}
+          {featuredCount} Product{featuredCount > 1 ? 's' : ''}
+        </p>
         <FeaturedProductsPage products={featuredProducts} />
         <FeaturedPagination totalPages={totalPages} />
       </div>

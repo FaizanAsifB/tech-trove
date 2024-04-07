@@ -17,7 +17,7 @@ const FeaturedProductsPage = async ({ products }: FeaturedProductsProps) => {
   return (
     <div className="grid grid-cols-3 gap-4">
       {products.map(product => (
-        <article key={product.id} className="border-none shadow-none space-y-2">
+        <article key={product.id} className="border-none shadow-none space-y-3">
           <div className="relative h-52">
             <Image
               src={product.images.find(image => image.isPrimary)!.url}
