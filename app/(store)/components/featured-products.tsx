@@ -1,14 +1,20 @@
 import prismaDb from '@/lib/prisma'
+import { Image, Product } from '@prisma/client'
 import FeaturedPagination from './featured-pagination'
 import FeaturedProductsPage from './featured-products-page'
 
-const FeaturedProducts = async (currentPage: number) => {
+const FEATURED_PER_PAGE = 3
+
+const FeaturedProducts = async ({ currentPage }: { currentPage: number }) => {
   const featuredProducts = await prismaDb.product.findMany({
     where: {
       isFeatured: true,
     },
-    skip: 4 * (currentPage - 1),
-    take: 4,
+    take: FEATURED_PER_PAGE,
+    skip: FEATURED_PER_PAGE * (currentPage - 1) || 0,
+    include: {
+      images: true,
+    },
     orderBy: {
       updatedAt: 'desc',
     },
@@ -20,12 +26,12 @@ const FeaturedProducts = async (currentPage: number) => {
     },
   })
 
-  const totalPages = Math.ceil(featuredCount / 4)
+  const totalPages = Math.ceil(featuredCount / FEATURED_PER_PAGE)
   return (
     <section>
-      <div className="container">
+      <div className="container space-y-8">
         <h2>Featured Products</h2>
-        <FeaturedProductsPage />
+        <FeaturedProductsPage products={featuredProducts} />
         <FeaturedPagination totalPages={totalPages} />
       </div>
     </section>

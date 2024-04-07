@@ -8,7 +8,7 @@ export default function Home({
 }: {
   searchParams: { [key: string]: string | string[] | undefined }
 }) {
-  const currentPage = searchParams['feature-page'] || 1
+  const currentPage = Number(searchParams['feature-page'] || 1)
   return (
     <>
       <Hero />
