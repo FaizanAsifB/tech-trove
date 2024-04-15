@@ -81,4 +81,12 @@
   h2 {
     @apply mt-10 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0;
   }
+
+  h4 {
+    @apply text-xl font-semibold leading-none tracking-tight;
+  }
+
+  h6 {
+    @apply scroll-m-20 text-sm font-semibold tracking-tight;
+  }
 }

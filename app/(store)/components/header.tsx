@@ -9,7 +9,7 @@ const header = async () => {
     <header className="py-8">
       <div className="container flex justify-between">
         <nav className="flex gap-6">
-          <div>Logo</div>
+          <Link href="/">Logo</Link>
 
           <ul className="flex gap-6">
             {categories.map(category => (
