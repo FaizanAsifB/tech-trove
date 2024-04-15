@@ -1,9 +1,7 @@
+import { FEATURED_PER_PAGE } from '@/lib/constants'
 import prismaDb from '@/lib/prisma'
-import { Image, Product } from '@prisma/client'
-import FeaturedPagination from './featured-pagination'
-import FeaturedProductsPage from './featured-products-page'
-
-const FEATURED_PER_PAGE = 3
+import { Image as ImageDb, Product } from '@prisma/client'
+import ProductCard from './product-card'
 
 const FeaturedProducts = async ({ currentPage }: { currentPage: number }) => {
   const featuredProducts = await prismaDb.product.findMany({
@@ -19,29 +17,12 @@ const FeaturedProducts = async ({ currentPage }: { currentPage: number }) => {
       updatedAt: 'desc',
     },
   })
-
-  const featuredCount = await prismaDb.product.count({
-    where: {
-      isFeatured: true,
-    },
-  })
-
-  const maxOnPage = currentPage * FEATURED_PER_PAGE
-
-  const totalPages = Math.ceil(featuredCount / FEATURED_PER_PAGE)
   return (
-    <section>
-      <div className="container space-y-8">
-        <h2>Featured Products</h2>
-        <p className="font-semibold">
-          Showing {(currentPage - 1) * FEATURED_PER_PAGE + 1} -{' '}
-          {maxOnPage > featuredCount ? featuredCount : maxOnPage} of{' '}
-          {featuredCount} Product{featuredCount > 1 ? 's' : ''}
-        </p>
-        <FeaturedProductsPage products={featuredProducts} />
-        <FeaturedPagination totalPages={totalPages} />
-      </div>
-    </section>
+    <div className="grid grid-cols-3 gap-4">
+      {featuredProducts.map(product => (
+        <ProductCard product={product} key={product.id} />
+      ))}
+    </div>
   )
 }
 export default FeaturedProducts

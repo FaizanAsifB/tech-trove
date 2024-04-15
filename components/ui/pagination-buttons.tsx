@@ -1,15 +1,24 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
+import { useCallback } from 'react'
+import { Button } from './button'
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useCallback } from 'react'
 
-const FeaturedPagination = ({ totalPages }: { totalPages: number }) => {
+type PaginationButtonsProps = {
+  totalPages: number
+  queryParamKey: string
+}
+
+const PaginationButtons = ({
+  totalPages,
+  queryParamKey,
+}: PaginationButtonsProps) => {
+  const searchParams = useSearchParams()
+
   const router = useRouter()
   const pathname = usePathname()
-  const searchParams = useSearchParams()
-  const currentPage = Number(searchParams.get('feature-page') || 1)
+  const currentPage = Number(searchParams.get(queryParamKey) || 1)
 
   const createQueryString = useCallback(
     (name: string, value: string) => {
@@ -20,6 +29,7 @@ const FeaturedPagination = ({ totalPages }: { totalPages: number }) => {
     },
     [searchParams]
   )
+
   return (
     <div className=" flex justify-center items-center gap-6">
       <Button
@@ -28,7 +38,7 @@ const FeaturedPagination = ({ totalPages }: { totalPages: number }) => {
         onClick={() => {
           router.push(
             `${pathname}?${createQueryString(
-              'feature-page',
+              queryParamKey,
               String(currentPage - 1)
             )}`,
             { scroll: false }
@@ -46,7 +56,7 @@ const FeaturedPagination = ({ totalPages }: { totalPages: number }) => {
         onClick={() => {
           router.push(
             `${pathname}?${createQueryString(
-              'feature-page',
+              queryParamKey,
               String(currentPage + 1)
             )}`,
             { scroll: false }
@@ -58,4 +68,5 @@ const FeaturedPagination = ({ totalPages }: { totalPages: number }) => {
     </div>
   )
 }
-export default FeaturedPagination
+
+export default PaginationButtons

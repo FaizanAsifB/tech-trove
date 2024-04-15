@@ -1,5 +1,5 @@
 import CategoryCards from './components/category-cards'
-import FeaturedProducts from './components/featured-products'
+import FeaturedProductsSection from './components/featured-products-section'
 import Hero from './components/hero'
 import ShopFeatures from './components/shop-features'
 
@@ -13,7 +13,7 @@ export default function Home({
     <>
       <Hero />
       <CategoryCards />
-      <FeaturedProducts currentPage={currentPage} />
+      <FeaturedProductsSection currentPage={currentPage} />
       <ShopFeatures />
     </>
   )
