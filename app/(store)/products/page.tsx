@@ -1,10 +1,9 @@
-import { Checkbox } from '@/components/ui/checkbox'
 import Pagination from '@/components/ui/pagination'
 import { PRODUCTS_PER_PAGE } from '@/lib/constants'
 import prismaDb from '@/lib/prisma'
 import { fetchProducts } from '@/lib/queries'
-import React from 'react'
 import ProductCard from '../_components/product-card'
+import CategoryFilter from './_components/category-filter'
 
 const ProductsPage = async ({
   searchParams,
@@ -17,23 +16,27 @@ const ProductsPage = async ({
       title: true,
     },
   })
+
   const products = await fetchProducts()
   const currentPage = Number(searchParams['page'] || 1)
+  const filteredCategories = searchParams['filter'] || ''
   const productCount = await prismaDb.product.count({})
+
+  const createQueryString = (name: string, value: string) => {
+    const params = new URLSearchParams(searchParams.toString())
+    params.set(name, value)
+
+    return params.toString()
+  }
+
+  console.log(searchParams)
 
   return (
     <section className="mt-8">
       <div className="container flex gap-20">
         <div className="space-y-4">
           <h6>Product Categories</h6>
-          <ul className="space-y-3 text-sm">
-            {categories.map(category => (
-              <li key={category.id} className="flex gap-2 items-center">
-                <Checkbox />
-                {category.title}
-              </li>
-            ))}
-          </ul>
+          <CategoryFilter categories={categories} />
         </div>
         <div className="space-y-4">
           <Pagination
