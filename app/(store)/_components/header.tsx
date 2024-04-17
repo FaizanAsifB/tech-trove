@@ -1,5 +1,5 @@
-import { fetchCategories } from '@/lib/fetch'
 import prismaDb from '@/lib/prisma'
+import { fetchCategories } from '@/lib/queries'
 import Link from 'next/link'
 
 const header = async () => {

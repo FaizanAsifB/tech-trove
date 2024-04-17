@@ -1,7 +1,7 @@
-import CategoryCards from './components/category-cards'
-import FeaturedProductsSection from './components/featured-products-section'
-import Hero from './components/hero'
-import ShopFeatures from './components/shop-features'
+import CategoryCards from './_components/category-cards'
+import FeaturedProductsSection from './_components/featured-products-section'
+import Hero from './_components/hero'
+import ShopFeatures from './_components/shop-features'
 
 export default function Home({
   searchParams,

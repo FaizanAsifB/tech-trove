@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
-import { fetchCategories } from '@/lib/fetch'
+import { fetchCategories } from '@/lib/queries'
 import Link from 'next/link'
 import CategoryCard from './category-card'
 
