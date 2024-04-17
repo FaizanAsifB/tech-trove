@@ -85,8 +85,15 @@
   h4 {
     @apply text-xl font-semibold leading-none tracking-tight;
   }
+  h5 {
+    @apply text-lg font-semibold leading-none tracking-tight;
+  }
 
   h6 {
     @apply scroll-m-20 text-sm font-semibold tracking-tight;
   }
+}
+
+small {
+  @apply text-xs font-medium leading-none;
 }

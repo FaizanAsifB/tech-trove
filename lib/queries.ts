@@ -25,8 +25,29 @@ export const fetchProducts = async () => {
           id: 'desc',
         },
       },
+    },
+    orderBy: {
+      updatedAt: 'desc',
+    },
+  })
+
+  return products
+}
+
+export const fetchProduct = async (id: string) => {
+  const product = await prismaDb.product.findFirst({
+    where: {
+      id,
+    },
+    include: {
+      images: {
+        orderBy: {
+          id: 'desc',
+        },
+      },
       category: {
         select: {
+          id: true,
           title: true,
         },
       },
@@ -36,5 +57,5 @@ export const fetchProducts = async () => {
     },
   })
 
-  return products
+  return product
 }
