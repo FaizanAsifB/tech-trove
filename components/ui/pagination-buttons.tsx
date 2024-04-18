@@ -48,7 +48,7 @@ const PaginationButtons = ({
         &lt;
       </Button>
       <span>
-        Page {currentPage} Of {totalPages}
+        Page {currentPage} Of {totalPages === 0 ? 1 : totalPages}
       </span>
       <Button
         size={'sm'}

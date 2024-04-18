@@ -5,19 +5,26 @@ import { Category } from '@prisma/client'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 type CategoryFilterProps = {
-  categories: Category[]
+  categories: Pick<Category, 'id' | 'title'>[]
 }
 
 const CategoryFilter = ({ categories }: CategoryFilterProps) => {
   const searchParams = useSearchParams()
-
   const router = useRouter()
   const pathname = usePathname()
-  const filteredCategories = searchParams.get('filter') || ''
+  const filteredCategories = searchParams.getAll('filter') || ''
 
-  const createQueryString = (name: string, value: string) => {
+  const createQueryString = (
+    name: string,
+    value: string,
+    isExisting = false
+  ) => {
     const params = new URLSearchParams(searchParams.toString())
-    params.set(name, value)
+    console.log({ params })
+    if (isExisting) {
+      params.delete(name, value)
+    }
+    if (!isExisting) params.append(name, value)
 
     return params.toString()
   }
@@ -32,7 +39,13 @@ const CategoryFilter = ({ categories }: CategoryFilterProps) => {
             checked={filteredCategories?.includes(category.title)}
             onCheckedChange={() =>
               filteredCategories?.includes(category.title)
-                ? createQueryString('filter', '')
+                ? router.push(
+                    `${pathname}?${createQueryString(
+                      'filter',
+                      category.title,
+                      true
+                    )}`
+                  )
                 : router.push(
                     `${pathname}?${createQueryString('filter', category.title)}`
                   )

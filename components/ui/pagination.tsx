@@ -25,6 +25,9 @@ const Pagination = ({
   if (showingEnd > totalItems) {
     showingEnd = totalItems
   }
+  if (totalItems === 0) {
+    showingStart = 0
+  }
 
   const isPlural = totalItems > 1
   return (

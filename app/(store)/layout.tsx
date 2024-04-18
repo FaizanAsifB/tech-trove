@@ -30,7 +30,7 @@ export default function RootLayout({
         )}
       >
         <Header />
-        <main className="flex-1 space-y-16">{children}</main>
+        <main className="flex-1 space-y-16 flex flex-col">{children}</main>
         <Footer />
       </body>
     </html>

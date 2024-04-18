@@ -17,8 +17,28 @@ export const fetchCategories = async () =>
     },
   })
 
-export const fetchProducts = async () => {
+export const fetchProducts = async (categories: string[] | string) => {
+  let whereClause = {}
+
+  if (typeof categories === 'string') {
+    whereClause = {
+      category: {
+        title: categories,
+      },
+    }
+  }
+
+  if (Array.isArray(categories) && categories.length > 1) {
+    whereClause = {
+      category: {
+        title: {
+          in: categories,
+        },
+      },
+    }
+  }
   const products = await prismaDb.product.findMany({
+    where: whereClause,
     include: {
       images: {
         orderBy: {
@@ -32,6 +52,34 @@ export const fetchProducts = async () => {
   })
 
   return products
+}
+
+export const getProductCount = async (categories: string[] | string) => {
+  let whereClause = {}
+
+  if (typeof categories === 'string') {
+    whereClause = {
+      category: {
+        title: categories,
+      },
+    }
+  }
+
+  if (Array.isArray(categories) && categories.length > 1) {
+    whereClause = {
+      category: {
+        title: {
+          in: categories,
+        },
+      },
+    }
+  }
+
+  const productCount = await prismaDb.product.count({
+    where: whereClause,
+  })
+
+  return productCount
 }
 
 export const fetchProduct = async (id: string) => {
