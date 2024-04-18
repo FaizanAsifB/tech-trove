@@ -14,7 +14,7 @@ const CategoryCard = ({ title, imgUrl }: CategoryCardProps) => {
       <CardContent className="grid w-full">
         <Image src={imgUrl} alt={title} fill className="object-cover" />
         <Button asChild className="z-10">
-          <Link href={`/${title.toLowerCase()}`}>{title}</Link>
+          <Link href={`/products?filter=${title} `}>{title}</Link>
         </Button>
       </CardContent>
     </Card>
