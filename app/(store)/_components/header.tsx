@@ -2,7 +2,7 @@ import prismaDb from '@/lib/prisma'
 import { fetchCategories } from '@/lib/queries'
 import Link from 'next/link'
 
-const header = async () => {
+const Header = async () => {
   const categories = await fetchCategories()
 
   return (
@@ -14,7 +14,7 @@ const header = async () => {
           <ul className="flex gap-6">
             {categories.map(category => (
               <li key={category.id}>
-                <Link href={`/${category.title.toLowerCase()}`}>
+                <Link href={`/products?filter=${category.title} `}>
                   {category.title}
                 </Link>
               </li>
@@ -29,4 +29,4 @@ const header = async () => {
     </header>
   )
 }
-export default header
+export default Header

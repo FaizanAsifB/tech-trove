@@ -43,7 +43,7 @@ const ProductsPage = async ({
                 <p>No products found</p>
               </div>
             ) : (
-              <div className="grid grid-cols-3 gap-8 flex-1">
+              <div className="grid grid-cols-4 gap-8 flex-1">
                 {products.map(product => (
                   <ProductCard product={product} key={product.id} />
                 ))}

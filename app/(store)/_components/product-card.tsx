@@ -19,7 +19,7 @@ const ProductCard = ({
   return (
     <article>
       <Link href={`/products/${product.id}`} className="group space-y-3 ">
-        <div className="relative min-h-52  overflow-clip bg-stone-100 rounded-sm ">
+        <div className="relative min-h-40  overflow-clip bg-stone-100 rounded-sm ">
           <Image
             src={product.images.find(image => image.isPrimary)!.url}
             fill
@@ -27,12 +27,14 @@ const ProductCard = ({
             className="object-contain group-hover:scale-110 p-4 aspect-square max-w-full"
           />
         </div>
-        <h4 className={isRelatedProduct ? 'text-sm' : ''}>{product.title}</h4>
-        <div className={isRelatedProduct ? 'text-sm' : ''}>
-          <p className="text-secondary-foreground truncate">
+        <h6 className={isRelatedProduct ? 'text-sm' : ''}>{product.title}</h6>
+        <div>
+          <p className="text-secondary-foreground truncate text-sm">
             {product.description}
           </p>
-          <span>{formatter.format(Number(product.price))}</span>
+          <span className="text-sm">
+            {formatter.format(Number(product.price))}
+          </span>
         </div>
       </Link>
     </article>
