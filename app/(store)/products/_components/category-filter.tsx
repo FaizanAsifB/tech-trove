@@ -20,7 +20,7 @@ const CategoryFilter = ({ categories }: CategoryFilterProps) => {
     isExisting = false
   ) => {
     const params = new URLSearchParams(searchParams.toString())
-    console.log({ params })
+
     if (isExisting) {
       params.delete(name, value)
     }
@@ -28,7 +28,7 @@ const CategoryFilter = ({ categories }: CategoryFilterProps) => {
 
     return params.toString()
   }
-  console.log(filteredCategories)
+
   return (
     <ul className="space-y-3 text-sm">
       {categories.map(category => (
