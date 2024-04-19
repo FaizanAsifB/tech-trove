@@ -1,5 +1,7 @@
-import prismaDb from '@/lib/prisma'
+import { Button } from '@/components/ui/button'
 import { fetchCategories } from '@/lib/queries'
+import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs'
+import { ShoppingCart } from 'lucide-react'
 import Link from 'next/link'
 
 const Header = async () => {
@@ -21,9 +23,20 @@ const Header = async () => {
             ))}
           </ul>
         </nav>
-        <div className="flex gap-6">
-          <div>login</div>
-          <div>Cart</div>
+        <div className="flex gap-6 justify-center items-center">
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
+          <SignedOut>
+            <SignInButton>
+              <Button>Sign In</Button>
+            </SignInButton>
+          </SignedOut>
+          <Button variant={'icon'} size={'icon'} asChild>
+            <Link href={'/cart'}>
+              <ShoppingCart />
+            </Link>
+          </Button>
         </div>
       </div>
     </header>

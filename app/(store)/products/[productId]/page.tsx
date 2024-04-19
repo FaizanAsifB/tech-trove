@@ -2,7 +2,6 @@ import { Button } from '@/components/ui/button'
 import prismaDb from '@/lib/prisma'
 import { fetchProduct } from '@/lib/queries'
 import { formatter } from '@/lib/utils'
-import { notEqual } from 'assert'
 import Image from 'next/image'
 import ProductCard from '../../_components/product-card'
 
