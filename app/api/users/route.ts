@@ -80,6 +80,7 @@ export async function POST(req: Request) {
       data: {
         email: evt.data.email_addresses[0].email_address,
         name: evt.data.first_name,
+        role: evt.data.public_metadata.role as string,
       },
     })
   }
