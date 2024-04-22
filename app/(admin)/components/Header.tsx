@@ -1,16 +1,5 @@
-import { Button } from '@/components/ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { Input } from '@/components/ui/input'
 import { SignedIn, UserButton } from '@clerk/nextjs'
-import { CircleUser, Search } from 'lucide-react'
-import MobileNav from './MobileNav'
+import MobileNav from './mobile-nav'
 
 const Header = () => {
   return (

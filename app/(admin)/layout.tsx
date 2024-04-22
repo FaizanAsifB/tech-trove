@@ -5,11 +5,10 @@ import { Toaster } from '@/components/ui/sonner'
 import { checkRole } from '@/lib/roles'
 import { cn } from '@/lib/utils'
 import { ClerkProvider } from '@clerk/nextjs'
-import { auth } from '@clerk/nextjs/server'
 import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
-import Header from './components/Header'
-import Nav from './components/Nav'
+import Header from './components/header'
+import Nav from './components/nav'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
