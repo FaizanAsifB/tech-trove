@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { fetchCategories } from '@/lib/queries'
+import { checkRole } from '@/lib/roles'
 import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs'
 import { ShoppingCart } from 'lucide-react'
 import Link from 'next/link'
@@ -24,6 +25,7 @@ const Header = async () => {
           </ul>
         </nav>
         <div className="flex gap-6 justify-center items-center">
+          {checkRole('admin') ? <Link href={'/admin'}>Dashboard</Link> : null}
           <SignedIn>
             <UserButton />
           </SignedIn>

@@ -1,5 +1,5 @@
-import { FEATURED_PER_PAGE } from '@/lib/constants'
 import prismaDb from '@/lib/prisma'
+import { FEATURED_PER_PAGE } from '@/utils/constants'
 import { Image as ImageDb, Product } from '@prisma/client'
 import ProductCard from './product-card'
 

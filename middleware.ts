@@ -7,7 +7,7 @@ import {
 const isProtectedRoute = createRouteMatcher(['/admin(.*)'])
 
 export default clerkMiddleware(async (auth, req) => {
-  if (isProtectedRoute(req)) auth().protect({ permission: 'org:admin' })
+  if (isProtectedRoute(req)) auth().protect()
 })
 
 export const config = {

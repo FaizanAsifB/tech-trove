@@ -1,7 +1,7 @@
 import Pagination from '@/components/ui/pagination'
-import { PRODUCTS_PER_PAGE } from '@/lib/constants'
 import prismaDb from '@/lib/prisma'
 import { fetchProducts, getProductCount } from '@/lib/queries'
+import { PRODUCTS_PER_PAGE } from '@/utils/constants'
 import ProductCard from '../_components/product-card'
 import CategoryFilter from './_components/category-filter'
 

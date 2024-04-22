@@ -1,5 +1,5 @@
-import { FEATURED_PER_PAGE } from '@/lib/constants'
 import prismaDb from '@/lib/prisma'
+import { FEATURED_PER_PAGE } from '@/utils/constants'
 import ProductsPagination from '../../../components/ui/pagination'
 import FeaturedProducts from './featured-products'
 

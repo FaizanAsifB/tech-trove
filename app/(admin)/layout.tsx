@@ -2,9 +2,12 @@ import '@/app/globals.css'
 import { inter } from '@/app/ui/fonts'
 
 import { Toaster } from '@/components/ui/sonner'
+import { checkRole } from '@/lib/roles'
 import { cn } from '@/lib/utils'
 import { ClerkProvider } from '@clerk/nextjs'
+import { auth } from '@clerk/nextjs/server'
 import type { Metadata } from 'next'
+import { redirect } from 'next/navigation'
 import Header from './components/Header'
 import Nav from './components/Nav'
 
@@ -18,6 +21,10 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  if (!checkRole('admin')) {
+    redirect('/')
+  }
+
   return (
     <ClerkProvider>
       <html lang="en">
