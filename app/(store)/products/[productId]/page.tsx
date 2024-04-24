@@ -1,9 +1,9 @@
-import { Button } from '@/components/ui/button'
 import prismaDb from '@/lib/prisma'
 import { fetchProduct } from '@/lib/queries'
 import { formatter } from '@/lib/utils'
 import Image from 'next/image'
 import ProductCard from '../../_components/product-card'
+import AddToCart from '../_components/add-to-cart'
 
 const ProductsPage = async ({
   params,
@@ -31,6 +31,11 @@ const ProductsPage = async ({
     },
   })
 
+  const formattedProduct = {
+    ...product,
+    price: parseFloat(String(product?.price)),
+  }
+
   return (
     <section className="mt-8">
       <div className="container space-y-24">
@@ -55,7 +60,7 @@ const ProductsPage = async ({
               <h6>Description</h6>
               <p className="text-secondary-foreground">{product.description}</p>
             </div>
-            <Button className="w-full">Add To Cart</Button>
+            <AddToCart product={formattedProduct} />
           </div>
         </article>
         <div>
