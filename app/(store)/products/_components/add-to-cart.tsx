@@ -2,10 +2,10 @@
 
 import { Button } from '@/components/ui/button'
 import useCart from '@/hooks/useCart'
-import { formattedProduct } from '@/lib/definitions'
+import { ProductWithImages } from '@/lib/definitions'
 
 type AddToCartProps = {
-  product: formattedProduct
+  product: ProductWithImages
 }
 
 const AddToCart = ({ product }: AddToCartProps) => {

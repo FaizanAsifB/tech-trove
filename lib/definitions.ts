@@ -1,4 +1,4 @@
-import { Product } from '@prisma/client'
+import { Image, Product } from '@prisma/client'
 import { z } from 'zod'
 
 export const CategoryFormSchema = z
@@ -76,4 +76,8 @@ export const ProductUpdateSchema = z.object({
 
 export type ProductFormValues = z.infer<typeof ProductFormSchema>
 
-export type formattedProduct = Omit<Product, 'price'> & { price: number }
+export type FormattedProduct = Omit<Product, 'price'> & { price: number }
+
+export type ProductWithImages = FormattedProduct & { images: Image[] }
+
+export type CartItem = ProductWithImages & { quantity: number }

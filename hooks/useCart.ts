@@ -1,10 +1,10 @@
-import { formattedProduct } from '@/lib/definitions'
+import { CartItem, ProductWithImages } from '@/lib/definitions'
 import { toast } from 'sonner'
 import { create } from 'zustand'
 
 type CartState = {
-  items: (formattedProduct & { quantity: number })[]
-  addItem: (data: formattedProduct) => void
+  items: CartItem[]
+  addItem: (data: ProductWithImages) => void
   deleteItem: (id: string) => void
 }
 
