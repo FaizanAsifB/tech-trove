@@ -1,6 +1,10 @@
 import Pagination from '@/components/ui/pagination'
 import prismaDb from '@/lib/prisma'
-import { fetchProducts, getProductCount } from '@/lib/queries'
+import {
+  fetchFilteredProducts,
+  fetchProducts,
+  getProductCount,
+} from '@/lib/queries'
 import { PRODUCTS_PER_PAGE } from '@/utils/constants'
 import ProductCard from '../_components/product-card'
 import CategoryFilter from './_components/category-filter'
@@ -20,8 +24,12 @@ const ProductsPage = async ({
   const currentPage = Number(searchParams['page'] || 1)
   const filteredCategories = searchParams['filter'] || ''
 
-  const products = await fetchProducts(filteredCategories)
+  const products = filteredCategories
+    ? await fetchFilteredProducts(filteredCategories)
+    : await fetchProducts()
   const productCount = await getProductCount(filteredCategories)
+
+  console.log(productCount)
 
   return (
     <section className="mt-8 flex-1 flex flex-col">

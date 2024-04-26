@@ -17,9 +17,26 @@ export const fetchCategories = async () =>
     },
   })
 
-export const fetchProducts = async (categories: string[] | string) => {
-  let whereClause = {}
+export const fetchProducts = async () => {
+  const products = await prismaDb.product.findMany({
+    include: {
+      images: {
+        orderBy: {
+          id: 'desc',
+        },
+      },
+    },
+    orderBy: {
+      updatedAt: 'desc',
+    },
+  })
 
+  return products
+}
+
+export const fetchFilteredProducts = async (categories: string[] | string) => {
+  let whereClause = {}
+  console.log(typeof categories === 'string')
   if (typeof categories === 'string') {
     whereClause = {
       category: {
@@ -73,6 +90,11 @@ export const getProductCount = async (categories: string[] | string) => {
         },
       },
     }
+  }
+
+  if (!categories) {
+    const allProducts = await prismaDb.product.count({})
+    return allProducts
   }
 
   const productCount = await prismaDb.product.count({
