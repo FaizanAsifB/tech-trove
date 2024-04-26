@@ -25,18 +25,20 @@ const CartItem = ({ product }: { product: CartItem }) => {
         setOpen={setIsOpen}
         deletedItem={product.title}
       />
-      <article className=" grid grid-cols-[1fr_2fr_2fr_1fr]  gap-4 ">
-        <Image
-          src={product.images[0].url}
-          alt={product.title}
-          width={100}
-          height={100}
-        />
+      <article className=" grid grid-cols-[auto_1fr_auto_auto]  gap-4 items-center">
+        <div className="relative h-16 w-16">
+          <Image
+            src={product.images[0].url}
+            alt={product.title}
+            fill
+            className="object-contain"
+          />
+        </div>
         <div className="font-semibold">
           <p>{product.title}</p>
           <p>{formatter.format(product.price)}</p>
         </div>
-        <div className="flex items-center relative max-w-32">
+        <div className="flex items-center relative max-w-32 rounded-md border border-foreground">
           <Button
             onClick={() => {
               if (product.quantity === 1) {
@@ -55,7 +57,7 @@ const CartItem = ({ product }: { product: CartItem }) => {
           <Input
             inputMode="numeric"
             type="number"
-            className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none px-12 text-center border-foreground"
+            className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none px-12 text-center border-none"
             value={product.quantity}
             onChange={e => {
               setQuantity(product.id, Number(e.target.value))
@@ -73,7 +75,7 @@ const CartItem = ({ product }: { product: CartItem }) => {
         <Button
           variant="ghost"
           size={'icon-sm'}
-          className="shadow-lg hover:text-destructive"
+          className="text-destructive hover:text-destructive hover:bg- hover:scale-110"
           onClick={() => setIsOpen(true)}
         >
           <Trash2 />
