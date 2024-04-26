@@ -15,6 +15,8 @@ const CartItem = ({ product }: { product: CartItem }) => {
   const deleteItemInCart = useCart(state => state.deleteItem)
   const incrementItem = useCart(state => state.incrementItem)
   const decrementItem = useCart(state => state.decrementItem)
+  const setQuantity = useCart(state => state.setQuantity)
+
   return (
     <>
       <DeleteDialog
@@ -48,7 +50,16 @@ const CartItem = ({ product }: { product: CartItem }) => {
           >
             -
           </Button>
-          <Input type="number" value={product.quantity} />
+          <Input
+            inputMode="numeric"
+            type="number"
+            className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+            value={product.quantity}
+            onChange={e => {
+              setQuantity(product.id, Number(e.target.value))
+            }}
+            min={1}
+          />
           <Button onClick={() => incrementItem(product.id)}>+</Button>
         </div>
         <Button

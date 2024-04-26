@@ -9,6 +9,7 @@ type CartState = {
   addItem: (data: ProductWithImages) => void
   deleteItem: (id: string) => void
   incrementItem: (id: string) => void
+  setQuantity: (id: string, quantity: number) => void
   decrementItem: (id: string) => void
 }
 
@@ -41,12 +42,22 @@ const useCart = create<CartState>()(
 
         return toast.success('Item deleted from cart')
       },
+      setQuantity: (id, quantity) => {
+        set(state => ({
+          items: state.items.map(item =>
+            item.id === id ? { ...item, quantity } : item
+          ),
+        }))
+      },
       incrementItem: id => {
         const currentItems = get().items
         const existingItem = currentItems.find(item => item.id === id)
         if (existingItem) {
           set({
-            items: [{ ...existingItem, quantity: existingItem.quantity + 1 }],
+            items: [
+              ...currentItems.filter(item => item.id !== id),
+              { ...existingItem, quantity: existingItem.quantity + 1 },
+            ],
           })
         }
       },
@@ -55,7 +66,10 @@ const useCart = create<CartState>()(
         const existingItem = currentItems.find(item => item.id === id)
         if (existingItem && existingItem.quantity > 1) {
           set({
-            items: [{ ...existingItem, quantity: existingItem.quantity - 1 }],
+            items: [
+              ...currentItems.filter(item => item.id !== id),
+              { ...existingItem, quantity: existingItem.quantity - 1 },
+            ],
           })
         }
         if (existingItem && existingItem.quantity === 1) {
