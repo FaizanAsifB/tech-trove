@@ -6,12 +6,14 @@ import ShoppingCart from './shopping-cart'
 const Header = () => {
   return (
     <header className="py-8">
-      <div className="container flex justify-between">
-        <div className="flex gap-6 justify-center items-center">
+      <div className="container ">
+        <div className="flex gap-6 justify-between items-center">
           <NavLinks />
-          <AuthButtons />
 
-          <ShoppingCart />
+          <div className="flex items-center gap-4">
+            <AuthButtons />
+            <ShoppingCart />
+          </div>
         </div>
       </div>
     </header>
