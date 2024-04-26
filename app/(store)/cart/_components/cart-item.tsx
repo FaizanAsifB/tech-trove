@@ -36,7 +36,7 @@ const CartItem = ({ product }: { product: CartItem }) => {
           <p>{product.title}</p>
           <p>{formatter.format(product.price)}</p>
         </div>
-        <div className="flex items-center gap-2 relative">
+        <div className="flex items-center relative max-w-32">
           <Button
             onClick={() => {
               if (product.quantity === 1) {
@@ -47,6 +47,7 @@ const CartItem = ({ product }: { product: CartItem }) => {
               }
             }}
             variant={'ghost'}
+            size={'icon'}
             className="absolute left-0 "
           >
             <Minus />
@@ -54,7 +55,7 @@ const CartItem = ({ product }: { product: CartItem }) => {
           <Input
             inputMode="numeric"
             type="number"
-            className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none "
+            className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none px-12 text-center border-foreground"
             value={product.quantity}
             onChange={e => {
               setQuantity(product.id, Number(e.target.value))
@@ -63,6 +64,7 @@ const CartItem = ({ product }: { product: CartItem }) => {
           <Button
             onClick={() => incrementItem(product.id)}
             variant={'ghost'}
+            size={'icon'}
             className="absolute right-0"
           >
             <Plus />
