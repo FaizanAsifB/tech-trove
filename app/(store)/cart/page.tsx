@@ -26,7 +26,7 @@ const CartPage = () => {
                 <CartItem key={product.id} product={product} />
               ))}
             </ul>
-            <div className="flex-1 bg-muted rounded-md p-4 space-y-4 grid ">
+            <div className="flex-1 bg-muted rounded-md p-4 space-y-4 grid self-start">
               <h4>Order Summary</h4>
               <Separator />
               <div className="flex justify-between">
