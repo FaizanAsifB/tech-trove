@@ -13,11 +13,16 @@ const CartPage = () => {
         {itemsInCart.length === 0 ? (
           <p>Your cart is empty.</p>
         ) : (
-          <ul>
-            {itemsInCart.map(product => (
-              <CartItem key={product.id} product={product} />
-            ))}
-          </ul>
+          <div className="flex gap-12 ">
+            <ul className="w-3/5">
+              {itemsInCart.map(product => (
+                <CartItem key={product.id} product={product} />
+              ))}
+            </ul>
+            <div className="border-2">
+              <h2>Order Summary</h2>
+            </div>
+          </div>
         )}
       </div>
     </section>

@@ -5,7 +5,7 @@ import { Separator } from '@/components/ui/separator'
 import useCart from '@/hooks/useCart'
 import { type CartItem } from '@/lib/definitions'
 import { formatter } from '@/lib/utils'
-import { X } from 'lucide-react'
+import { Minus, Plus, Trash2 } from 'lucide-react'
 import Image from 'next/image'
 import { useState } from 'react'
 
@@ -25,7 +25,7 @@ const CartItem = ({ product }: { product: CartItem }) => {
         setOpen={setIsOpen}
         deletedItem={product.title}
       />
-      <article className="flex gap-4">
+      <article className=" grid grid-cols-[1fr_2fr_2fr_1fr]  gap-4 ">
         <Image
           src={product.images[0].url}
           alt={product.title}
@@ -36,8 +36,7 @@ const CartItem = ({ product }: { product: CartItem }) => {
           <p>{product.title}</p>
           <p>{formatter.format(product.price)}</p>
         </div>
-        <div className="flex items-center gap-2">
-          <span>Quantity:</span>
+        <div className="flex items-center gap-2 relative">
           <Button
             onClick={() => {
               if (product.quantity === 1) {
@@ -47,28 +46,35 @@ const CartItem = ({ product }: { product: CartItem }) => {
                 decrementItem(product.id)
               }
             }}
+            variant={'ghost'}
+            className="absolute left-0 "
           >
-            -
+            <Minus />
           </Button>
           <Input
             inputMode="numeric"
             type="number"
-            className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+            className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none "
             value={product.quantity}
             onChange={e => {
               setQuantity(product.id, Number(e.target.value))
             }}
-            min={1}
           />
-          <Button onClick={() => incrementItem(product.id)}>+</Button>
+          <Button
+            onClick={() => incrementItem(product.id)}
+            variant={'ghost'}
+            className="absolute right-0"
+          >
+            <Plus />
+          </Button>
         </div>
         <Button
-          variant="destructive"
+          variant="ghost"
           size={'icon-sm'}
-          className="rounded-full shadow-lg bg-destructive text-destructive-foreground"
+          className="shadow-lg hover:text-destructive"
           onClick={() => setIsOpen(true)}
         >
-          <X />
+          <Trash2 />
         </Button>
       </article>
       <Separator />
