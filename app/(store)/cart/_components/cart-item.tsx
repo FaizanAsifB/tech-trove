@@ -9,6 +9,8 @@ import { Minus, Plus, Trash2 } from 'lucide-react'
 import Image from 'next/image'
 import { useState } from 'react'
 
+const disallowedSymbols = ['e', '+', '-', '.', 'E', ',']
+
 const CartItem = ({ product }: { product: CartItem }) => {
   const [isOpen, setIsOpen] = useState(false)
 
@@ -36,7 +38,7 @@ const CartItem = ({ product }: { product: CartItem }) => {
         </div>
         <div className="font-semibold">
           <p>{product.title}</p>
-          <p>{formatter.format(product.price)}</p>
+          <p>{formatter.format(product.price * product.quantity)}</p>
         </div>
         <div className="flex items-center relative max-w-32 rounded-md border border-foreground">
           <Button
@@ -59,8 +61,20 @@ const CartItem = ({ product }: { product: CartItem }) => {
             type="number"
             className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none px-12 text-center border-none"
             value={product.quantity}
-            onChange={e => {
-              setQuantity(product.id, Number(e.target.value))
+            onChange={e => setQuantity(product.id, Number(e.target.value))}
+            min="1"
+            step="1"
+            defaultValue={1}
+            onPaste={e => e.preventDefault()}
+            onKeyDown={e => {
+              if (
+                e.key === 'Backspace' ||
+                (e.key === 'Delete' && product.quantity < 10)
+              ) {
+                e.preventDefault()
+                setQuantity(product.id, 1)
+              }
+              disallowedSymbols.includes(e.key) && e.preventDefault()
             }}
           />
           <Button
