@@ -1,10 +1,17 @@
 'use client'
 
+import { Button } from '@/components/ui/button'
+import { Separator } from '@/components/ui/separator'
 import useCart from '@/hooks/useCart'
+import { formatter } from '@/lib/utils'
 import CartItem from './_components/cart-item'
 
 const CartPage = () => {
   const itemsInCart = useCart(state => state.items)
+  const totalPrice = itemsInCart.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0
+  )
 
   return (
     <section className="mt-8">
@@ -19,8 +26,14 @@ const CartPage = () => {
                 <CartItem key={product.id} product={product} />
               ))}
             </ul>
-            <div className="border-2 flex-1">
-              <h2>Order Summary</h2>
+            <div className="flex-1 bg-muted rounded-md p-4 space-y-4 grid ">
+              <h4>Order Summary</h4>
+              <Separator />
+              <div className="flex justify-between">
+                <p>Grand Total</p>
+                <p>{formatter.format(totalPrice)}</p>
+              </div>
+              <Button>Checkout</Button>
             </div>
           </div>
         )}
