@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import useCart from '@/hooks/useCart'
 import { formatter } from '@/lib/utils'
+import Link from 'next/link'
 import CartItem from './_components/cart-item'
 
 const CartPage = () => {
@@ -33,7 +34,9 @@ const CartPage = () => {
                 <p>Grand Total</p>
                 <p>{formatter.format(totalPrice)}</p>
               </div>
-              <Button>Checkout</Button>
+              <Button asChild>
+                <Link href="/checkout">Checkout</Link>
+              </Button>
             </div>
           </div>
         )}
