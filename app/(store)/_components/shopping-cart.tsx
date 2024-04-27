@@ -1,5 +1,6 @@
 'use client'
 
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import useCart from '@/hooks/useCart'
 import { ShoppingCart as ShoppingCartIcon } from 'lucide-react'
@@ -14,10 +15,18 @@ const ShoppingCart = () => {
   )
 
   return (
-    <Button variant={'icon'} size={'icon'} asChild>
+    <Button variant={'icon'} size={'icon'} asChild className="relative z-10">
       <Link href={'/cart'}>
-        <ShoppingCartIcon />
-        {itemsInCart.length > 0 && <span>{totalQuantity}</span>}
+        <ShoppingCartIcon size={32} />
+        {itemsInCart.length > 0 && (
+          <Badge
+            variant="default"
+            aria-label="Total items in cart"
+            className="absolute top-0 right-0 rounded-full  w-fit aspect-square p-0.5 translate-x-1/2 -translate-y-1/2"
+          >
+            {totalQuantity}
+          </Badge>
+        )}
       </Link>
     </Button>
   )
