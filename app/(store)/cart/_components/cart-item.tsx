@@ -64,7 +64,6 @@ const CartItem = ({ product }: { product: CartItem }) => {
             onChange={e => setQuantity(product.id, Number(e.target.value))}
             min="1"
             step="1"
-            defaultValue={1}
             onPaste={e => e.preventDefault()}
             onKeyDown={e => {
               if (
