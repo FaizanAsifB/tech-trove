@@ -42,8 +42,6 @@ model Product {
   price       Decimal
   isFeatured  Boolean   @default(false)
   isArchived  Boolean   @default(false)
-  // size        String
-  // color       String
   images      Image[]   @relation("ProductToImage")
   orderItems  OrderItem[]   // Relation to Order model
   createdAt   DateTime  @default(now())

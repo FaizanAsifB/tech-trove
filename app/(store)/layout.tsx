@@ -1,4 +1,5 @@
 import '@/app/globals.css'
+import { Toaster } from '@/components/ui/sonner'
 import { cn } from '@/lib/utils'
 import { ClerkProvider } from '@clerk/nextjs'
 import type { Metadata } from 'next'
@@ -31,6 +32,8 @@ export default function RootLayout({
             fontSans.variable
           )}
         >
+          <Toaster richColors />
+
           <Header />
           <main className="flex-1 space-y-16 flex flex-col">{children}</main>
           <Footer />

@@ -1,21 +1,29 @@
+'use client'
+
+import { useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
+import { toast } from 'sonner'
 
-const CheckoutResultPage = ({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined }
-}) => {
-  if (searchParams['success']) {
-    console.log('Order placed! You will receive an email confirmation.')
-  }
+const CheckoutResultPage = () => {
+  const searchParams = useSearchParams()
 
-  if (searchParams['canceled']) {
-    console.log(
-      'Order canceled -- continue to shop around and checkout when you’re ready.'
-    )
-  }
+  useEffect(() => {
+    if (searchParams.get('success')) {
+      toast.success('Order placed! You will receive an email confirmation.')
+    }
 
-  return <div>CheckoutResultPage</div>
+    if (searchParams.get('canceled')) {
+      toast.error(
+        'Order canceled -- continue to shop around and checkout when you’re ready.'
+      )
+    }
+  }, [searchParams])
+
+  return (
+    <section>
+      <div className="container">CheckoutResultPage</div>
+    </section>
+  )
 }
 
 export default CheckoutResultPage

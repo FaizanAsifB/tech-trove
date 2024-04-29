@@ -25,6 +25,10 @@ export async function POST(req: NextRequest, res: NextResponse) {
       payment_method_types: ['card'],
       line_items: lineItems,
       mode: 'payment',
+      billing_address_collection: 'required',
+      phone_number_collection: {
+        enabled: true,
+      },
       success_url: `${headersList.get(
         'origin'
       )}/checkout/{CHECKOUT_SESSION_ID}?success=true`,
