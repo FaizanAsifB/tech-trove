@@ -1,38 +1,42 @@
 import { CartItem, ProductWithImages } from '@/lib/definitions'
+import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
 
 type CartState = {
   items: CartItem[]
-  addItem: (id: string) => void
+  addItem: (data: ProductWithImages) => void
   deleteItem: (id: string) => void
   incrementItem: (id: string) => void
   setQuantity: (id: string, quantity: number) => void
   decrementItem: (id: string) => void
+  deleteAll: () => void
 }
 
 const useCart = create<CartState>()(
   persist(
     (set, get) => ({
       items: [],
-      addItem: id => {
+      addItem: data => {
         const currentItems = get().items
-        const existingItem = currentItems.find(item => item.id === id)
+        const existingItem = currentItems.find(item => item.id === data.id)
+
+        console.log(currentItems)
 
         if (existingItem) {
           set({
             items: [
-              ...currentItems.filter(item => item.id !== id),
+              ...currentItems.filter(item => item.id !== data.id),
               { ...existingItem, quantity: existingItem.quantity + 1 },
             ],
           })
         }
 
         if (!existingItem) {
-          set({ items: [...currentItems, { id, quantity: 1 }] })
+          set({ items: [...currentItems, { ...data, quantity: 1 }] })
         }
-        return toast.success('Item added to cart')
+        return toast.success(`${data.title} added to cart`)
       },
       deleteItem: id => {
         set(state => ({ items: state.items.filter(item => item.id !== id) }))
@@ -42,7 +46,7 @@ const useCart = create<CartState>()(
       setQuantity: (id, quantity) => {
         set(state => ({
           items: state.items.map(item =>
-            item.id === id ? { id, quantity } : item
+            item.id === id ? { ...item, quantity } : item
           ),
         }))
       },
@@ -53,7 +57,7 @@ const useCart = create<CartState>()(
           set({
             items: [
               ...currentItems.filter(item => item.id !== id),
-              { id, quantity: existingItem.quantity + 1 },
+              { ...existingItem, quantity: existingItem.quantity + 1 },
             ],
           })
         }
@@ -65,7 +69,7 @@ const useCart = create<CartState>()(
           set({
             items: [
               ...currentItems.filter(item => item.id !== id),
-              { id, quantity: existingItem.quantity - 1 },
+              { ...existingItem, quantity: existingItem.quantity - 1 },
             ],
           })
         }
@@ -73,7 +77,7 @@ const useCart = create<CartState>()(
           get().deleteItem(id)
         }
       },
-      removeAll: () => set({ items: [] }),
+      deleteAll: () => set({ items: [] }),
     }),
     {
       name: 'cart-store',

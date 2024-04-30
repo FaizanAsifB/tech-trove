@@ -1,3 +1,5 @@
+'use server'
+
 import prismaDb from './prisma'
 
 export const fetchCategories = async () =>
@@ -68,6 +70,27 @@ export const fetchFilteredProducts = async (categories: string[] | string) => {
     },
   })
 
+  return products
+}
+
+export const fetchProductsById = async (ids: string[]) => {
+  const products = await prismaDb.product.findMany({
+    where: {
+      id: {
+        in: ids,
+      },
+    },
+    include: {
+      images: {
+        orderBy: {
+          id: 'desc',
+        },
+      },
+    },
+    orderBy: {
+      updatedAt: 'desc',
+    },
+  })
   return products
 }
 

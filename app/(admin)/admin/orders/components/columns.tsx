@@ -55,7 +55,7 @@ export const columns: ColumnDef<OrderColumn>[] = [
       )
     },
     cell: ({ row }) => {
-      const formatted = formattedDate(row.getValue('createdAt'))
+      const formatted = formattedDate(new Date(row.getValue('createdAt')))
 
       return <div>{formatted}</div>
     },

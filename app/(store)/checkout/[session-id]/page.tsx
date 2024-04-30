@@ -1,6 +1,7 @@
 'use client'
 
 import { Separator } from '@/components/ui/separator'
+import useCart from '@/hooks/useCart'
 import { CheckIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -10,6 +11,7 @@ import { toast } from 'sonner'
 
 const CheckoutResultPage = () => {
   const searchParams = useSearchParams()
+  const deleteAll = useCart(state => state.deleteAll)
 
   useEffect(() => {
     if (searchParams.get('success')) {
@@ -20,8 +22,9 @@ const CheckoutResultPage = () => {
       toast.error(
         'Order canceled -- continue to shop around and checkout when you’re ready.'
       )
+      deleteAll()
     }
-  }, [searchParams])
+  }, [searchParams, deleteAll])
 
   return (
     <section>
