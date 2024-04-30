@@ -32,12 +32,8 @@ export async function POST(req: NextRequest, res: NextResponse) {
       success_url: `${headersList.get(
         'origin'
       )}/checkout/{CHECKOUT_SESSION_ID}?success=true`,
-      cancel_url: `${headersList.get(
-        'origin'
-      )}/checkout/{CHECKOUT_SESSION_ID}?canceled=true`,
+      cancel_url: `${headersList.get('origin')}/cart?canceled=true`,
     })
-
-    console.log('Session created:', session.id)
 
     return NextResponse.json({ sessionId: session.id })
   } catch (err) {

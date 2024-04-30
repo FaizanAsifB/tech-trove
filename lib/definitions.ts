@@ -80,4 +80,4 @@ export type FormattedProduct = Omit<Product, 'price'> & { price: number }
 
 export type ProductWithImages = FormattedProduct & { images: Image[] }
 
-export type CartItem = ProductWithImages & { quantity: number }
+export type CartItem = { id: string; quantity: number }

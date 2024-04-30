@@ -1,12 +1,11 @@
 import { CartItem, ProductWithImages } from '@/lib/definitions'
-import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
 
 type CartState = {
   items: CartItem[]
-  addItem: (data: ProductWithImages) => void
+  addItem: (id: string) => void
   deleteItem: (id: string) => void
   incrementItem: (id: string) => void
   setQuantity: (id: string, quantity: number) => void
@@ -17,25 +16,23 @@ const useCart = create<CartState>()(
   persist(
     (set, get) => ({
       items: [],
-      addItem: data => {
+      addItem: id => {
         const currentItems = get().items
-        const existingItem = currentItems.find(item => item.id === data.id)
-
-        console.log(currentItems)
+        const existingItem = currentItems.find(item => item.id === id)
 
         if (existingItem) {
           set({
             items: [
-              ...currentItems.filter(item => item.id !== data.id),
+              ...currentItems.filter(item => item.id !== id),
               { ...existingItem, quantity: existingItem.quantity + 1 },
             ],
           })
         }
 
         if (!existingItem) {
-          set({ items: [...currentItems, { ...data, quantity: 1 }] })
+          set({ items: [...currentItems, { id, quantity: 1 }] })
         }
-        return toast.success(`${data.title} added to cart`)
+        return toast.success('Item added to cart')
       },
       deleteItem: id => {
         set(state => ({ items: state.items.filter(item => item.id !== id) }))
@@ -45,7 +42,7 @@ const useCart = create<CartState>()(
       setQuantity: (id, quantity) => {
         set(state => ({
           items: state.items.map(item =>
-            item.id === id ? { ...item, quantity } : item
+            item.id === id ? { id, quantity } : item
           ),
         }))
       },
@@ -56,7 +53,7 @@ const useCart = create<CartState>()(
           set({
             items: [
               ...currentItems.filter(item => item.id !== id),
-              { ...existingItem, quantity: existingItem.quantity + 1 },
+              { id, quantity: existingItem.quantity + 1 },
             ],
           })
         }
@@ -68,7 +65,7 @@ const useCart = create<CartState>()(
           set({
             items: [
               ...currentItems.filter(item => item.id !== id),
-              { ...existingItem, quantity: existingItem.quantity - 1 },
+              { id, quantity: existingItem.quantity - 1 },
             ],
           })
         }

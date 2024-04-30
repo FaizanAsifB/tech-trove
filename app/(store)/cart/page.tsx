@@ -7,12 +7,15 @@ import getStripe from '@/lib/load-stripe'
 import { formatter } from '@/lib/utils'
 import axios from 'axios'
 import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
+import { toast } from 'sonner'
 import CartItem from './_components/cart-item'
 
 const loadStripe = getStripe()
 
 const CartPage = () => {
+  const searchParams = useSearchParams()
   const cartItems = useCart(state => state.items)
   const cartCount = cartItems.length
   const totalPrice = cartItems.reduce(
@@ -44,6 +47,14 @@ const CartPage = () => {
       console.error(error)
     }
   }
+
+  useEffect(() => {
+    if (searchParams.get('canceled')) {
+      toast.error(
+        'Order canceled -- continue to shop around and checkout when you’re ready.'
+      )
+    }
+  }, [searchParams])
 
   return (
     <section className="mt-8">
