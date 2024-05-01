@@ -59,9 +59,9 @@ export async function POST(req: NextRequest, res: NextResponse) {
       phone_number_collection: {
         enabled: true,
       },
-      success_url: `${headersList.get(
-        'origin'
-      )}/checkout/{CHECKOUT_SESSION_ID}?success=true`,
+      success_url: `${headersList.get('origin')}/checkout/${
+        order.id
+      }?success=true`,
       cancel_url: `${headersList.get('origin')}/cart?canceled=true`,
       metadata: { orderId: order.id },
     })
