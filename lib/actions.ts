@@ -1,5 +1,6 @@
 'use server'
 
+import { Image } from '@prisma/client'
 import cloudinary from 'cloudinary'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
@@ -89,25 +90,10 @@ export async function updateCategory(
   formData: {
     title: string
     images: { url: string; public_id: string; isPrimary: boolean }[]
-  }
+  },
+  initialImages: Image[]
 ) {
-  let validatedFields
-
-  if (formData.images.length === 0) {
-    validatedFields = CategoryTitleOnly.safeParse(formData)
-  }
-
-  if (formData.images.length > 0) {
-    validatedFields = CategoryFormSchema.safeParse(formData)
-  }
-
-  if (!validatedFields) {
-    return {
-      message: 'Missing Fields. Failed to Update Category.',
-    }
-  }
-
-  console.log(validatedFields)
+  const validatedFields = CategoryFormSchema.safeParse(formData)
 
   if (!validatedFields.success) {
     return {
@@ -115,10 +101,15 @@ export async function updateCategory(
       message: 'Missing Fields. Failed to Create Category.',
     }
   }
-
   const { title, images } = validatedFields.data
 
-  console.log({ title })
+  const newImages = images.filter(
+    img =>
+      initialImages.find(
+        initialImg => initialImg.public_id === img.public_id
+      ) === undefined
+  )
+  console.log(newImages)
 
   try {
     await prismaDb.category.update({
@@ -129,7 +120,7 @@ export async function updateCategory(
         title,
         images: {
           createMany: {
-            data: images.map(image => ({ ...image, productId: null })),
+            data: newImages.map(image => ({ ...image, productId: null })),
           },
         },
       },

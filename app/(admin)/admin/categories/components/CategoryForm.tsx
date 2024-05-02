@@ -45,18 +45,14 @@ const CategoryForm = ({ initialData }: CategoryFormProps) => {
   async function handleSubmit(data: CategoryFormValues) {
     try {
       if (initialData) {
-        const newImages = data.images.filter(
-          newImage =>
-            !initialData.images
-              .map(img => img.public_id)
-              .includes(newImage.public_id)
+        await updateCategory(
+          params.categoryId as string,
+          {
+            title: data.title,
+            images: data.images,
+          },
+          initialData.images
         )
-
-        const updatedData = {
-          title: data.title,
-          images: newImages,
-        }
-        await updateCategory(params.categoryId as string, updatedData)
         const primaryImg = data.images.filter(img => img.isPrimary)[0]
         if (
           primaryImg.public_id !==
@@ -68,7 +64,7 @@ const CategoryForm = ({ initialData }: CategoryFormProps) => {
         await createCategory(data)
       }
       toast.success(toastMessage)
-      // router.push('/admin/categories')
+      router.push('/admin/categories')
     } catch (error) {
       toast.error('An Error Occurred')
       console.log(error)
@@ -117,7 +113,10 @@ const CategoryForm = ({ initialData }: CategoryFormProps) => {
               </FormItem>
             )}
           />
-          <Button type="submit" disabled={form.formState.isSubmitting}>
+          <Button
+            type="submit"
+            disabled={form.formState.isSubmitting || form.formState.isSubmitted}
+          >
             {action}
           </Button>
         </form>
