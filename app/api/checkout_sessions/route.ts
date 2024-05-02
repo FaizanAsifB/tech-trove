@@ -40,6 +40,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
       isPaid: false,
       orderItems: {
         create: cartItemData.map(product => ({
+          quantity: product.quantity,
           product: {
             connect: {
               id: product.id,

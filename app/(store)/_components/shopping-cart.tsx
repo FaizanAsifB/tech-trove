@@ -22,7 +22,7 @@ const ShoppingCart = () => {
           <Badge
             variant="default"
             aria-label="Total items in cart"
-            className="absolute top-0 right-0 rounded-full  w-fit aspect-square p-0.5 translate-x-1/2 -translate-y-1/2"
+            className="absolute top-0 right-0 rounded-full min-w-6 px-1.5  translate-x-1/2 -translate-y-1/2 flex items-center justify-center"
           >
             {totalQuantity}
           </Badge>
