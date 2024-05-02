@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { fetchOrder } from '@/lib/queries'
+import { formatter } from '@/lib/utils'
 import { CheckIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -16,7 +17,13 @@ const CheckoutResultPage = async ({
   const order = await fetchOrder(orderId)
   const orderItems = order?.orderItems
 
-  console.log(order?.orderItems)
+  if (!orderItems) {
+    return null
+  }
+
+  const totalPrice = orderItems.reduce((total, item) => {
+    return total + Number(item.product.price) * item.quantity
+  }, 0)
 
   return (
     <section>
@@ -45,7 +52,10 @@ const CheckoutResultPage = async ({
             </div>
             <div className="p-6 space-y-4">
               {orderItems?.map(orderItem => {
-                const { product } = orderItem
+                const product = {
+                  ...orderItem.product,
+                  price: parseFloat(String(orderItem.product.price)),
+                }
                 return (
                   <div
                     key={product.id}
@@ -72,7 +82,7 @@ const CheckoutResultPage = async ({
                     </div>
                     <div className="text-right">
                       <p className="font-medium">
-                        {parseFloat(String(product.price))}
+                        {formatter.format(parseFloat(String(product.price)))}
                       </p>
                     </div>
                   </div>
@@ -82,7 +92,9 @@ const CheckoutResultPage = async ({
               <Separator />
               <div className="flex items-center justify-between">
                 <p className="font-medium">Total</p>
-                <p className="font-medium text-2xl">$148.00</p>
+                <p className="font-medium text-2xl">
+                  {formatter.format(totalPrice)}
+                </p>
               </div>
             </div>
           </div>

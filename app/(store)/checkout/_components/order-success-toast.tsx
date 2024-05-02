@@ -12,13 +12,13 @@ const OrderSuccessToast = () => {
   useEffect(() => {
     if (searchParams.get('success')) {
       toast.success('Order placed! You will receive an email confirmation.')
+      deleteAll()
     }
 
     if (searchParams.get('canceled')) {
       toast.error(
         'Order canceled -- continue to shop around and checkout when you’re ready.'
       )
-      deleteAll()
     }
   }, [searchParams, deleteAll])
 
