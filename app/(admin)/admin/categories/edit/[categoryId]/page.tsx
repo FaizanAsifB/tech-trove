@@ -7,7 +7,7 @@ const EditCategoryPage = async ({
   params: { categoryId: string }
 }) => {
   const { categoryId } = params
-  const category = await prismaDb.category.findUnique({
+  const category = await prismaDb.category.findFirst({
     where: {
       id: categoryId,
     },

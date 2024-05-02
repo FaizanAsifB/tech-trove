@@ -25,6 +25,10 @@ export const CategoryFormSchema = z
     }
   )
 
+export const CategoryTitleOnly = z.object({
+  title: z.string().trim().min(1, 'Title is required').max(50),
+})
+
 export type CategoryFormValues = z.infer<typeof CategoryFormSchema>
 
 export const ProductFormSchema = z

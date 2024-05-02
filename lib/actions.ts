@@ -6,6 +6,7 @@ import { redirect } from 'next/navigation'
 import {
   CategoryFormSchema,
   CategoryFormValues,
+  CategoryTitleOnly,
   ProductFormSchema,
   ProductFormValues,
   ProductUpdateSchema,
@@ -90,7 +91,23 @@ export async function updateCategory(
     images: { url: string; public_id: string; isPrimary: boolean }[]
   }
 ) {
-  const validatedFields = CategoryFormSchema.safeParse(formData)
+  let validatedFields
+
+  if (formData.images.length === 0) {
+    validatedFields = CategoryTitleOnly.safeParse(formData)
+  }
+
+  if (formData.images.length > 0) {
+    validatedFields = CategoryFormSchema.safeParse(formData)
+  }
+
+  if (!validatedFields) {
+    return {
+      message: 'Missing Fields. Failed to Update Category.',
+    }
+  }
+
+  console.log(validatedFields)
 
   if (!validatedFields.success) {
     return {
@@ -100,6 +117,8 @@ export async function updateCategory(
   }
 
   const { title, images } = validatedFields.data
+
+  console.log({ title })
 
   try {
     await prismaDb.category.update({
