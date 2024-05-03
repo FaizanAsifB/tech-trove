@@ -172,3 +172,23 @@ export const fetchOrder = async (id: string) => {
   })
   return order
 }
+
+export const fetchOrders = async (userId: string) => {
+  const order = await prismaDb.order.findMany({
+    where: {
+      userId,
+    },
+    include: {
+      orderItems: {
+        include: {
+          product: {
+            include: {
+              images: true,
+            },
+          },
+        },
+      },
+    },
+  })
+  return order
+}
