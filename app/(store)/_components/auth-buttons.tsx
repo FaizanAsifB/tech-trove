@@ -7,7 +7,7 @@ const AuthButtons = () => {
   return (
     <>
       <SignedIn>
-        <Link href={'/orders'}>My Orders</Link>
+        <Link href={'/orders'}>Orders</Link>
         {checkRole('admin') ? <Link href={'/admin'}>Dashboard</Link> : null}
         <UserButton />
       </SignedIn>

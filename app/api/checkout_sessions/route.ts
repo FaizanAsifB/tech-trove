@@ -2,11 +2,13 @@ import { CartItem } from '@/lib/definitions'
 import prismaDb from '@/lib/prisma'
 import { fetchProductsById } from '@/lib/queries'
 import stripe from '@/lib/stripe'
+import { auth } from '@clerk/nextjs/server'
 import { headers } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(req: NextRequest, res: NextResponse) {
   const headersList = headers()
+  const { userId } = auth()
   const { cartItemData }: { cartItemData: { id: string; quantity: number }[] } =
     await req.json()
 
@@ -38,6 +40,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
   const order = await prismaDb.order.create({
     data: {
       isPaid: false,
+      userId: userId ?? '',
       orderItems: {
         create: cartItemData.map(product => ({
           quantity: product.quantity,
