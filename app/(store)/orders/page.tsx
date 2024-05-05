@@ -5,7 +5,9 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion'
 import { fetchOrders } from '@/lib/queries'
+import { formatter } from '@/lib/utils'
 import { auth } from '@clerk/nextjs/server'
+import Image from 'next/image'
 
 const OrdersPage = async () => {
   const { userId } = auth()
@@ -13,7 +15,7 @@ const OrdersPage = async () => {
   if (!userId) return null
 
   const orders = await fetchOrders(userId)
-  console.log(userId)
+
   return (
     <section>
       <div className="container">
@@ -30,14 +32,38 @@ const OrdersPage = async () => {
                     <AccordionTrigger>
                       <div className="w-full flex justify-between">
                         <p>Order Number {order.id}</p>
-                        <p>
-                          Order Date{' '}
-                          {order.createdAt.toISOString().split('T')[0]}
-                        </p>
                       </div>
                     </AccordionTrigger>
                     <AccordionContent>
-                      {order.createdAt.toLocaleString()}
+                      <ul>
+                        <li>
+                          {order.orderItems.map(orderItem => (
+                            <article
+                              key={orderItem.productId}
+                              className="flex items-center gap-2"
+                            >
+                              <div className="relative size-24 ">
+                                <Image
+                                  src={orderItem.product.images[0].url}
+                                  alt={orderItem.product.title}
+                                  fill
+                                  className="object-contain"
+                                />
+                              </div>
+                              <div>
+                                <p>{orderItem.product.title}</p>
+                                <p>
+                                  {orderItem.quantity} x{''}
+                                  {formatter.format(
+                                    parseFloat(String(orderItem.product.price))
+                                  )}
+                                </p>
+                              </div>
+                            </article>
+                          ))}
+                        </li>
+                        <li>Order Date {order.createdAt.toLocaleString()}</li>
+                      </ul>
                     </AccordionContent>
                   </AccordionItem>
                 </Accordion>
