@@ -1,16 +1,16 @@
+'use client'
+
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import useCart from '@/hooks/useCart'
 import getStripe from '@/lib/load-stripe'
 import { formatter } from '@/lib/utils'
-import { useSearchParams } from 'next/navigation'
-import { useEffect } from 'react'
-import { toast } from 'sonner'
+import { useState } from 'react'
 
 const loadStripe = getStripe()
 
 const OrderSummary = () => {
-  const searchParams = useSearchParams()
+  const [isLoading, setIsLoading] = useState(false)
 
   const cartItems = useCart(state => state.items)
   const cartCount = cartItems.length
@@ -20,15 +20,8 @@ const OrderSummary = () => {
     0
   )
 
-  useEffect(() => {
-    if (searchParams.get('canceled')) {
-      toast.error(
-        'Order canceled -- continue to shop around and checkout when you&apos;re ready.'
-      )
-    }
-  }, [searchParams])
-
   const redirectToCheckout = async () => {
+    setIsLoading(true)
     const cartItemData = cartItems.map(item => {
       return { id: item.id, quantity: item.quantity }
     })
@@ -67,7 +60,7 @@ const OrderSummary = () => {
       <Button
         className="rounded-full"
         onClick={() => cartCount > 0 && redirectToCheckout()}
-        disabled={cartCount === 0}
+        disabled={cartCount === 0 || isLoading === true}
       >
         Checkout
       </Button>

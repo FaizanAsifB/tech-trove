@@ -173,6 +173,15 @@ export const fetchOrder = async (id: string) => {
   return order
 }
 
+export const deleteOrder = async (id: string) => {
+  const order = await prismaDb.order.delete({
+    where: {
+      id,
+    },
+  })
+  return order
+}
+
 export const fetchOrders = async (userId: string) => {
   const order = await prismaDb.order.findMany({
     where: {
@@ -188,6 +197,18 @@ export const fetchOrders = async (userId: string) => {
           },
         },
       },
+    },
+  })
+  return order
+}
+
+export const fetchOrderById = async (id: string) => {
+  const order = await prismaDb.order.findFirst({
+    where: {
+      id,
+    },
+    select: {
+      id: true,
     },
   })
   return order

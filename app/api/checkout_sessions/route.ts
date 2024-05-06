@@ -3,6 +3,7 @@ import prismaDb from '@/lib/prisma'
 import { fetchProductsById } from '@/lib/queries'
 import stripe from '@/lib/stripe'
 import { auth } from '@clerk/nextjs/server'
+import { Image } from '@prisma/client'
 import { headers } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -12,8 +13,10 @@ export async function POST(req: NextRequest, res: NextResponse) {
   const {
     cartItemData,
     totalPrice,
-  }: { cartItemData: { id: string; quantity: number }[]; totalPrice: number } =
-    await req.json()
+  }: {
+    cartItemData: { id: string; quantity: number }[]
+    totalPrice: number
+  } = await req.json()
 
   const products = await fetchProductsById(cartItemData.map(item => item.id))
 
@@ -24,6 +27,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
   const formattedProducts = products.map(item => ({
     title: item.title,
     price: item.price.toNumber() * 100,
+    images: item.images[0].url,
     quantity: cartItemData.find(cartItem => cartItem.id === item.id)!.quantity,
   }))
 
@@ -33,6 +37,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
         currency: 'USD',
         product_data: {
           name: item.title,
+          images: [item.images],
         },
         unit_amount: item.price,
       },
@@ -67,10 +72,13 @@ export async function POST(req: NextRequest, res: NextResponse) {
       phone_number_collection: {
         enabled: true,
       },
+
       success_url: `${headersList.get('origin')}/checkout/${
         order.id
       }?success=true`,
-      cancel_url: `${headersList.get('origin')}/cart?canceled=true`,
+      cancel_url: `${headersList.get('origin')}/cart?canceled=true&id=${
+        order.id
+      }`,
       metadata: { orderId: order.id },
     })
 

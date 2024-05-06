@@ -1,29 +1,24 @@
-'use client'
-
-import useCart from '@/hooks/useCart'
-
-import CartItem from './_components/cart-item'
+import { deleteOrder, fetchOrderById } from '@/lib/queries'
+import CartItemsList from './_components/cart-items-list'
 import OrderSummary from './_components/order-summary'
 
-const CartPage = () => {
-  const cartItems = useCart(state => state.items)
+const CartPage = async ({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined }
+}) => {
+  const idToDelete = searchParams?.id
+  const currentOrder = await fetchOrderById(idToDelete as string)
+  if (idToDelete && currentOrder) {
+    await deleteOrder(idToDelete as string)
+  }
 
   return (
     <section className="mt-8">
       <div className="container">
-        <h1 className="mb-8">Shopping Cart</h1>
-        {cartItems.length === 0 ? (
-          <p>Your cart is empty.</p>
-        ) : (
-          <div className="flex gap-12 ">
-            <ul className="w-3/5 space-y-4">
-              {cartItems.map(product => (
-                <CartItem key={product.id} product={product} />
-              ))}
-            </ul>
-            <OrderSummary />
-          </div>
-        )}
+        <CartItemsList>
+          <OrderSummary />
+        </CartItemsList>
       </div>
     </section>
   )
