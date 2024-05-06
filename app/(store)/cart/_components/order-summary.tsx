@@ -1,8 +1,8 @@
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import useCart from '@/hooks/useCart'
-import { formatter } from '@/lib/utils'
 import getStripe from '@/lib/load-stripe'
+import { formatter } from '@/lib/utils'
 import { useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
 import { toast } from 'sonner'
@@ -23,7 +23,7 @@ const OrderSummary = () => {
   useEffect(() => {
     if (searchParams.get('canceled')) {
       toast.error(
-        'Order canceled -- continue to shop around and checkout when you’re ready.'
+        'Order canceled -- continue to shop around and checkout when you&apos;re ready.'
       )
     }
   }, [searchParams])
@@ -42,7 +42,7 @@ const OrderSummary = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ cartItemData }),
+        body: JSON.stringify({ cartItemData, totalPrice }),
       })
 
       const { sessionId } = await checkoutResponse.json()

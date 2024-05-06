@@ -55,6 +55,7 @@ model Order {
   userId    String?
   user       User?     @relation(fields:[userId], references: [userId])
   orderItems OrderItem[] // Relation to OrderItem model
+  totalPrice Decimal
   isPaid     Boolean   @default(false)
   phone      String    @default("")
   address    String    @default("")

@@ -9,7 +9,10 @@ import { NextRequest, NextResponse } from 'next/server'
 export async function POST(req: NextRequest, res: NextResponse) {
   const headersList = headers()
   const { userId } = auth()
-  const { cartItemData }: { cartItemData: { id: string; quantity: number }[] } =
+  const {
+    cartItemData,
+    totalPrice,
+  }: { cartItemData: { id: string; quantity: number }[]; totalPrice: number } =
     await req.json()
 
   const products = await fetchProductsById(cartItemData.map(item => item.id))
@@ -41,6 +44,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     data: {
       isPaid: false,
       userId: userId ?? '',
+      totalPrice: totalPrice,
       orderItems: {
         create: cartItemData.map(product => ({
           quantity: product.quantity,

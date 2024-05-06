@@ -8,6 +8,7 @@ import { fetchOrders } from '@/lib/queries'
 import { formatter } from '@/lib/utils'
 import { auth } from '@clerk/nextjs/server'
 import Image from 'next/image'
+import { OrderInfoRow } from './_components/OrderInfoRow'
 
 const OrdersPage = async () => {
   const { userId } = auth()
@@ -35,10 +36,10 @@ const OrdersPage = async () => {
                       </div>
                     </AccordionTrigger>
                     <AccordionContent>
-                      <ul>
+                      <ul className="space-y-2 ">
                         <li>
                           {order.orderItems.map(orderItem => (
-                            <article
+                            <div
                               key={orderItem.productId}
                               className="flex items-center gap-2"
                             >
@@ -53,16 +54,33 @@ const OrdersPage = async () => {
                               <div>
                                 <p>{orderItem.product.title}</p>
                                 <p>
-                                  {orderItem.quantity} x{''}
+                                  {orderItem.quantity} x{' '}
                                   {formatter.format(
                                     parseFloat(String(orderItem.product.price))
                                   )}
                                 </p>
                               </div>
-                            </article>
+                            </div>
                           ))}
                         </li>
-                        <li>Order Date {order.createdAt.toLocaleString()}</li>
+                        <OrderInfoRow
+                          title={'Order Date'}
+                          data={order.createdAt.toLocaleString()}
+                        />
+                        <OrderInfoRow
+                          title={'Delivery Address'}
+                          data={order.address}
+                        />
+                        <OrderInfoRow
+                          title={'Status'}
+                          data={order.isPaid ? 'Paid' : 'Unpaid'}
+                        />
+                        <OrderInfoRow
+                          title={'Total Price'}
+                          data={formatter.format(
+                            parseFloat(String(order.totalPrice))
+                          )}
+                        />
                       </ul>
                     </AccordionContent>
                   </AccordionItem>
