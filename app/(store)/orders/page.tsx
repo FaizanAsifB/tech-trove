@@ -32,7 +32,7 @@ const OrdersPage = async () => {
                   <AccordionItem value="item-1">
                     <AccordionTrigger>
                       <div className="w-full flex justify-between">
-                        <p>Order Number {order.id}</p>
+                        <p>Order Number {order.orderNr}</p>
                       </div>
                     </AccordionTrigger>
                     <AccordionContent>
