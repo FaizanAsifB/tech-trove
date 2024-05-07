@@ -52,7 +52,7 @@ model Product {
 
 model Order {
   id        String    @id @default(uuid())
-  orderNr   Int?       @default(356874) @unique
+  orderNr   Int       @default(autoincrement())
   userId    String?
   user       User?     @relation(fields:[userId], references: [userId])
   orderItems OrderItem[] // Relation to OrderItem model

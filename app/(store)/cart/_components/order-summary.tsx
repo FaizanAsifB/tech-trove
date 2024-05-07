@@ -45,6 +45,8 @@ const OrderSummary = () => {
         console.error(stripeError);
       }
     } catch (error) {
+      setIsLoading(false);
+
       console.error(error);
     }
   };
