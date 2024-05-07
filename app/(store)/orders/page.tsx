@@ -3,19 +3,19 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@/components/ui/accordion'
-import { fetchOrders } from '@/lib/queries'
-import { formatter } from '@/lib/utils'
-import { auth } from '@clerk/nextjs/server'
-import Image from 'next/image'
-import { OrderInfoRow } from './_components/OrderInfoRow'
+} from "@/components/ui/accordion";
+import { fetchOrders } from "@/lib/queries";
+import { formatter } from "@/lib/utils";
+import { auth } from "@clerk/nextjs/server";
+import Image from "next/image";
+import { OrderInfoRow } from "./_components/OrderInfoRow";
 
 const OrdersPage = async () => {
-  const { userId } = auth()
+  const { userId } = auth();
 
-  if (!userId) return null
+  if (!userId) return null;
 
-  const orders = await fetchOrders(userId)
+  const orders = await fetchOrders(userId);
 
   return (
     <section>
@@ -25,20 +25,20 @@ const OrdersPage = async () => {
         {orders.length === 0 ? (
           <p>No orders found.</p>
         ) : (
-          <ul>
-            {orders.map(order => (
+          <ul className="mx-auto max-w-2xl text-center">
+            {orders.map((order) => (
               <li key={order.id}>
                 <Accordion type="single" collapsible>
                   <AccordionItem value="item-1">
                     <AccordionTrigger>
-                      <div className="w-full flex justify-between">
+                      <div className="flex w-full justify-between">
                         <p>Order Number {order.orderNr}</p>
                       </div>
                     </AccordionTrigger>
                     <AccordionContent>
                       <ul className="space-y-2 ">
                         <li>
-                          {order.orderItems.map(orderItem => (
+                          {order.orderItems.map((orderItem) => (
                             <div
                               key={orderItem.productId}
                               className="flex items-center gap-2"
@@ -54,9 +54,9 @@ const OrdersPage = async () => {
                               <div>
                                 <p>{orderItem.product.title}</p>
                                 <p>
-                                  {orderItem.quantity} x{' '}
+                                  {orderItem.quantity} x{" "}
                                   {formatter.format(
-                                    parseFloat(String(orderItem.product.price))
+                                    parseFloat(String(orderItem.product.price)),
                                   )}
                                 </p>
                               </div>
@@ -64,21 +64,21 @@ const OrdersPage = async () => {
                           ))}
                         </li>
                         <OrderInfoRow
-                          title={'Order Date'}
+                          title={"Order Date"}
                           data={order.createdAt.toLocaleString()}
                         />
                         <OrderInfoRow
-                          title={'Delivery Address'}
+                          title={"Delivery Address"}
                           data={order.address}
                         />
                         <OrderInfoRow
-                          title={'Status'}
-                          data={order.isPaid ? 'Paid' : 'Unpaid'}
+                          title={"Status"}
+                          data={order.isPaid ? "Paid" : "Unpaid"}
                         />
                         <OrderInfoRow
-                          title={'Total Price'}
+                          title={"Total Price"}
                           data={formatter.format(
-                            parseFloat(String(order.totalPrice))
+                            parseFloat(String(order.totalPrice)),
                           )}
                         />
                       </ul>
@@ -91,7 +91,7 @@ const OrdersPage = async () => {
         )}
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default OrdersPage
+export default OrdersPage;

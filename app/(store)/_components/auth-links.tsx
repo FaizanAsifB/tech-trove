@@ -4,7 +4,7 @@ import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import { LayoutDashboard } from "lucide-react";
 import Link from "next/link";
 
-const AuthButtons = () => {
+const AuthLinks = () => {
   return (
     <>
       <SignedIn>
@@ -35,4 +35,4 @@ const AuthButtons = () => {
   );
 };
 
-export default AuthButtons;
+export default AuthLinks;
