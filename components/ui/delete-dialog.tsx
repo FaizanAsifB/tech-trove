@@ -8,16 +8,16 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@/components/ui/alert-dialog'
-import { Button } from '@/components/ui/button'
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
 
 type DeleteDialogProps = {
-  children?: React.ReactNode
-  open: boolean
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>
-  onConfirm: () => void
-  deletedItem: string
-}
+  children?: React.ReactNode;
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  onConfirm: () => void;
+  deletedItem: string;
+};
 
 export function DeleteDialog({
   children,
@@ -35,7 +35,7 @@ export function DeleteDialog({
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete the
+            This action cannot be undone. This will permanently delete
             {` ${deletedItem}`}.
           </AlertDialogDescription>
         </AlertDialogHeader>
@@ -47,5 +47,5 @@ export function DeleteDialog({
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
-  )
+  );
 }
