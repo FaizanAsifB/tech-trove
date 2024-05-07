@@ -6,7 +6,7 @@ import Link from "next/link";
 
 const AuthLinks = () => {
   return (
-    <div className="flex flex-1 flex-col gap-4 lg:flex-row lg:items-center">
+    <div className="flex flex-1 flex-col gap-4 lg:flex-row lg:items-center lg:justify-end">
       <SignedIn>
         <Link
           href={"/orders"}
@@ -31,7 +31,7 @@ const AuthLinks = () => {
               userButtonPopoverCard: {
                 pointerEvents: "initial",
               },
-              rootBox: "mt-auto ml-auto",
+              rootBox: "mt-auto ml-auto lg:ml-0",
             },
           }}
         />

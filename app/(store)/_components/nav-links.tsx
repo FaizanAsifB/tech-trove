@@ -5,7 +5,7 @@ const NavLinks = async () => {
   const categories = await fetchCategories();
 
   return (
-    <ul className="flex flex-col gap-4 lg:flex-row lg:items-center lg:gap-6">
+    <ul className="flex flex-col gap-4 lg:flex-row lg:items-center lg:gap-2">
       {categories.map((category) => (
         <li key={category.id}>
           <Link
