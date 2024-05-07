@@ -1,9 +1,18 @@
-import { Button } from '@/components/ui/button'
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
-import { Home, Menu, Package2 } from 'lucide-react'
-import Link from 'next/link'
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Home,
+  LineChart,
+  Menu,
+  Package,
+  Package2,
+  ShoppingCart,
+  Users,
+} from "lucide-react";
+import Link from "next/link";
+import { Badge } from "./badge";
 
-const MobileNav = () => {
+const MobileNav = ({ children }: { children: React.ReactNode }) => {
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -13,8 +22,9 @@ const MobileNav = () => {
         </Button>
       </SheetTrigger>
       <SheetContent side="left" className="flex flex-col">
-        <nav className="grid gap-2 text-lg font-medium">
-          {/* <Link
+        {children}
+        {/* <nav className="grid gap-2 text-lg font-medium"> */}
+        {/* <Link
             href="#"
             className="flex items-center gap-2 text-lg font-semibold"
           >
@@ -59,9 +69,9 @@ const MobileNav = () => {
             <LineChart className="h-5 w-5" />
             Analytics
           </Link> */}
-        </nav>
+        {/* </nav> */}
       </SheetContent>
     </Sheet>
-  )
-}
-export default MobileNav
+  );
+};
+export default MobileNav;
