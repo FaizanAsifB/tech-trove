@@ -7,20 +7,18 @@ import StoreMobileNav from "./store-mobile-nav";
 const Header = () => {
   return (
     <header className="py-8">
-      <nav className="container flex items-center gap-6">
-        <Link href="/">Logo</Link>
+      <nav className="container flex items-center gap-4 lg:gap-6">
         <StoreMobileNav />
-        <div className="flex flex-1 items-center justify-between ">
-          <div className="hidden lg:block">
-            <NavLinks />
-          </div>
+        <Link href="/">Logo</Link>
+        <div className="hidden flex-1 items-center justify-between lg:flex">
+          <NavLinks />
 
           <div className="flex items-center gap-4">
-            <div className="hidden lg:block">
-              <AuthLinks />
-            </div>
-            <ShoppingCart />
+            <AuthLinks />
           </div>
+        </div>
+        <div className="ml-auto flex items-center">
+          <ShoppingCart />
         </div>
       </nav>
     </header>
