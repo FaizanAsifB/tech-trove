@@ -13,9 +13,7 @@ const Header = () => {
         <div className="hidden flex-1 items-center justify-between lg:flex">
           <NavLinks />
 
-          <div className="flex items-center gap-4">
-            <AuthLinks />
-          </div>
+          <AuthLinks />
         </div>
         <div className="ml-auto flex items-center">
           <ShoppingCart />
