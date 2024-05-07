@@ -1,24 +1,24 @@
-'use client'
+"use client";
 
-import useCart from '@/hooks/useCart'
-import { deleteOrder } from '@/lib/queries'
-import { useSearchParams } from 'next/navigation'
-import { ReactNode, useEffect } from 'react'
-import { toast } from 'sonner'
-import CartItem from './cart-item'
+import useCart from "@/hooks/useCart";
+import { deleteOrder } from "@/lib/queries";
+import { useSearchParams } from "next/navigation";
+import { ReactNode, useEffect } from "react";
+import { toast } from "sonner";
+import CartItem from "./cart-item";
 
 const CartItemsList = ({ children }: { children: ReactNode }) => {
-  const searchParams = useSearchParams()
+  const searchParams = useSearchParams();
 
-  const cartItems = useCart(state => state.items)
+  const cartItems = useCart((state) => state.items);
 
   useEffect(() => {
-    if (searchParams.get('canceled')) {
+    if (searchParams.get("canceled")) {
       toast.error(
-        'Order canceled -- continue to shop around and checkout when you&apos;re ready.'
-      )
+        "Order canceled -- continue to shop around and checkout when you&apos;re ready.",
+      );
     }
-  }, [searchParams])
+  }, [searchParams]);
 
   return (
     <>
@@ -26,9 +26,9 @@ const CartItemsList = ({ children }: { children: ReactNode }) => {
       {cartItems.length === 0 ? (
         <p>Your cart is empty.</p>
       ) : (
-        <div className="flex gap-12 ">
-          <ul className="w-3/5 space-y-4">
-            {cartItems.map(product => (
+        <div className="flex flex-col gap-12 lg:flex-row">
+          <ul className="space-y-4 lg:w-3/5">
+            {cartItems.map((product) => (
               <CartItem key={product.id} product={product} />
             ))}
           </ul>
@@ -36,7 +36,7 @@ const CartItemsList = ({ children }: { children: ReactNode }) => {
         </div>
       )}
     </>
-  )
-}
+  );
+};
 
-export default CartItemsList
+export default CartItemsList;

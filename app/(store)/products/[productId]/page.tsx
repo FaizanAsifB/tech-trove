@@ -1,17 +1,17 @@
-import prismaDb from '@/lib/prisma'
-import { fetchProduct } from '@/lib/queries'
-import { formatter } from '@/lib/utils'
-import Image from 'next/image'
-import ProductCard from '../../_components/product-card'
-import AddToCart from '../_components/add-to-cart'
+import prismaDb from "@/lib/prisma";
+import { fetchProduct } from "@/lib/queries";
+import { formatter } from "@/lib/utils";
+import Image from "next/image";
+import ProductCard from "../../_components/product-card";
+import AddToCart from "../_components/add-to-cart";
 
 const ProductsPage = async ({
   params,
 }: {
-  params: { [key: string]: string }
+  params: { [key: string]: string };
 }) => {
-  const product = await fetchProduct(params.productId)
-  if (!product) return null
+  const product = await fetchProduct(params.productId);
+  if (!product) return null;
 
   const relatedProducts = await prismaDb.product.findMany({
     where: {
@@ -22,33 +22,33 @@ const ProductsPage = async ({
     include: {
       images: {
         orderBy: {
-          id: 'desc',
+          id: "desc",
         },
       },
     },
     orderBy: {
-      updatedAt: 'desc',
+      updatedAt: "desc",
     },
-  })
+  });
 
   const formattedProduct = {
     ...product,
     price: parseFloat(String(product?.price)),
-  }
+  };
 
   return (
     <section className="mt-8">
       <div className="container space-y-24">
-        <article className="grid grid-cols-[1fr_1fr] gap-20 ">
-          <div className="relative bg-stone-100 rounded-sm min-h-[400px]">
+        <article className="grid gap-12 md:grid-cols-2 lg:gap-20 ">
+          <div className="relative min-h-[400px] rounded-sm bg-stone-100">
             <Image
               src={product.images[0].url}
               fill
               alt={product.title}
-              className="object-contain p-6 aspect-square max-w-full "
+              className="aspect-square max-w-full object-contain p-6 "
             />
           </div>
-          <div className="py-4 flex flex-col ">
+          <div className="flex flex-col py-4 ">
             <div className="space-y-2 ">
               <h4 className="font-bold">{product.title}</h4>
               <small className="inline-block">{product.category.title}</small>
@@ -56,7 +56,7 @@ const ProductsPage = async ({
                 {formatter.format(Number(product.price))}
               </p>
             </div>
-            <div className="mt-8 mb-4 space-y-1 flex-1">
+            <div className="mb-4 mt-8 flex-1 space-y-1">
               <h6>Description</h6>
               <p className="text-secondary-foreground">{product.description}</p>
             </div>
@@ -65,8 +65,8 @@ const ProductsPage = async ({
         </article>
         <div>
           <h5>Related Products</h5>
-          <div className="grid grid-cols-3 gap-4 mt-8">
-            {relatedProducts.map(product => (
+          <div className="mt-8 grid grid-cols-3 gap-4">
+            {relatedProducts.map((product) => (
               <ProductCard
                 key={product.id}
                 product={product}
@@ -77,7 +77,7 @@ const ProductsPage = async ({
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default ProductsPage
+export default ProductsPage;
