@@ -1,28 +1,21 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
-import { CircleDollarSign, CreditCard, Headset, Package } from 'lucide-react'
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { CircleDollarSign, CreditCard, Headset, Package } from "lucide-react";
 
 const ShopFeatures = () => {
   return (
     <section>
-      <div className="container grid grid-cols-4 gap-4">
+      <div className="container grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card className="border-none shadow-none">
-          <CardHeader className="pb-2 gap-3">
+          <CardHeader className="gap-3 pb-2">
             <Package />
             <CardTitle className="">Free Shipping</CardTitle>
           </CardHeader>
           <CardContent>
-            <p>Free shipping for order above $100</p>
+            <p>Free shipping for orders above $100</p>
           </CardContent>
         </Card>
         <Card className="border-none shadow-none">
-          <CardHeader className="pb-2 gap-3">
+          <CardHeader className="gap-3 pb-2">
             <CircleDollarSign />
             <CardTitle className="">Money Guarantee</CardTitle>
           </CardHeader>
@@ -31,7 +24,7 @@ const ShopFeatures = () => {
           </CardContent>
         </Card>
         <Card className="border-none shadow-none">
-          <CardHeader className="pb-2 gap-3">
+          <CardHeader className="gap-3 pb-2">
             <Headset />
             <CardTitle className="">Online Support</CardTitle>
           </CardHeader>
@@ -40,7 +33,7 @@ const ShopFeatures = () => {
           </CardContent>
         </Card>
         <Card className="border-none shadow-none">
-          <CardHeader className="pb-2 gap-3">
+          <CardHeader className="gap-3 pb-2">
             <CreditCard />
             <CardTitle className="">Flexible Payment</CardTitle>
           </CardHeader>
@@ -50,6 +43,6 @@ const ShopFeatures = () => {
         </Card>
       </div>
     </section>
-  )
-}
-export default ShopFeatures
+  );
+};
+export default ShopFeatures;
