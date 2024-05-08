@@ -64,7 +64,7 @@ const OrderSummary = () => {
         onClick={() => cartCount > 0 && redirectToCheckout()}
         disabled={cartCount === 0 || isLoading === true}
       >
-        Checkout
+        Proceed to Checkout
       </Button>
     </div>
   );

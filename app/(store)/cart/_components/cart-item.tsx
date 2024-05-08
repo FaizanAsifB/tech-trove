@@ -8,8 +8,7 @@ import { formatter } from "@/lib/utils";
 import { Minus, Plus, Trash2 } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
-
-const disallowedSymbols = ["e", "+", "-", ".", "E", ","];
+import ItemQuantityInput from "./item-quantity-input";
 
 const CartItem = ({ product }: { product: CartItem }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -57,25 +56,10 @@ const CartItem = ({ product }: { product: CartItem }) => {
             >
               <Minus />
             </Button>
-            <Input
-              inputMode="numeric"
-              type="number"
-              className="border-none px-12 text-center [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-              value={product.quantity}
-              onChange={(e) => setQuantity(product.id, Number(e.target.value))}
-              min="1"
-              step="1"
-              onPaste={(e) => e.preventDefault()}
-              onKeyDown={(e) => {
-                if (
-                  e.key === "Backspace" ||
-                  (e.key === "Delete" && product.quantity < 10)
-                ) {
-                  e.preventDefault();
-                  setQuantity(product.id, 1);
-                }
-                disallowedSymbols.includes(e.key) && e.preventDefault();
-              }}
+            <ItemQuantityInput
+              quantity={product.quantity}
+              setQuantity={setQuantity}
+              id={product.id}
             />
             <Button
               onClick={() => incrementItem(product.id)}
