@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import {
   ArchiveBoxIcon,
@@ -7,46 +7,46 @@ import {
   HomeIcon,
   ListBulletIcon,
   QueueListIcon,
-} from '@heroicons/react/24/solid'
-import { Package2 } from 'lucide-react'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+} from "@heroicons/react/24/solid";
+import { Package2 } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
-const navLinks = [
+export const navLinks = [
   {
-    title: 'Dashboard',
-    href: '/admin/',
+    title: "Dashboard",
+    href: "/admin",
     icon: <HomeIcon className="size-6" />,
   },
   {
-    title: 'Products',
-    href: '/admin/products',
+    title: "Products",
+    href: "/admin/products",
     icon: <ArchiveBoxIcon className="size-6" />,
   },
   {
-    title: 'Categories',
-    href: '/admin/categories',
+    title: "Categories",
+    href: "/admin/categories",
     icon: <ListBulletIcon className="size-6" />,
   },
   {
-    title: 'Orders',
-    href: '/admin/orders',
+    title: "Orders",
+    href: "/admin/orders",
     icon: <QueueListIcon className="size-6" />,
   },
   {
-    title: 'Settings',
-    href: '/admin/settings',
+    title: "Settings",
+    href: "/admin/settings",
     icon: <Cog6ToothIcon className="size-6" />,
   },
   {
-    title: 'Logout',
-    href: '/admin/logout',
+    title: "Logout",
+    href: "/admin/logout",
     icon: <ArrowLeftEndOnRectangleIcon className="size-6" />,
   },
-]
+];
 
 const Nav = () => {
-  const pathname = usePathname()
+  const pathname = usePathname();
 
   return (
     <div className="hidden border-r bg-muted/40 md:block">
@@ -59,14 +59,14 @@ const Nav = () => {
         </div>
         <div className="flex-1">
           <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-            {navLinks.map(link => (
+            {navLinks.map((link) => (
               <Link
                 key={link.title}
                 href={link.href}
                 className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary ${
                   pathname === link.href
-                    ? 'bg-muted text-foreground'
-                    : 'text-muted-foreground'
+                    ? "bg-muted text-foreground"
+                    : "text-muted-foreground"
                 }`}
               >
                 {link.icon}
@@ -77,6 +77,6 @@ const Nav = () => {
         </div>
       </div>
     </div>
-  )
-}
-export default Nav
+  );
+};
+export default Nav;
