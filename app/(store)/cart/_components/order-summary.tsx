@@ -73,7 +73,8 @@ const OrderSummary = () => {
         <p>{formatter.format(totalPrice + shippingCost)}</p>
       </div>
       <Button
-        className="rounded-full"
+        className="w-full"
+        size={"lg"}
         onClick={() => cartCount > 0 && redirectToCheckout()}
         disabled={cartCount === 0 || isLoading === true}
       >

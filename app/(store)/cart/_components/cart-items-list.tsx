@@ -22,7 +22,12 @@ const CartItemsList = ({ children }: { children: ReactNode }) => {
 
   return (
     <>
-      <h1 className="mb-8">Shopping Cart</h1>
+      <div className="space-y-4">
+        <h1 className="">Shopping Cart</h1>
+        <p className="text-muted-foreground">
+          Review your items and complete your purchase.
+        </p>
+      </div>
       {cartItems.length === 0 ? (
         <p>Your cart is empty.</p>
       ) : (

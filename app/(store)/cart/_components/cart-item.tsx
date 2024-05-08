@@ -22,7 +22,7 @@ const CartItem = ({ product }: { product: CartItem }) => {
         setOpen={setIsOpen}
         deletedItem={product.title}
       />
-      <article className="space-y-4">
+      <article className="space-y-4 rounded-lg border p-4 md:p-6">
         <div className=" grid items-center gap-4 md:grid-cols-[auto_1fr_auto]">
           <div className="relative size-32 lg:size-24">
             <Image
@@ -33,8 +33,8 @@ const CartItem = ({ product }: { product: CartItem }) => {
             />
           </div>
           <div>
-            <p className="font-semibold">{product.title}</p>
-            <p>{product.description}</p>
+            <p>{product.title}</p>
+            <p className="text-muted-foreground">{product.description}</p>
           </div>
           <ItemQuantityInput
             quantity={product.quantity}
@@ -59,7 +59,6 @@ const CartItem = ({ product }: { product: CartItem }) => {
           </Button>
         </div>
       </article>
-      <Separator />
     </>
   );
 };
