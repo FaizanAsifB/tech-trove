@@ -47,7 +47,7 @@ const CartItem = ({ product }: { product: CartItem }) => {
           <p>{formatter.format(product.price * product.quantity)}</p>
         </div>
 
-        <div className="flex items-center justify-end">
+        <div className="flex items-center justify-center lg:justify-end">
           <Button
             variant="destructive"
             size={"sm"}

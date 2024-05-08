@@ -16,12 +16,14 @@ const OrderSummary = () => {
   const cartItems = useCart((state) => state.items);
   const cartCount = cartItems.length;
 
-  const totalPrice = cartItems.reduce(
+  const subTotal = cartItems.reduce(
     (acc, item) => acc + item.price * item.quantity,
     0,
   );
 
-  const shippingCost = totalPrice > 100 ? 0 : SHIPPING_COST;
+  const shippingCost = subTotal >= 100 ? 0 : SHIPPING_COST;
+
+  const totalPrice = subTotal + shippingCost;
 
   const redirectToCheckout = async () => {
     setIsLoading(true);
@@ -61,7 +63,7 @@ const OrderSummary = () => {
       <div className="space-y-1.5">
         <div className="flex justify-between">
           <p className="text-muted-foreground">Subtotal Total</p>
-          <p>{formatter.format(totalPrice)}</p>
+          <p>{formatter.format(subTotal)}</p>
         </div>
         <div className="flex justify-between">
           <p className="text-muted-foreground">Shipping</p>
@@ -70,7 +72,7 @@ const OrderSummary = () => {
       </div>
       <div className="flex justify-between">
         <p>Grand Total</p>
-        <p>{formatter.format(totalPrice + shippingCost)}</p>
+        <p>{formatter.format(totalPrice)}</p>
       </div>
       <Button
         className="w-full"
