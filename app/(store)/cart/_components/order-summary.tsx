@@ -5,6 +5,7 @@ import { Separator } from "@/components/ui/separator";
 import useCart from "@/hooks/useCart";
 import getStripe from "@/lib/load-stripe";
 import { formatter } from "@/lib/utils";
+import { SHIPPING_COST } from "@/utils/constants";
 import { useState } from "react";
 
 const loadStripe = getStripe();
@@ -19,6 +20,8 @@ const OrderSummary = () => {
     (acc, item) => acc + item.price * item.quantity,
     0,
   );
+
+  const shippingCost = totalPrice > 100 ? 0 : SHIPPING_COST;
 
   const redirectToCheckout = async () => {
     setIsLoading(true);
@@ -55,9 +58,19 @@ const OrderSummary = () => {
     <div className="space-y-4 rounded-md bg-muted p-4 lg:grid lg:flex-1 lg:self-start">
       <h4>Order Summary</h4>
       <Separator />
+      <div className="space-y-1.5">
+        <div className="flex justify-between">
+          <p className="text-muted-foreground">Subtotal Total</p>
+          <p>{formatter.format(totalPrice)}</p>
+        </div>
+        <div className="flex justify-between">
+          <p className="text-muted-foreground">Shipping</p>
+          <p>{formatter.format(shippingCost)}</p>
+        </div>
+      </div>
       <div className="flex justify-between">
         <p>Grand Total</p>
-        <p>{formatter.format(totalPrice)}</p>
+        <p>{formatter.format(totalPrice + shippingCost)}</p>
       </div>
       <Button
         className="rounded-full"
