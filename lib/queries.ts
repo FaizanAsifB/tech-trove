@@ -38,7 +38,7 @@ export const fetchProducts = async () => {
 
 export const fetchFilteredProducts = async (categories: string[] | string) => {
   let whereClause = {};
-  console.log(typeof categories === "string");
+
   if (typeof categories === "string") {
     whereClause = {
       category: {

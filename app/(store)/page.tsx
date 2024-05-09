@@ -1,14 +1,15 @@
-import CategoryCards from './_components/category-cards'
-import FeaturedProductsSection from './_components/featured-products-section'
-import Hero from './_components/hero'
-import ShopFeatures from './_components/shop-features'
+import { Suspense } from "react";
+import CategoryCards from "./_components/category-cards";
+import FeaturedProductsSection from "./_components/featured-products-section";
+import Hero from "./_components/hero";
+import ShopFeatures from "./_components/shop-features";
 
 export default function Home({
   searchParams,
 }: {
-  searchParams: { [key: string]: string | string[] | undefined }
+  searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  const currentPage = Number(searchParams['feature-page'] || 1)
+  const currentPage = Number(searchParams["feature-page"] || 1);
   return (
     <>
       <Hero />
@@ -16,5 +17,5 @@ export default function Home({
       <FeaturedProductsSection currentPage={currentPage} />
       <ShopFeatures />
     </>
-  )
+  );
 }

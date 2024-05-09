@@ -22,11 +22,13 @@ const Hero = () => {
             <br />
             tech innovations.
           </h1>
-          <p className="mt-2  text-sm md:text-base lg:text-lg xl:text-xl">
+          <p className="mt-2 text-sm md:text-base lg:text-lg xl:text-xl">
             Shop now and upgrade your digital experience
           </p>
           <Button className="mt-6" asChild>
-            <Link href="/products">SHOP NOW</Link>
+            <Link href="/products" className="text-center">
+              SHOP NOW
+            </Link>
           </Button>
         </div>
       </div>

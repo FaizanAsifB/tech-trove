@@ -22,8 +22,6 @@ const useCart = create<CartState>()(
         const currentItems = get().items
         const existingItem = currentItems.find(item => item.id === data.id)
 
-        console.log(currentItems)
-
         if (existingItem) {
           set({
             items: [
