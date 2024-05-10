@@ -1,7 +1,7 @@
-import prismaDb from '@/lib/prisma'
-import { FEATURED_PER_PAGE } from '@/utils/constants'
-import { Image as ImageDb, Product } from '@prisma/client'
-import ProductCard from './product-card'
+import prismaDb from "@/lib/prisma";
+import { FEATURED_PER_PAGE } from "@/utils/constants";
+import { Image as ImageDb, Product } from "@prisma/client";
+import ProductCard from "./product-card";
 
 const FeaturedProducts = async ({ currentPage }: { currentPage: number }) => {
   const featuredProducts = await prismaDb.product.findMany({
@@ -14,15 +14,15 @@ const FeaturedProducts = async ({ currentPage }: { currentPage: number }) => {
       images: true,
     },
     orderBy: {
-      updatedAt: 'desc',
+      updatedAt: "desc",
     },
-  })
+  });
   return (
-    <div className="grid grid-cols-3 gap-4">
-      {featuredProducts.map(product => (
+    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      {featuredProducts.map((product) => (
         <ProductCard product={product} key={product.id} />
       ))}
     </div>
-  )
-}
-export default FeaturedProducts
+  );
+};
+export default FeaturedProducts;

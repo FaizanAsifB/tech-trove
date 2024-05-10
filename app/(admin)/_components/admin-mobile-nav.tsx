@@ -1,5 +1,6 @@
 "use client";
 
+import Logo from "@/components/logo";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -11,7 +12,7 @@ const AdminMobileNav = () => {
 
   return (
     <MobileNav>
-      <div>logo</div>
+      <Logo />
       <Separator />
       <nav>
         {navLinks.map((link) => {
