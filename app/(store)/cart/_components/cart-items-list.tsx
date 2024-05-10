@@ -23,7 +23,7 @@ const CartItemsList = ({ children }: { children: ReactNode }) => {
   return (
     <>
       <div className="space-y-4">
-        <h1 className="">Shopping Cart</h1>
+        <h1>Shopping Cart</h1>
         <p className="text-muted-foreground">
           Review your items and complete your purchase.
         </p>
