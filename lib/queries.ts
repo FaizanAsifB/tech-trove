@@ -163,6 +163,31 @@ export const fetchProduct = async (id: string) => {
   return product;
 };
 
+export const fetchRelatedProducts = async (
+  categoryId: string,
+  productId: string,
+) => {
+  const relatedProducts = await prismaDb.product.findMany({
+    where: {
+      categoryId: categoryId,
+      NOT: { id: productId },
+    },
+    take: 3,
+    include: {
+      images: {
+        orderBy: {
+          id: "desc",
+        },
+      },
+    },
+    orderBy: {
+      updatedAt: "desc",
+    },
+  });
+
+  return relatedProducts;
+};
+
 export const fetchOrder = async (id: string) => {
   const order = await prismaDb.order.findFirst({
     where: {

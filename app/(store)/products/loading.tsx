@@ -1,7 +1,7 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import React from "react";
 
-const ProductsLoading = () => {
+const ProductsPageLoading = () => {
   return (
     <div className="mt-8 flex flex-1 flex-col">
       <div className="container flex flex-1 flex-col gap-12 lg:flex-row lg:gap-20">
@@ -34,4 +34,4 @@ const ProductsLoading = () => {
   );
 };
 
-export default ProductsLoading;
+export default ProductsPageLoading;
