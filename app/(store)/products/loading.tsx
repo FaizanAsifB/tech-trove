@@ -3,7 +3,7 @@ import React from "react";
 
 const ProductsLoading = () => {
   return (
-    <section className="mt-8 flex flex-1 flex-col">
+    <div className="mt-8 flex flex-1 flex-col">
       <div className="container flex flex-1 flex-col gap-12 lg:flex-row lg:gap-20">
         <div className="space-y-4">
           <Skeleton className="h-5 w-36" />
@@ -30,7 +30,7 @@ const ProductsLoading = () => {
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 

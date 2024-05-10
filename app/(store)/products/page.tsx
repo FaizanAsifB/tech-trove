@@ -1,6 +1,7 @@
 import Pagination from "@/components/ui/pagination";
 import prismaDb from "@/lib/prisma";
 import {
+  fetchCategoryFilters,
   fetchFilteredProducts,
   fetchProducts,
   getProductCount,
@@ -14,12 +15,7 @@ const ProductsPage = async ({
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
-  const categories = await prismaDb.category.findMany({
-    select: {
-      id: true,
-      title: true,
-    },
-  });
+  const categories = await fetchCategoryFilters();
 
   const currentPage = Number(searchParams["page"] || 1);
   const filteredCategories = searchParams["filter"] || "";

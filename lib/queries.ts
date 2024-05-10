@@ -19,6 +19,16 @@ export const fetchCategories = async () =>
     },
   });
 
+export const fetchCategoryFilters = async () => {
+  const categories = await prismaDb.category.findMany({
+    select: {
+      id: true,
+      title: true,
+    },
+  });
+  return categories;
+};
+
 export const fetchProducts = async () => {
   const products = await prismaDb.product.findMany({
     include: {

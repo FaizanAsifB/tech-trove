@@ -11,11 +11,11 @@ export default function Home({
 }) {
   const currentPage = Number(searchParams["feature-page"] || 1);
   return (
-    <>
+    <div className="space-y-16 ">
       <Hero />
       <CategoryCards />
       <FeaturedProductsSection currentPage={currentPage} />
       <ShopFeatures />
-    </>
+    </div>
   );
 }
