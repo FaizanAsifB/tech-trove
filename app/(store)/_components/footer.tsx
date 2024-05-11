@@ -1,5 +1,7 @@
 import Logo from "@/components/logo";
 import Link from "next/link";
+import { FaFacebookF, FaInstagram } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 
 const Footer = () => {
   return (
@@ -12,14 +14,18 @@ const Footer = () => {
         <div>
           <ul className="flex gap-4">
             <li>
-              <Link href="#" target="_blank"></Link>
+              <Link href="https://www.facebook.com" target="_blank">
+                <FaFacebookF />
+              </Link>
             </li>
             <li>
-              <Link href="#" target="_blank"></Link>
+              <Link href="https://www.instagram.com" target="_blank">
+                <FaInstagram />
+              </Link>
             </li>
             <li>
-              <Link href="#" target="_blank">
-                x
+              <Link href="https://www.twitter.com" target="_blank">
+                <FaXTwitter />
               </Link>
             </li>
           </ul>
