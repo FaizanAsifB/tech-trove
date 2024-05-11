@@ -5,13 +5,13 @@ const NavLinks = async () => {
   const categories = await fetchCategories();
 
   return (
-    <ul className="flex flex-col gap-4 lg:flex-row lg:items-center lg:gap-2">
+    <ul className="flex flex-col gap-4 lg:flex-row lg:items-center lg:gap-4">
       {categories.map((category) => (
         <li key={category.id}>
           <Link
             href={`/products?filter=${category.title} `}
-            className="-mx-2 px-2 py-1
-               shadow-[inset_0_0_0_0_hsl(var(--primary))] transition-all duration-500 hover:text-primary-foreground hover:shadow-[inset_200px_0_0_0_hsl(var(--primary))] lg:mx-0"
+            className="transition-color -mx-2
+                text-foreground/70 duration-300 hover:text-foreground lg:mx-0"
           >
             {category.title}
           </Link>

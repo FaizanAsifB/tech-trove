@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { fetchCategories } from "@/lib/queries";
 import Link from "next/link";
 import CategoryCard from "./category-card";
@@ -8,9 +7,9 @@ const CategoryCards = async () => {
   const categories = await fetchCategories();
   return (
     <section className="container space-y-8">
-      <div className="flex flex-col items-center justify-between lg:flex-row">
+      <div className="flex flex-col items-start justify-between lg:flex-row lg:items-center">
         <h2>Shop by Category</h2>
-        <Button asChild variant={"link"}>
+        <Button asChild variant={"link"} className="px-0">
           <Link href={"/products"}>See all products</Link>
         </Button>
       </div>

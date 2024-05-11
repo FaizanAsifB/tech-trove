@@ -10,8 +10,8 @@ const AuthLinks = () => {
       <SignedIn>
         <Link
           href={"/orders"}
-          className="-mx-2
-               flex items-center gap-1 px-2 shadow-[inset_0_0_0_0_hsl(var(--secondary))] transition-all duration-500 hover:text-primary-foreground hover:shadow-[inset_200px_0_0_0_hsl(var(--primary))] lg:mx-0"
+          className="transition-color
+               -mx-2 flex items-center   gap-1  text-foreground/70 hover:text-foreground lg:mx-0"
         >
           <Container className="h-5 w-5 lg:hidden" />
           Orders
@@ -19,7 +19,7 @@ const AuthLinks = () => {
         {checkRole("admin") ? (
           <Link
             href={"/admin"}
-            className=" -mx-2 flex items-center gap-1 rounded-sm px-2 lg:mx-0 lg:bg-secondary"
+            className=" -mx-2 flex items-center gap-1 rounded-sm px-2 py-1 lg:mx-0 lg:bg-secondary"
           >
             <LayoutDashboard size={16} />
             Dashboard
