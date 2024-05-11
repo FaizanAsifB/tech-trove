@@ -80,7 +80,7 @@ const OrderSummary = () => {
         className="w-full"
         size={"lg"}
         onClick={() => cartCount > 0 && redirectToCheckout()}
-        disabled={cartCount === 0 || isLoading === true}
+        disabled={cartCount === 0 || isLoading === true || subTotal === 0}
       >
         Proceed to Checkout
       </Button>

@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { DeleteDialog } from "@/components/ui/delete-dialog";
-import { Separator } from "@/components/ui/separator";
 import useCart from "@/hooks/useCart";
 import { type CartItem } from "@/lib/definitions";
 import { formatter } from "@/lib/utils";
@@ -36,11 +35,16 @@ const CartItem = ({ product }: { product: CartItem }) => {
             <p>{product.title}</p>
             <p className="text-muted-foreground">{product.description}</p>
           </div>
-          <ItemQuantityInput
-            quantity={product.quantity}
-            id={product.id}
-            setIsOpen={setIsOpen}
-          />
+          <div>
+            <ItemQuantityInput
+              quantity={product.quantity}
+              id={product.id}
+              setIsOpen={setIsOpen}
+            />
+            {product.quantity === 0 ? (
+              <small className="text-destructive">Enter a valid quantity</small>
+            ) : null}
+          </div>
         </div>
         <div className="flex items-center justify-between">
           <p className="text-muted-foreground">Total Price</p>

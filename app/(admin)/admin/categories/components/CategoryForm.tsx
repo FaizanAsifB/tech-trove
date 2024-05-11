@@ -1,7 +1,7 @@
-'use client'
+"use client";
 
-import ImageUpload from '@/components/ui/ImageUpload'
-import { Button } from '@/components/ui/button'
+import ImageUpload from "@/components/ui/ImageUpload";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -9,38 +9,38 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
-import { Heading } from '@/components/ui/heading'
-import { Input } from '@/components/ui/input'
-import { Separator } from '@/components/ui/separator'
-import { createCategory, toggleIsPrimary, updateCategory } from '@/lib/actions'
-import { CategoryFormSchema, CategoryFormValues } from '@/lib/definitions'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Category, Image } from '@prisma/client'
-import { useParams, useRouter } from 'next/navigation'
-import { useForm } from 'react-hook-form'
-import { toast } from 'sonner'
+} from "@/components/ui/form";
+import { Heading } from "@/components/ui/heading";
+import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
+import { createCategory, toggleIsPrimary, updateCategory } from "@/lib/actions";
+import { CategoryFormSchema, CategoryFormValues } from "@/lib/definitions";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Category, Image } from "@prisma/client";
+import { useParams, useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 type CategoryFormProps = {
-  initialData?: (Category & { images: Image[] }) | null
-}
+  initialData?: (Category & { images: Image[] }) | null;
+};
 
 const CategoryForm = ({ initialData }: CategoryFormProps) => {
-  const params = useParams()
-  const router = useRouter()
+  const params = useParams();
+  const router = useRouter();
 
-  const title = initialData ? 'Edit category' : 'Create category'
-  const description = initialData ? 'Edit a category.' : 'Add a new category'
-  const toastMessage = initialData ? 'Category updated.' : 'Category created.'
-  const action = initialData ? 'Save changes' : 'Create'
+  const title = initialData ? "Edit category" : "Create category";
+  const description = initialData ? "Edit a category." : "Add a new category";
+  const toastMessage = initialData ? "Category updated." : "Category created.";
+  const action = initialData ? "Save changes" : "Create";
 
   const form = useForm<CategoryFormValues>({
     resolver: zodResolver(CategoryFormSchema),
     defaultValues: initialData || {
-      title: '',
+      title: "",
       images: [],
     },
-  })
+  });
 
   async function handleSubmit(data: CategoryFormValues) {
     try {
@@ -51,30 +51,29 @@ const CategoryForm = ({ initialData }: CategoryFormProps) => {
             title: data.title,
             images: data.images,
           },
-          initialData.images
-        )
-        const primaryImg = data.images.filter(img => img.isPrimary)[0]
+          initialData.images,
+        );
+        const primaryImg = data.images.filter((img) => img.isPrimary)[0];
         if (
           primaryImg.public_id !==
-          initialData.images.filter(img => img.isPrimary)[0]?.public_id
+          initialData.images.filter((img) => img.isPrimary)[0]?.public_id
         ) {
-          await toggleIsPrimary(primaryImg.public_id, initialData.id)
+          await toggleIsPrimary(primaryImg.public_id, initialData.id);
         }
       } else {
-        await createCategory(data)
+        await createCategory(data);
       }
-      toast.success(toastMessage)
-      router.push('/admin/categories')
+      toast.success(toastMessage);
+      router.push("/admin/categories");
     } catch (error) {
-      toast.error('An Error Occurred')
-      console.log(error)
+      toast.error("An Error Occurred");
+      console.log(error);
     }
   }
 
   return (
     <>
       <Heading title={title} description={description} />
-      <Separator />
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8">
           <FormField
@@ -102,9 +101,9 @@ const CategoryForm = ({ initialData }: CategoryFormProps) => {
                     value={field.value}
                     disabled={form.formState.isSubmitting}
                     onChange={field.onChange}
-                    onRemove={url =>
+                    onRemove={(url) =>
                       field.onChange([
-                        ...field.value.filter(image => image.url !== url),
+                        ...field.value.filter((image) => image.url !== url),
                       ])
                     }
                   />
@@ -122,6 +121,6 @@ const CategoryForm = ({ initialData }: CategoryFormProps) => {
         </form>
       </Form>
     </>
-  )
-}
-export default CategoryForm
+  );
+};
+export default CategoryForm;

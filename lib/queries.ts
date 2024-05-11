@@ -1,5 +1,6 @@
 "use server";
 
+import { FEATURED_PER_PAGE } from "@/utils/constants";
 import prismaDb from "./prisma";
 
 export const fetchCategories = async () =>
@@ -172,7 +173,7 @@ export const fetchRelatedProducts = async (
       categoryId: categoryId,
       NOT: { id: productId },
     },
-    take: 3,
+    take: 4,
     include: {
       images: {
         orderBy: {
@@ -186,6 +187,23 @@ export const fetchRelatedProducts = async (
   });
 
   return relatedProducts;
+};
+
+export const fetchFeaturedProducts = async (currentPage: number) => {
+  const products = await prismaDb.product.findMany({
+    where: {
+      isFeatured: true,
+    },
+    take: FEATURED_PER_PAGE,
+    skip: FEATURED_PER_PAGE * (currentPage - 1) || 0,
+    include: {
+      images: true,
+    },
+    orderBy: {
+      updatedAt: "desc",
+    },
+  });
+  return products;
 };
 
 export const fetchOrder = async (id: string) => {
