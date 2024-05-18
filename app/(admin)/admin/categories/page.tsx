@@ -1,31 +1,27 @@
-import { Button } from '@/components/ui/button'
-import { DataTable } from '@/components/ui/data-table'
-import { Heading } from '@/components/ui/heading'
-import { Separator } from '@/components/ui/separator'
-import prismaDb from '@/lib/prisma'
-import { formattedDate } from '@/lib/utils'
-import axios from 'axios'
-import Link from 'next/link'
-import DeleteButton from './components/DeleteButton'
-import { columns } from './components/columns'
+import { Button } from "@/components/ui/button";
+import { DataTable } from "@/components/ui/data-table";
+import { Heading } from "@/components/ui/heading";
+import prismaDb from "@/lib/prisma";
+import Link from "next/link";
+import { columns } from "./components/columns";
 
 const CategoriesPage = async () => {
   const categories = await prismaDb.category.findMany({
     include: {
       images: {
         orderBy: {
-          id: 'desc',
+          id: "desc",
         },
       },
     },
     orderBy: {
-      updatedAt: 'desc',
+      updatedAt: "desc",
     },
-  })
+  });
 
   return (
-    <section className="flex flex-col flex-1 space-y-6">
-      <div className="flex justify-between items-center">
+    <section className="flex flex-1 flex-col space-y-6">
+      <div className="flex items-center justify-between">
         <Heading
           title={`Categories (${categories.length})`}
           description="Manage categories for your products"
@@ -35,9 +31,9 @@ const CategoriesPage = async () => {
         </Button>
       </div>
 
-      <div className="flex flex-col flex-1">
+      <div className="flex flex-1 flex-col">
         {categories.length === 0 ? (
-          <div className="flex flex-col flex-1 justify-center items-center gap-1 text-center">
+          <div className="flex flex-1 flex-col items-center justify-center gap-1 text-center">
             <p>No Categories found.</p>
             <Button asChild>
               <Link href="categories/create">Create Category</Link>
@@ -52,6 +48,6 @@ const CategoriesPage = async () => {
         )}
       </div>
     </section>
-  )
-}
-export default CategoriesPage
+  );
+};
+export default CategoriesPage;

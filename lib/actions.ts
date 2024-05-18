@@ -175,7 +175,7 @@ export async function deleteCategory(id: string) {
       },
     });
     revalidatePath("/admin/categories");
-    return { message: "Deleted Category." };
+    redirect("/admin/categories");
   } catch (error) {
     return { message: "Database Error: Failed to Delete Category." };
   }
