@@ -2,14 +2,13 @@
 
 import { Button } from "@/components/ui/button";
 import { formattedDate } from "@/lib/utils";
-import type { Category, Image as CategoryImage, Order } from "@prisma/client";
+import type { Order } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown } from "lucide-react";
 
-export type OrderColumn = Omit<Order, "updatedAt" | "createdAt"> & {
+export type OrderColumn = Omit<Order, "updatedAt" | "totalPrice"> & {
   totalPrice: string;
   products: string;
-  createdAt: string;
 };
 
 export const columns: ColumnDef<OrderColumn>[] = [

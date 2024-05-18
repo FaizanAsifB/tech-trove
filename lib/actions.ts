@@ -7,7 +7,6 @@ import { redirect } from "next/navigation";
 import {
   CategoryFormSchema,
   CategoryFormValues,
-  CategoryTitleOnly,
   ProductFormSchema,
   ProductFormValues,
   ProductUpdateSchema,
@@ -175,7 +174,22 @@ export async function deleteCategory(id: string) {
       },
     });
     revalidatePath("/admin/categories");
+    revalidatePath("/admin/products");
+
     redirect("/admin/categories");
+  } catch (error) {
+    return { message: "Database Error: Failed to Delete Category." };
+  }
+}
+export async function deleteProduct(id: string) {
+  try {
+    await prismaDb.product.delete({
+      where: {
+        id,
+      },
+    });
+    revalidatePath("/admin/products");
+    redirect("/admin/products");
   } catch (error) {
     return { message: "Database Error: Failed to Delete Category." };
   }

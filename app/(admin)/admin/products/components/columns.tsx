@@ -4,10 +4,9 @@ import { Button } from "@/components/ui/button";
 import { formattedDate } from "@/lib/utils";
 import { Product, Image as ProductImage } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, CheckCircleIcon, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, CheckCircleIcon } from "lucide-react";
 import Image from "next/image";
 import CellActions from "./cell-actions";
-import RowImages from "./row-images";
 
 export type ProductColumn = Omit<Product, "price"> & { price: number } & {
   images: ProductImage[];
