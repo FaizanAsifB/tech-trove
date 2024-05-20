@@ -14,7 +14,6 @@ const ProductPageLoading = () => {
           <div className="mb-4 mt-8 flex-1">
             <Skeleton className="h-5 w-36" />
             <Skeleton className="mt-4 h-3/4 w-full" />
-            <Skeleton className="h-5 w-36" />
           </div>
           <Skeleton className="h-6 w-full" />
         </div>

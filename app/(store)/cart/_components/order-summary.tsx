@@ -25,8 +25,6 @@ const OrderSummary = () => {
 
   const totalPrice = subTotal + shippingCost;
 
-  console.log(cartItems);
-
   const redirectToCheckout = async () => {
     setIsLoading(true);
     const cartItemData = cartItems.map((item) => {
