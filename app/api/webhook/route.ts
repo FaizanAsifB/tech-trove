@@ -1,14 +1,14 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
-import Cors from "micro-cors";
+// import Cors from "micro-cors";
 import prismaDb from "@/lib/prisma";
 import stripe from "@/lib/stripe";
 import { revalidatePath } from "next/cache";
 import Stripe from "stripe";
 
-const cors = Cors({
-  allowMethods: ["POST", "HEAD"],
-});
+// const cors = Cors({
+//   allowMethods: ["POST", "HEAD"],
+// });
 
 export async function POST(req: Request) {
   const body = await req.text();

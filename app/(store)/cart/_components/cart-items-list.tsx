@@ -1,7 +1,6 @@
 "use client";
 
 import useCart from "@/hooks/useCart";
-import { deleteOrder } from "@/lib/queries";
 import { useSearchParams } from "next/navigation";
 import { ReactNode, useEffect } from "react";
 import { toast } from "sonner";

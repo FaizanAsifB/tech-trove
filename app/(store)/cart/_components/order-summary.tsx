@@ -6,6 +6,7 @@ import useCart from "@/hooks/useCart";
 import getStripe from "@/lib/load-stripe";
 import { formatter } from "@/lib/utils";
 import { SHIPPING_COST } from "@/utils/constants";
+import { LoaderCircle } from "lucide-react";
 import { useState } from "react";
 
 const loadStripe = getStripe();
@@ -79,7 +80,14 @@ const OrderSummary = () => {
         onClick={() => cartCount > 0 && redirectToCheckout()}
         disabled={cartCount === 0 || isLoading === true || subTotal === 0}
       >
-        Proceed to Checkout
+        {isLoading ? (
+          <>
+            <LoaderCircle className="h-4 w-4 animate-spin" />
+            <span className="ml-2">Proceeding to Checkout</span>
+          </>
+        ) : (
+          "Proceed to Checkout"
+        )}
       </Button>
     </div>
   );

@@ -138,7 +138,7 @@ export const getProductCount = async (categories: string[] | string) => {
   return productCount;
 };
 
-export const fetchProduct = async (id: string) => {
+export const fetchProductById = async (id: string) => {
   const product = await prismaDb.product.findFirst({
     where: {
       id,

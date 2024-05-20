@@ -1,5 +1,5 @@
 import prismaDb from "@/lib/prisma";
-import { fetchProduct, fetchRelatedProducts } from "@/lib/queries";
+import { fetchProductById, fetchRelatedProducts } from "@/lib/queries";
 import { formatter } from "@/lib/utils";
 import Image from "next/image";
 import ProductCard from "../../_components/product-card";
@@ -10,7 +10,7 @@ const ProductsPage = async ({
 }: {
   params: { [key: string]: string };
 }) => {
-  const product = await fetchProduct(params.productId);
+  const product = await fetchProductById(params.productId);
   if (!product) return null;
 
   const relatedProducts = await fetchRelatedProducts(

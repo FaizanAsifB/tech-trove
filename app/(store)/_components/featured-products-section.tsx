@@ -1,18 +1,18 @@
-import prismaDb from '@/lib/prisma'
-import { FEATURED_PER_PAGE } from '@/utils/constants'
-import ProductsPagination from '../../../components/ui/pagination'
-import FeaturedProducts from './featured-products'
+import prismaDb from "@/lib/prisma";
+import { FEATURED_PER_PAGE } from "@/utils/constants";
+import ProductsPagination from "../../../components/ui/pagination";
+import FeaturedProducts from "./featured-products";
 
 const FeaturedProductsSection = async ({
   currentPage,
 }: {
-  currentPage: number
+  currentPage: number;
 }) => {
   const featuredCount = await prismaDb.product.count({
     where: {
       isFeatured: true,
     },
-  })
+  });
 
   return (
     <section>
@@ -22,13 +22,13 @@ const FeaturedProductsSection = async ({
           currentPage={currentPage}
           itemsPerPage={FEATURED_PER_PAGE}
           totalItems={featuredCount}
-          title={'Product'}
-          queryParamKey={'feature-page'}
+          title={"Product"}
+          queryParamKey={"feature-page"}
         >
           <FeaturedProducts currentPage={currentPage} />
         </ProductsPagination>
       </div>
     </section>
-  )
-}
-export default FeaturedProductsSection
+  );
+};
+export default FeaturedProductsSection;

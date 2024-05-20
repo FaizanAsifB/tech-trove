@@ -33,7 +33,7 @@ const CartItem = ({ product }: { product: CartItem }) => {
           </div>
           <div>
             <p>{product.title}</p>
-            <p className="text-muted-foreground">{product.description}</p>
+            <p className="text-muted-foreground">{product.category.title}</p>
           </div>
           <div>
             <ItemQuantityInput
