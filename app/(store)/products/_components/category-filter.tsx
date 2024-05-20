@@ -3,6 +3,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Category } from "@prisma/client";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useOptimistic } from "react";
 
 type CategoryFilterProps = {
   categories: Pick<Category, "id" | "title">[];
@@ -12,13 +13,21 @@ const CategoryFilter = ({ categories }: CategoryFilterProps) => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
+
   const filteredCategories = searchParams.getAll("filter") || "";
 
-  const createQueryString = (
-    name: string,
-    value: string,
-    isExisting = false,
-  ) => {
+  const [optimisticFilters, addOptimisticFilters] = useOptimistic<
+    string[],
+    string
+  >(filteredCategories, (state, newFilter) => {
+    if (filteredCategories?.includes(newFilter))
+      return state.filter((category) => category !== newFilter);
+
+    return [...state, newFilter];
+  });
+
+  const createQueryString = (name: string, value: string) => {
+    const isExisting = filteredCategories?.includes(value);
     const params = new URLSearchParams(searchParams.toString());
 
     if (isExisting) {
@@ -36,20 +45,13 @@ const CategoryFilter = ({ categories }: CategoryFilterProps) => {
           <Checkbox
             aria-label={category.title}
             id={category.title}
-            checked={filteredCategories?.includes(category.title)}
-            onCheckedChange={() =>
-              filteredCategories?.includes(category.title)
-                ? router.push(
-                    `${pathname}?${createQueryString(
-                      "filter",
-                      category.title,
-                      true,
-                    )}`,
-                  )
-                : router.push(
-                    `${pathname}?${createQueryString("filter", category.title)}`,
-                  )
-            }
+            checked={optimisticFilters?.includes(category.title)}
+            onCheckedChange={() => {
+              addOptimisticFilters(category.title);
+              router.push(
+                `${pathname}?${createQueryString("filter", category.title)}`,
+              );
+            }}
           />
           <Label htmlFor={category.title}>{category.title}</Label>
         </li>

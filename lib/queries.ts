@@ -105,7 +105,9 @@ export const fetchProductsById = async (ids: string[]) => {
   return products;
 };
 
-export const getProductCount = async (categories: string[] | string) => {
+export const getProductCount = async (
+  categories: string[] | string | undefined,
+) => {
   let whereClause = {};
 
   if (typeof categories === "string") {
