@@ -1,29 +1,33 @@
-import { headers } from 'next/headers'
-import { NextResponse } from 'next/server'
+import { headers } from "next/headers";
+import { NextResponse } from "next/server";
+import Cors from "micro-cors";
+import prismaDb from "@/lib/prisma";
+import stripe from "@/lib/stripe";
+import { revalidatePath } from "next/cache";
+import Stripe from "stripe";
 
-import prismaDb from '@/lib/prisma'
-import stripe from '@/lib/stripe'
-import { revalidatePath } from 'next/cache'
-import Stripe from 'stripe'
+const cors = Cors({
+  allowMethods: ["POST", "HEAD"],
+});
 
 export async function POST(req: Request) {
-  const body = await req.text()
-  const signature = headers().get('Stripe-Signature') as string
+  const body = await req.text();
+  const signature = headers().get("Stripe-Signature") as string;
 
-  let event: Stripe.Event
+  let event: Stripe.Event;
 
   try {
     event = stripe.webhooks.constructEvent(
       body,
       signature,
-      process.env.STRIPE_WEBHOOK_SECRET!
-    )
+      process.env.STRIPE_WEBHOOK_SECRET!,
+    );
   } catch (error: any) {
-    return new NextResponse(`Webhook Error: ${error.message}`, { status: 400 })
+    return new NextResponse(`Webhook Error: ${error.message}`, { status: 400 });
   }
 
-  const session = event.data.object as Stripe.Checkout.Session
-  const address = session?.customer_details?.address
+  const session = event.data.object as Stripe.Checkout.Session;
+  const address = session?.customer_details?.address;
 
   const addressComponents = [
     address?.line1,
@@ -32,11 +36,11 @@ export async function POST(req: Request) {
     address?.state,
     address?.postal_code,
     address?.country,
-  ]
+  ];
 
-  const addressString = addressComponents.filter(c => c !== null).join(', ')
+  const addressString = addressComponents.filter((c) => c !== null).join(", ");
 
-  if (event.type === 'checkout.session.completed') {
+  if (event.type === "checkout.session.completed") {
     await prismaDb.order.update({
       where: {
         id: session?.metadata?.orderId,
@@ -44,14 +48,14 @@ export async function POST(req: Request) {
       data: {
         isPaid: true,
         address: addressString,
-        phone: session?.customer_details?.phone || '',
+        phone: session?.customer_details?.phone || "",
       },
       include: {
         orderItems: true,
       },
-    })
+    });
   }
 
-  revalidatePath('/admin/orders')
-  return new NextResponse(null, { status: 200 })
+  revalidatePath("/admin/orders");
+  return new NextResponse(null, { status: 200 });
 }

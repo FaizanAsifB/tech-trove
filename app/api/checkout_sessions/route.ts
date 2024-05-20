@@ -1,9 +1,7 @@
-import { CartItem } from "@/lib/definitions";
 import prismaDb from "@/lib/prisma";
 import { fetchProductsById } from "@/lib/queries";
 import stripe from "@/lib/stripe";
 import { auth } from "@clerk/nextjs/server";
-import { Image } from "@prisma/client";
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 

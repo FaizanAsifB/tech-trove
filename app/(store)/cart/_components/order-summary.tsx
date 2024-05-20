@@ -31,10 +31,6 @@ const OrderSummary = () => {
       return { id: item.id, quantity: item.quantity };
     });
     try {
-      const stripe = await loadStripe;
-
-      if (!stripe) throw new Error("Stripe failed to initialize.");
-
       const checkoutResponse = await fetch("/api/checkout_sessions", {
         method: "POST",
         headers: {
@@ -42,6 +38,9 @@ const OrderSummary = () => {
         },
         body: JSON.stringify({ cartItemData, totalPrice }),
       });
+
+      const stripe = await loadStripe;
+      if (!stripe) throw new Error("Stripe failed to initialize.");
 
       const { sessionId } = await checkoutResponse.json();
       const stripeError = await stripe.redirectToCheckout({ sessionId });
