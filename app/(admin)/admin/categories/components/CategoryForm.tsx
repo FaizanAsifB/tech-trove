@@ -38,7 +38,7 @@ const CategoryForm = ({ initialData }: CategoryFormProps) => {
     resolver: zodResolver(CategoryFormSchema),
     defaultValues: initialData || {
       title: "",
-      navPos: null,
+      navPos: 0,
       images: [],
     },
   });
@@ -93,7 +93,7 @@ const CategoryForm = ({ initialData }: CategoryFormProps) => {
           />
           <FormField
             control={form.control}
-            name="NavPos"
+            name="navPos"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Nav Position</FormLabel>
@@ -133,7 +133,9 @@ const CategoryForm = ({ initialData }: CategoryFormProps) => {
           />
           <Button
             type="submit"
-            disabled={form.formState.isSubmitting || form.formState.isSubmitted}
+            disabled={
+              form.formState.isSubmitting || form.formState.isSubmitSuccessful
+            }
           >
             {action}
           </Button>

@@ -1,9 +1,22 @@
 import { Category, Image, Product } from "@prisma/client";
 import { z } from "zod";
+import { fetchCategoryNavPos } from "./queries";
 
 export const CategoryFormSchema = z
   .object({
     title: z.string().trim().min(1, "Title is required").max(50),
+    navPos: z.coerce
+      .number()
+      .min(1, "Position must be greater than 0")
+      .refine(
+        async (value) => {
+          const navPos = await fetchCategoryNavPos(value);
+          return !navPos;
+        },
+        {
+          message: "Position already in use",
+        },
+      ),
     images: z
       .object({
         url: z.string().url(),

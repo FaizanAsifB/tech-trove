@@ -22,7 +22,7 @@ model User {
 model Category {
   id          String      @id @default(uuid())
   title       String
-  navPos      Int?          @unique
+  navPos      Int          @unique
   images      Image[]    
   products    Product[]   @relation("CategoryToProduct")
   createdAt   DateTime    @default(now())

@@ -84,6 +84,18 @@ export const fetchFilteredProducts = async (categories: string[] | string) => {
   return products;
 };
 
+export const fetchCategoryNavPos = async (navPos: number) => {
+  const categories = await prismaDb.category.findFirst({
+    where: {
+      navPos,
+    },
+    select: {
+      navPos: true,
+    },
+  });
+  return categories;
+};
+
 export const fetchProductsById = async (ids: string[]) => {
   const products = await prismaDb.product.findMany({
     where: {
