@@ -23,12 +23,13 @@ export async function createCategory(formData: CategoryFormValues) {
     };
   }
 
-  const { title, images } = validatedFields.data;
+  const { title, images, navPos } = validatedFields.data;
 
   try {
     await prismaDb.category.create({
       data: {
         title,
+        navPos,
         images: {
           createMany: {
             data: images.map((image) => ({ ...image, productId: null })),
