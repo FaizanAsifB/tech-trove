@@ -20,7 +20,10 @@ const ProductsPage = async ({
       <div className="container flex flex-1 flex-col gap-12 lg:flex-row lg:gap-20">
         <div className="space-y-4">
           <h6>Product Categories</h6>
-          <CategoryFilter categories={categories} />
+          <CategoryFilter
+            categories={categories}
+            filteredCategories={filteredCategories}
+          />
         </div>
         <Suspense fallback={<ProductsSkeleton />}>
           <ProductsList
