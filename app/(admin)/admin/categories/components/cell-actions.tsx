@@ -1,8 +1,7 @@
-'use client'
+"use client";
 
-import { AlertDialog } from '@/components/ui/alert-dialog'
-import { Button } from '@/components/ui/button'
-import { DeleteDialog } from '@/components/ui/delete-dialog'
+import { Button } from "@/components/ui/button";
+import { DeleteDialog } from "@/components/ui/delete-dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,26 +9,31 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { deleteCategory } from '@/lib/actions'
-import { MoreHorizontal } from 'lucide-react'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
-import { CategoryColumn } from './columns'
+} from "@/components/ui/dropdown-menu";
+import { deleteCategory } from "@/lib/actions";
+import { MoreHorizontal } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { CategoryColumn } from "./columns";
+import { toast } from "sonner";
 
 type CellActionProps = {
-  category: CategoryColumn
-}
+  category: CategoryColumn;
+};
 
 const CellActions = ({ category }: CellActionProps) => {
-  const [open, setOpen] = useState(false)
-  const router = useRouter()
+  const [open, setOpen] = useState(false);
+  const router = useRouter();
   return (
     <>
       <DeleteDialog
         open={open}
         setOpen={setOpen}
-        onConfirm={() => deleteCategory(category.id)}
+        onConfirm={() => {
+          deleteCategory(category.id);
+          toast.success("Category deleted");
+          router.refresh();
+        }}
         deletedItem="category"
       />
       <DropdownMenu>
@@ -55,7 +59,7 @@ const CellActions = ({ category }: CellActionProps) => {
           <DropdownMenuItem
             className="text-destructive focus:bg-destructive focus:text-destructive-foreground"
             onClick={() => {
-              setOpen(true)
+              setOpen(true);
             }}
           >
             Delete category
@@ -63,6 +67,6 @@ const CellActions = ({ category }: CellActionProps) => {
         </DropdownMenuContent>
       </DropdownMenu>
     </>
-  )
-}
-export default CellActions
+  );
+};
+export default CellActions;

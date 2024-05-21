@@ -173,10 +173,6 @@ export async function deleteCategory(id: string) {
         id,
       },
     });
-    revalidatePath("/admin/categories");
-    revalidatePath("/admin/products");
-
-    redirect("/admin/categories");
   } catch (error) {
     return { message: "Database Error: Failed to Delete Category." };
   }
@@ -188,8 +184,8 @@ export async function deleteProduct(id: string) {
         id,
       },
     });
-    revalidatePath("/admin/products");
-    redirect("/admin/products");
+    // revalidatePath("/admin/products");
+    // redirect("/admin/products");
   } catch (error) {
     return { message: "Database Error: Failed to Delete Category." };
   }

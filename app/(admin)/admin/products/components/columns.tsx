@@ -30,29 +30,6 @@ export const columns: ColumnDef<ProductColumn>[] = [
       );
     },
   },
-
-  // {
-  //   accessorKey: "description",
-  //   header: ({ column }) => {
-  //     return (
-  //       <div className="flex items-center">
-  //         <span>Description</span>
-  //         <Button
-  //           variant="ghost"
-  //           size={"icon-sm"}
-  //           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-  //         >
-  //           <ArrowUpDown className="h-4 w-4" />
-  //         </Button>
-  //       </div>
-  //     );
-  //   },
-  //   cell: ({ row }) => {
-  //     return (
-  //       <p className=" max-w-96 truncate">{row.getValue("description")}</p>
-  //     );
-  //   },
-  // },
   {
     accessorKey: "category.title",
     header: ({ column }) => {

@@ -16,7 +16,7 @@ export const fetchCategories = async () =>
       },
     },
     orderBy: {
-      navOrder: "asc",
+      navPos: "asc",
     },
   });
 

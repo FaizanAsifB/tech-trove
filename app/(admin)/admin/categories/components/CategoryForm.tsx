@@ -38,6 +38,7 @@ const CategoryForm = ({ initialData }: CategoryFormProps) => {
     resolver: zodResolver(CategoryFormSchema),
     defaultValues: initialData || {
       title: "",
+      navPos: null,
       images: [],
     },
   });
@@ -84,6 +85,24 @@ const CategoryForm = ({ initialData }: CategoryFormProps) => {
                 <FormLabel>Title</FormLabel>
                 <FormControl>
                   <Input placeholder="Category title" {...field} />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="NavPos"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Nav Position</FormLabel>
+                <FormControl>
+                  <Input
+                    type="number"
+                    placeholder="Position in Navigation menu"
+                    {...field}
+                  />
                 </FormControl>
 
                 <FormMessage />

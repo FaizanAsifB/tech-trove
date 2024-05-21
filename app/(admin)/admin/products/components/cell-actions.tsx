@@ -1,8 +1,8 @@
-'use client'
+"use client";
 
-import { AlertDialog } from '@/components/ui/alert-dialog'
-import { Button } from '@/components/ui/button'
-import { DeleteDialog } from '@/components/ui/delete-dialog'
+import { AlertDialog } from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
+import { DeleteDialog } from "@/components/ui/delete-dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,26 +10,31 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { deleteCategory } from '@/lib/actions'
-import { MoreHorizontal } from 'lucide-react'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
-import { ProductColumn } from './columns'
+} from "@/components/ui/dropdown-menu";
+import { deleteProduct } from "@/lib/actions";
+import { MoreHorizontal } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { ProductColumn } from "./columns";
+import { toast } from "sonner";
 
 type CellActionProps = {
-  product: ProductColumn
-}
+  product: ProductColumn;
+};
 
 const CellActions = ({ product }: CellActionProps) => {
-  const [open, setOpen] = useState(false)
-  const router = useRouter()
+  const [open, setOpen] = useState(false);
+  const router = useRouter();
   return (
     <>
       <DeleteDialog
         open={open}
         setOpen={setOpen}
-        onConfirm={() => deleteCategory(product.id)}
+        onConfirm={() => {
+          deleteProduct(product.id);
+          toast.success("Product deleted");
+          router.refresh();
+        }}
         deletedItem="category"
       />
       <DropdownMenu>
@@ -55,7 +60,7 @@ const CellActions = ({ product }: CellActionProps) => {
           <DropdownMenuItem
             className="text-destructive focus:bg-destructive focus:text-destructive-foreground"
             onClick={() => {
-              setOpen(true)
+              setOpen(true);
             }}
           >
             Delete product
@@ -63,6 +68,6 @@ const CellActions = ({ product }: CellActionProps) => {
         </DropdownMenuContent>
       </DropdownMenu>
     </>
-  )
-}
-export default CellActions
+  );
+};
+export default CellActions;
