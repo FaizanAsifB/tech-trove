@@ -22,7 +22,11 @@ const ProductsPage = async ({
           <h6>Product Categories</h6>
           <CategoryFilter
             categories={categories}
-            filteredCategories={filteredCategories}
+            // filteredCategories={
+            //   typeof filteredCategories === "string"
+            //     ? [filteredCategories]
+            //     : filteredCategories
+            // }
           />
         </div>
         <Suspense fallback={<ProductsSkeleton />}>
