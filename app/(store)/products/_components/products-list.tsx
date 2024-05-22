@@ -5,7 +5,9 @@ import {
   getProductCount,
 } from "@/lib/queries";
 import { PRODUCTS_PER_PAGE } from "@/utils/constants";
+import { Suspense } from "react";
 import ProductCard from "../../_components/product-card";
+import ProductsSkeleton from "./products-skeleton";
 
 type ProductsListProp = {
   filteredCategories: string | string[] | undefined;

@@ -15,21 +15,16 @@ const ProductsPage = async ({
   const currentPage = Number(searchParams["page"] || 1);
   const filteredCategories = searchParams["filter"] || "";
 
+  const params = new URLSearchParams(searchParams.toString());
+
   return (
     <section className="mt-8 flex flex-1 flex-col">
       <div className="container flex flex-1 flex-col gap-12 lg:flex-row lg:gap-20">
         <div className="space-y-4">
           <h6>Product Categories</h6>
-          <CategoryFilter
-            categories={categories}
-            // filteredCategories={
-            //   typeof filteredCategories === "string"
-            //     ? [filteredCategories]
-            //     : filteredCategories
-            // }
-          />
+          <CategoryFilter categories={categories} />
         </div>
-        <Suspense fallback={<ProductsSkeleton />}>
+        <Suspense key={params.toString()} fallback={<ProductsSkeleton />}>
           <ProductsList
             filteredCategories={filteredCategories}
             currentPage={currentPage}

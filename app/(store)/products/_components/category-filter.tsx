@@ -7,13 +7,9 @@ import { useEffect, useOptimistic, useTransition } from "react";
 
 type CategoryFilterProps = {
   categories: Pick<Category, "id" | "title">[];
-  // filteredCategories: string[];
 };
 
-const CategoryFilter = ({
-  categories,
-  // filteredCategories,
-}: CategoryFilterProps) => {
+const CategoryFilter = ({ categories }: CategoryFilterProps) => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
@@ -31,8 +27,6 @@ const CategoryFilter = ({
   });
 
   const [isPending, startTransition] = useTransition();
-
-  console.log(isPending);
 
   useEffect(() => {
     const createQueryString = (name: string, value: string = "") => {
