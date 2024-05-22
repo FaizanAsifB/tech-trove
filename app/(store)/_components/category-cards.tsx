@@ -4,7 +4,7 @@ import Link from "next/link";
 import CategoryCard from "./category-card";
 
 const CategoryCards = async () => {
-  const categories = await fetchCategories();
+  const categories = await fetchCategories({ navPos: "asc" });
   return (
     <section className="container space-y-8">
       <div className="flex flex-col items-start justify-between lg:flex-row lg:items-center">

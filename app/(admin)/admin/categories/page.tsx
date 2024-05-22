@@ -1,23 +1,11 @@
 import { Button } from "@/components/ui/button";
-import { DataTable } from "@/components/ui/data-table";
 import { Heading } from "@/components/ui/heading";
-import prismaDb from "@/lib/prisma";
+import { fetchCategories } from "@/lib/queries";
 import Link from "next/link";
-import { columns } from "./components/columns";
+import DataTableWrapper from "./_components/data-table-wrapper";
 
 const CategoriesPage = async () => {
-  const categories = await prismaDb.category.findMany({
-    include: {
-      images: {
-        orderBy: {
-          id: "desc",
-        },
-      },
-    },
-    orderBy: {
-      updatedAt: "desc",
-    },
-  });
+  const categories = await fetchCategories();
 
   return (
     <section className="flex flex-1 flex-col space-y-6">
@@ -40,11 +28,7 @@ const CategoriesPage = async () => {
             </Button>
           </div>
         ) : (
-          <DataTable
-            columns={columns}
-            data={categories}
-            placeHolder="categories"
-          />
+          <DataTableWrapper categories={categories} />
         )}
       </div>
     </section>

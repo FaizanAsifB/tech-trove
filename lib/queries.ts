@@ -3,7 +3,9 @@
 import { FEATURED_PER_PAGE } from "@/utils/constants";
 import prismaDb from "./prisma";
 
-export const fetchCategories = async () =>
+export const fetchCategories = async (
+  orderBy: Record<string, string> = { updatedAt: "desc" },
+) =>
   await prismaDb.category.findMany({
     include: {
       images: {
@@ -15,9 +17,7 @@ export const fetchCategories = async () =>
         },
       },
     },
-    orderBy: {
-      navPos: "asc",
-    },
+    orderBy,
   });
 
 export const fetchCategoryFilters = async () => {
@@ -36,6 +36,12 @@ export const fetchProducts = async () => {
       images: {
         orderBy: {
           id: "desc",
+        },
+      },
+      category: {
+        select: {
+          id: true,
+          title: true,
         },
       },
     },

@@ -14,7 +14,7 @@ import {
 import prismaDb from "./prisma";
 
 export async function createCategory(formData: CategoryFormValues) {
-  const validatedFields = CategoryFormSchema.safeParse(formData);
+  const validatedFields = await CategoryFormSchema.safeParseAsync(formData);
 
   if (!validatedFields.success) {
     return {
@@ -93,7 +93,7 @@ export async function updateCategory(
   },
   initialImages: Image[],
 ) {
-  const validatedFields = CategoryFormSchema.safeParse(formData);
+  const validatedFields = await CategoryFormSchema.safeParseAsync(formData);
 
   if (!validatedFields.success) {
     return {

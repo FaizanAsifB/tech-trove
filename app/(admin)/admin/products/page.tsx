@@ -4,26 +4,10 @@ import { Heading } from "@/components/ui/heading";
 import prismaDb from "@/lib/prisma";
 import Link from "next/link";
 import DataTableWrapper from "./components/data-table-wrapper";
+import { fetchProducts } from "@/lib/queries";
 
 const ProductsPage = async () => {
-  const products = await prismaDb.product.findMany({
-    include: {
-      images: {
-        orderBy: {
-          id: "desc",
-        },
-      },
-      category: {
-        select: {
-          id: true,
-          title: true,
-        },
-      },
-    },
-    orderBy: {
-      updatedAt: "desc",
-    },
-  });
+  const products = await fetchProducts();
 
   const formattedProducts = products.map((product) => {
     return { ...product, price: parseFloat(String(product?.price)) };

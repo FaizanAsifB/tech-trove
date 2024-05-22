@@ -199,7 +199,10 @@ const ProductForm = ({ initialData, categories }: ProductFormProps) => {
                 <FormControl>
                   <ImageUpload
                     value={field.value}
-                    disabled={form.formState.isSubmitting}
+                    disabled={
+                      form.formState.isSubmitting ||
+                      form.formState.isSubmitSuccessful
+                    }
                     onChange={field.onChange}
                     onRemove={(url) =>
                       field.onChange([

@@ -2,7 +2,7 @@ import { fetchCategories } from "@/lib/queries";
 import Link from "next/link";
 
 const NavLinks = async () => {
-  const categories = await fetchCategories();
+  const categories = await fetchCategories({ navPos: "asc" });
 
   return (
     <ul className="flex flex-col gap-4 lg:flex-row lg:items-center lg:gap-4">

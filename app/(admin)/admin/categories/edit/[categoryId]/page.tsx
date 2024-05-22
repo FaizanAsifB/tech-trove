@@ -1,12 +1,12 @@
-import prismaDb from '@/lib/prisma'
-import CategoryForm from '../../components/CategoryForm'
+import prismaDb from "@/lib/prisma";
+import CategoryForm from "../../_components/CategoryForm";
 
 const EditCategoryPage = async ({
   params,
 }: {
-  params: { categoryId: string }
+  params: { categoryId: string };
 }) => {
-  const { categoryId } = params
+  const { categoryId } = params;
   const category = await prismaDb.category.findFirst({
     where: {
       id: categoryId,
@@ -14,7 +14,7 @@ const EditCategoryPage = async ({
     include: {
       images: true,
     },
-  })
-  return <CategoryForm initialData={category} />
-}
-export default EditCategoryPage
+  });
+  return <CategoryForm initialData={category} />;
+};
+export default EditCategoryPage;

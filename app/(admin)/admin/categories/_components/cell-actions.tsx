@@ -10,18 +10,17 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { deleteCategory } from "@/lib/actions";
 import { MoreHorizontal } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { CategoryColumn } from "./columns";
-import { toast } from "sonner";
 
 type CellActionProps = {
   category: CategoryColumn;
+  handleDeleteCategory: (categoryId: string) => void;
 };
 
-const CellActions = ({ category }: CellActionProps) => {
+const CellActions = ({ category, handleDeleteCategory }: CellActionProps) => {
   const [open, setOpen] = useState(false);
   const router = useRouter();
   return (
@@ -29,11 +28,7 @@ const CellActions = ({ category }: CellActionProps) => {
       <DeleteDialog
         open={open}
         setOpen={setOpen}
-        onConfirm={() => {
-          deleteCategory(category.id);
-          toast.success("Category deleted");
-          router.refresh();
-        }}
+        onConfirm={() => handleDeleteCategory(category.id)}
         deletedItem="category"
       />
       <DropdownMenu>
