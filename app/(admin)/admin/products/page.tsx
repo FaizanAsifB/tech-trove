@@ -1,35 +1,36 @@
-import { Button } from '@/components/ui/button'
-import { DataTable } from '@/components/ui/data-table'
-import { Heading } from '@/components/ui/heading'
-import prismaDb from '@/lib/prisma'
-import Link from 'next/link'
-import { columns } from './components/columns'
+import { Button } from "@/components/ui/button";
+import { DataTable } from "@/components/ui/data-table";
+import { Heading } from "@/components/ui/heading";
+import prismaDb from "@/lib/prisma";
+import Link from "next/link";
+import DataTableWrapper from "./components/data-table-wrapper";
 
 const ProductsPage = async () => {
   const products = await prismaDb.product.findMany({
     include: {
       images: {
         orderBy: {
-          id: 'desc',
+          id: "desc",
         },
       },
       category: {
         select: {
+          id: true,
           title: true,
         },
       },
     },
     orderBy: {
-      updatedAt: 'desc',
+      updatedAt: "desc",
     },
-  })
+  });
 
-  const formattedProducts = products.map(product => {
-    return { ...product, price: parseFloat(String(product?.price)) }
-  })
+  const formattedProducts = products.map((product) => {
+    return { ...product, price: parseFloat(String(product?.price)) };
+  });
   return (
-    <section className="flex flex-col flex-1 space-y-6">
-      <div className="flex justify-between items-center">
+    <section className="flex flex-1 flex-col space-y-6">
+      <div className="flex items-center justify-between">
         <Heading
           title={`Products (${products.length})`}
           description="Manage your products"
@@ -39,23 +40,19 @@ const ProductsPage = async () => {
         </Button>
       </div>
 
-      <div className="flex flex-col flex-1">
+      <div className="flex flex-1 flex-col">
         {products.length === 0 ? (
-          <div className="flex flex-col flex-1 justify-center items-center gap-1 text-center">
+          <div className="flex flex-1 flex-col items-center justify-center gap-1 text-center">
             <p>No Products found.</p>
             <Button asChild>
               <Link href="products/create">Add Product</Link>
             </Button>
           </div>
         ) : (
-          <DataTable
-            columns={columns}
-            data={formattedProducts}
-            placeHolder="products"
-          />
+          <DataTableWrapper products={formattedProducts} />
         )}
       </div>
     </section>
-  )
-}
-export default ProductsPage
+  );
+};
+export default ProductsPage;

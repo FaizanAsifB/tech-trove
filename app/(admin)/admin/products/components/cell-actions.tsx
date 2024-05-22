@@ -12,17 +12,19 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { deleteProduct } from "@/lib/actions";
+import { ProductPageInfo } from "@/lib/definitions";
 import { MoreHorizontal } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { ProductColumn } from "./columns";
 import { toast } from "sonner";
+import { ProductColumn } from "./columns";
 
 type CellActionProps = {
   product: ProductColumn;
+  handleDeleteProduct: (productId: string) => void;
 };
 
-const CellActions = ({ product }: CellActionProps) => {
+const CellActions = ({ product, handleDeleteProduct }: CellActionProps) => {
   const [open, setOpen] = useState(false);
   const router = useRouter();
   return (
@@ -30,11 +32,7 @@ const CellActions = ({ product }: CellActionProps) => {
       <DeleteDialog
         open={open}
         setOpen={setOpen}
-        onConfirm={() => {
-          deleteProduct(product.id);
-          toast.success("Product deleted");
-          router.refresh();
-        }}
+        onConfirm={() => handleDeleteProduct(product.id)}
         deletedItem="category"
       />
       <DropdownMenu>
