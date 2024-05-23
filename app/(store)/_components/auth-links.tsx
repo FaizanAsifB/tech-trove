@@ -16,7 +16,7 @@ const AuthLinks = () => {
           <Container className="h-5 w-5 lg:hidden" />
           Orders
         </Link>
-        {checkRole("admin") ? (
+        {checkRole("ADMIN") ? (
           <Link
             href={"/admin"}
             className=" -mx-2 flex items-center gap-1 rounded-sm px-2 py-1 lg:mx-0 lg:bg-secondary"

@@ -1,8 +1,8 @@
-import { Roles } from '@/types/globals'
-import { auth } from '@clerk/nextjs/server'
+import { auth } from "@clerk/nextjs/server";
+import { Role } from "@prisma/client";
 
-export const checkRole = (role: Roles) => {
-  const { sessionClaims } = auth()
+export const checkRole = (role: Role) => {
+  const { sessionClaims } = auth();
 
-  return sessionClaims?.metadata.role === role
-}
+  return sessionClaims?.metadata.role === role;
+};

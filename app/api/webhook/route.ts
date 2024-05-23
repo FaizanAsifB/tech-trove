@@ -6,10 +6,6 @@ import stripe from "@/lib/stripe";
 import { revalidatePath } from "next/cache";
 import Stripe from "stripe";
 
-// const cors = Cors({
-//   allowMethods: ["POST", "HEAD"],
-// });
-
 export async function POST(req: Request) {
   const body = await req.text();
   const signature = headers().get("Stripe-Signature") as string;

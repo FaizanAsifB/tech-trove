@@ -9,7 +9,7 @@ import React from "react";
 import { columns } from "../_components/columns";
 
 const AdminsPage = async () => {
-  if (!checkRole("admin")) {
+  if (!checkRole("ADMIN")) {
     redirect("/");
   }
 

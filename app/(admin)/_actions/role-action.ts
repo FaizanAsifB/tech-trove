@@ -4,7 +4,7 @@ import { checkRole } from "@/lib/roles";
 import { clerkClient } from "@clerk/nextjs/server";
 
 export async function setRole(userId: string, role: "ADMIN" | "USER") {
-  if (!checkRole("admin")) {
+  if (!checkRole("ADMIN")) {
     return { message: "Not Authorized" };
   }
 

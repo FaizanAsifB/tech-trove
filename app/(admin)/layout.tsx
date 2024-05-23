@@ -19,7 +19,7 @@ export default function AdminLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  if (!checkRole("admin")) {
+  if (!checkRole("ADMIN")) {
     redirect("/");
   }
 

@@ -1,6 +1,11 @@
-import { Skeleton } from '@/components/ui/skeleton'
+import { Skeleton } from "@/components/ui/skeleton";
 
-const loading = () => {
-  return <Skeleton className="w-[100px] h-[20px] rounded-full" />
-}
-export default loading
+const OrdersLoading = () => {
+  return (
+    <>
+      <Skeleton className="h-[20px] w-full rounded-full" />
+      <Skeleton className="h-[500px] w-full rounded-full" />
+    </>
+  );
+};
+export default OrdersLoading;
