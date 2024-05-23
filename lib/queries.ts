@@ -367,7 +367,7 @@ export const fetchGraphData = async () => {
 export const fetchAdmins = async () => {
   const admins = prismaDb.user.findMany({
     where: {
-      role: "admin",
+      role: "ADMIN",
     },
   });
 

@@ -44,31 +44,6 @@ const CellActions = ({ user }: CellActionProps) => {
           Make Admin
         </Button>
       )}
-      {/* <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="h-8 w-8 p-0">
-            <span className="sr-only">Open menu</span>
-            <MoreHorizontal className="h-4 w-4" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuLabel>Actions</DropdownMenuLabel>
-          <DropdownMenuItem
-            onClick={() => navigator.clipboard.writeText(user.email!)}
-          >
-            Copy Email Address
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem
-            className="text-destructive focus:bg-destructive focus:text-destructive-foreground"
-            onClick={() => {
-              setOpen(true);
-            }}
-          >
-            Remove Admin
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu> */}
     </>
   );
 };
