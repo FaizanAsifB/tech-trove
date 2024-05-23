@@ -1,4 +1,5 @@
 import { Heading } from "@/components/ui/heading";
+import { Separator } from "@/components/ui/separator";
 import {
   countPaidOrderItems,
   fetchDashboardAggregations,
@@ -23,6 +24,7 @@ const page = async () => {
   return (
     <section className="flex-1 space-y-6">
       <Heading title="Dashboard" description="Overview of your store" />
+
       <h1>Welcome back, {user?.firstName}</h1>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <DashboardDataCard

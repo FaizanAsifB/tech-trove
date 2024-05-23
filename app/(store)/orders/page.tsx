@@ -4,7 +4,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { fetchOrders } from "@/lib/queries";
+import { fetchOrdersByUserId } from "@/lib/queries";
 import { formatter } from "@/lib/utils";
 import { auth } from "@clerk/nextjs/server";
 import Image from "next/image";
@@ -15,7 +15,7 @@ const OrdersPage = async () => {
 
   if (!userId) return null;
 
-  const orders = await fetchOrders(userId);
+  const orders = await fetchOrdersByUserId(userId);
 
   return (
     <section>

@@ -1,6 +1,6 @@
 "use server";
 
-import { FEATURED_PER_PAGE } from "@/utils/constants";
+import { FEATURED_PER_PAGE, GRAPH_DATA } from "@/utils/constants";
 import prismaDb from "./prisma";
 
 export const fetchCategories = async (
@@ -255,7 +255,27 @@ export const deleteOrder = async (id: string) => {
   return order;
 };
 
-export const fetchOrders = async (userId: string) => {
+export const fetchOrders = async () => {
+  const order = await prismaDb.order.findMany({
+    include: {
+      orderItems: {
+        include: {
+          product: {
+            select: {
+              title: true,
+            },
+          },
+        },
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+  return order;
+};
+
+export const fetchOrdersByUserId = async (userId: string) => {
   const order = await prismaDb.order.findMany({
     where: {
       userId,
@@ -335,23 +355,20 @@ export const fetchGraphData = async () => {
       (monthlyRevenue[month] || 0) + parseFloat(String(item._sum.totalPrice));
   });
 
-  const graphData = [
-    { name: "Jan", total: 0 },
-    { name: "Feb", total: 0 },
-    { name: "Mar", total: 0 },
-    { name: "Apr", total: 0 },
-    { name: "May", total: 0 },
-    { name: "Jun", total: 0 },
-    { name: "Jul", total: 0 },
-    { name: "Aug", total: 0 },
-    { name: "Sep", total: 0 },
-    { name: "Oct", total: 0 },
-    { name: "Nov", total: 0 },
-    { name: "Dec", total: 0 },
-  ];
+  const graphData = GRAPH_DATA;
 
   for (const month in monthlyRevenue) {
     graphData[parseInt(month)].total = monthlyRevenue[parseInt(month)];
   }
   return graphData;
+};
+
+export const fetchAdmins = async () => {
+  const admins = prismaDb.user.findMany({
+    where: {
+      role: "admin",
+    },
+  });
+
+  return admins;
 };

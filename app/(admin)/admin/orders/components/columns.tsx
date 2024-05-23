@@ -13,8 +13,8 @@ export type OrderColumn = Omit<Order, "updatedAt" | "totalPrice"> & {
 
 export const columns: ColumnDef<OrderColumn>[] = [
   {
-    accessorKey: "id",
-    header: "Id",
+    accessorKey: "orderNr",
+    header: "Order Number",
   },
   {
     accessorKey: "products",

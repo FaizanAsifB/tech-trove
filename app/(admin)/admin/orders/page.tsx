@@ -1,22 +1,10 @@
 import { DataTable } from "@/components/ui/data-table";
 import { Heading } from "@/components/ui/heading";
-import prismaDb from "@/lib/prisma";
-import { formattedDate, formatter } from "@/lib/utils";
 import { columns } from "./components/columns";
+import { fetchOrders } from "@/lib/queries";
 
 const OrdersPage = async () => {
-  const orders = await prismaDb.order.findMany({
-    include: {
-      orderItems: {
-        include: {
-          product: true,
-        },
-      },
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
+  const orders = await fetchOrders();
 
   const formattedOrders = orders.map((item) => ({
     ...item,

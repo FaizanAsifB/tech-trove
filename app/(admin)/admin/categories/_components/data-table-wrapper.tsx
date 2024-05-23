@@ -1,8 +1,7 @@
 "use client";
 
 import { DataTable } from "@/components/ui/data-table";
-import { deleteCategory, deleteProduct } from "@/lib/actions";
-import { ProductPageInfo } from "@/lib/definitions";
+import { deleteCategory } from "@/lib/actions";
 import { Category, Image } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { useOptimistic } from "react";

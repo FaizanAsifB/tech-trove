@@ -1,40 +1,46 @@
-import prismaDb from '@/lib/prisma'
-import { checkRole } from '@/lib/roles'
-import { clerkClient } from '@clerk/nextjs/server'
-import { redirect } from 'next/navigation'
-import { setRole } from '../../_actions/role-action'
-import { SearchUsers } from '../../_components/search-users'
+import { DataTable } from "@/components/ui/data-table";
+import prismaDb from "@/lib/prisma";
+import { fetchAdmins } from "@/lib/queries";
+import { checkRole } from "@/lib/roles";
+import { clerkClient } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
+import { setRole } from "../../_actions/role-action";
+import { SearchUsers } from "../../_components/search-users";
+import { columns } from "./_components/columns";
 
 export default async function SettingsPage(params: {
-  searchParams: { search?: string }
+  searchParams: { search?: string };
 }) {
-  if (!checkRole('admin')) {
-    redirect('/')
+  if (!checkRole("admin")) {
+    redirect("/");
   }
 
-  const query = params.searchParams.search
+  const query = params.searchParams.search;
 
-  const admins = await prismaDb.user.findMany({
-    where: {
-      role: 'admin',
-    },
-  })
+  const admins = await fetchAdmins();
 
   const users = query
     ? await clerkClient.users.getUserList({ query })
-    : { data: [] }
+    : { data: [] };
 
   return (
     <>
       <h1>Settings</h1>
 
-      {admins.map(admin => (
+      <DataTable
+        columns={columns}
+        data={admins}
+        filterValue="email"
+        placeHolder="admins"
+      />
+
+      {/* {admins.map((admin) => (
         <div key={admin.id}>{admin.email}</div>
-      ))}
+      ))} */}
 
       <SearchUsers />
 
-      {users.data.map(user => {
+      {users.data.map((user) => {
         return (
           <div key={user.id} className="flex items-center gap-4">
             <div>
@@ -43,11 +49,11 @@ export default async function SettingsPage(params: {
             <div>
               {
                 user.emailAddresses.find(
-                  email => email.id === user.primaryEmailAddressId
+                  (email) => email.id === user.primaryEmailAddressId,
                 )?.emailAddress
               }
             </div>
-            <div>{(user.publicMetadata.role as string) ?? 'user'}</div>
+            <div>{(user.publicMetadata.role as string) ?? "user"}</div>
             <div>
               <form action={setRole}>
                 <input type="hidden" value={user.id} name="id" />
@@ -63,8 +69,8 @@ export default async function SettingsPage(params: {
               </form>
             </div>
           </div>
-        )
+        );
       })}
     </>
-  )
+  );
 }

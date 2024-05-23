@@ -9,15 +9,14 @@ const CategoriesPage = async () => {
 
   return (
     <section className="flex flex-1 flex-col space-y-6">
-      <div className="flex items-center justify-between">
-        <Heading
-          title={`Categories (${categories.length})`}
-          description="Manage categories for your products"
-        />
+      <Heading
+        title={`Categories (${categories.length})`}
+        description="Manage categories for your products"
+      >
         <Button asChild>
           <Link href="categories/create">Add Category</Link>
         </Button>
-      </div>
+      </Heading>
 
       <div className="flex flex-1 flex-col">
         {categories.length === 0 ? (
