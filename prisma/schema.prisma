@@ -1,6 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-  previewFeatures = ["fullTextSearch"]
 }
 
 datasource db {
@@ -10,12 +9,18 @@ datasource db {
 
 }
 
+
+enum Role {
+  USER
+  ADMIN
+}
+
 model User {
   id      Int      @id @default(autoincrement())
   userId  String  @unique 
   email   String?   @unique 
   name    String?
-  role   String  @default("user")
+  role   Role  @default(USER)
   orders Order[] 
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt

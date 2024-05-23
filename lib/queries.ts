@@ -1,6 +1,7 @@
 "use server";
 
 import { FEATURED_PER_PAGE, GRAPH_DATA } from "@/utils/constants";
+import { EmailAddress } from "@clerk/nextjs/server";
 import prismaDb from "./prisma";
 
 export const fetchCategories = async (
@@ -373,7 +374,22 @@ export const fetchAdmins = async () => {
   return admins;
 };
 
-const fetchUsers = async () => {
-  const users = prismaDb.user.findMany();
+export const fetchUsersSearch = async (query: string) => {
+  const users = prismaDb.user.findMany({
+    where: {
+      OR: [
+        {
+          email: {
+            contains: query,
+          },
+        },
+        {
+          email: {
+            contains: query,
+          },
+        },
+      ],
+    },
+  });
   return users;
 };

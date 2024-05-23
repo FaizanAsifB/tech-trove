@@ -2,38 +2,29 @@ import { setRole } from "@/app/(admin)/_actions/role-action";
 import { SearchUsers } from "@/app/(admin)/_components/search-users";
 import { DataTable } from "@/components/ui/data-table";
 import { Heading } from "@/components/ui/heading";
+import { fetchUsersSearch } from "@/lib/queries";
 import { User, clerkClient } from "@clerk/nextjs/server";
 import { columns } from "./_components/columns";
 
 const AddAdminPage = async (params: { searchParams: { search?: string } }) => {
   const query = params.searchParams.search;
 
-  const users = query
-    ? await clerkClient.users.getUserList({ query })
-    : { data: [] as User[] };
+  const users = query ? await fetchUsersSearch(query) : [];
 
   return (
-    <section>
+    <section className="space-y-6">
       <Heading
         title={"Add Admins"}
         description="Add new Admins to your store"
       />
       <SearchUsers />
       <DataTable columns={columns} data={users} filterVisible={false} />
-      {users.data.map((user) => {
+      {/* {users.map((user) => {
         return (
           <div key={user.id} className="flex items-center gap-4">
-            <div>
-              {user.firstName} {user.lastName}
-            </div>
-            <div>
-              {
-                user.emailAddresses.find(
-                  (email) => email.id === user.primaryEmailAddressId,
-                )?.emailAddress
-              }
-            </div>
-            <div>{(user.publicMetadata.role as string) ?? "user"}</div>
+            <div>{user.name}</div>
+            <div>{user.email}</div>
+            <div>{user.role ?? "user"}</div>
             <div>
               <form action={setRole}>
                 <input type="hidden" value={user.id} name="id" />
@@ -50,7 +41,7 @@ const AddAdminPage = async (params: { searchParams: { search?: string } }) => {
             </div>
           </div>
         );
-      })}
+      })} */}
     </section>
   );
 };

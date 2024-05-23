@@ -1,5 +1,6 @@
 "use client";
 
+import { setRole } from "@/app/(admin)/_actions/role-action";
 import { Button } from "@/components/ui/button";
 import { DeleteDialog } from "@/components/ui/delete-dialog";
 import {
@@ -30,7 +31,20 @@ const CellActions = ({ user }: CellActionProps) => {
         onConfirm={() => {}}
         deletedItem="Removed user as admin."
       />
-      <DropdownMenu>
+      {user.role === "ADMIN" ? (
+        <Button
+          size={"sm"}
+          variant={"destructive"}
+          onClick={() => setOpen(true)}
+        >
+          Remove Admin
+        </Button>
+      ) : (
+        <Button onClick={() => setRole(user.userId, "ADMIN")}>
+          Make Admin
+        </Button>
+      )}
+      {/* <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="h-8 w-8 p-0">
             <span className="sr-only">Open menu</span>
@@ -54,7 +68,7 @@ const CellActions = ({ user }: CellActionProps) => {
             Remove Admin
           </DropdownMenuItem>
         </DropdownMenuContent>
-      </DropdownMenu>
+      </DropdownMenu> */}
     </>
   );
 };
