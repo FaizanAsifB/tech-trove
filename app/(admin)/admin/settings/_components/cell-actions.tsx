@@ -1,5 +1,6 @@
 "use client";
 
+import { setRole } from "@/app/(admin)/_actions/role-action";
 import { Button } from "@/components/ui/button";
 import { DeleteDialog } from "@/components/ui/delete-dialog";
 import {
@@ -14,6 +15,7 @@ import { MoreHorizontal } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { UserColumn } from "./columns";
+import { toast } from "sonner";
 
 type CellActionProps = {
   user: UserColumn;
@@ -27,8 +29,12 @@ const CellActions = ({ user }: CellActionProps) => {
       <DeleteDialog
         open={open}
         setOpen={setOpen}
-        onConfirm={() => {}}
-        deletedItem="Removed user as admin."
+        onConfirm={async () => {
+          await setRole(user.userId, "USER");
+          router.refresh();
+          toast.success("User removed as an admin");
+        }}
+        infoText="remove this user as an admin"
       />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>

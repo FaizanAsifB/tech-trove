@@ -1,6 +1,5 @@
 "use client";
 
-import { AlertDialog } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { DeleteDialog } from "@/components/ui/delete-dialog";
 import {
@@ -11,12 +10,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { deleteProduct } from "@/lib/actions";
-import { ProductPageInfo } from "@/lib/definitions";
 import { MoreHorizontal } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { toast } from "sonner";
 import { ProductColumn } from "./columns";
 
 type CellActionProps = {
@@ -33,7 +29,7 @@ const CellActions = ({ product, handleDeleteProduct }: CellActionProps) => {
         open={open}
         setOpen={setOpen}
         onConfirm={() => handleDeleteProduct(product.id)}
-        deletedItem="category"
+        infoText={`delete ${product.title}`}
       />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>

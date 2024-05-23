@@ -12,31 +12,25 @@ import {
 import { Button } from "@/components/ui/button";
 
 type DeleteDialogProps = {
-  children?: React.ReactNode;
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   onConfirm: () => void;
-  deletedItem: string;
+  infoText: string;
 };
 
 export function DeleteDialog({
-  children,
   open,
   setOpen,
   onConfirm,
-  deletedItem,
+  infoText,
 }: DeleteDialogProps) {
   return (
     <AlertDialog open={open} onOpenChange={() => setOpen(!open)}>
-      {/* <AlertDialogTrigger asChild>
-        {children ? children : <Button variant="outline">Delete</Button>}
-      </AlertDialogTrigger> */}
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete
-            {` ${deletedItem}`}.
+            This action cannot be undone. This will permanently {infoText}.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

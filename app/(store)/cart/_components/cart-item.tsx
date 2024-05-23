@@ -19,7 +19,7 @@ const CartItem = ({ product }: { product: CartItem }) => {
         onConfirm={() => deleteItemInCart(product.id)}
         open={isOpen}
         setOpen={setIsOpen}
-        deletedItem={product.title}
+        infoText={`delete ${product.title} from the cart`}
       />
       <article className="space-y-4 rounded-lg border p-4 md:p-6">
         <div className=" grid items-center gap-4 md:grid-cols-[auto_1fr_auto]">
