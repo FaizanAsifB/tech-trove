@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useOptimistic, useState } from "react";
 import { UserColumn } from "./columns";
 import { toast } from "sonner";
 
@@ -22,6 +22,7 @@ type CellActionProps = {
 };
 
 const CellActions = ({ user }: CellActionProps) => {
+  const [optimisticUser, addOptimisticUser] = useOptimistic(user);
   const [open, setOpen] = useState(false);
   const router = useRouter();
   return (
@@ -30,7 +31,7 @@ const CellActions = ({ user }: CellActionProps) => {
         open={open}
         setOpen={setOpen}
         onConfirm={async () => {
-          await setRole(user.userId, "USER");
+          await setRole(optimisticUser.userId, "USER");
           router.refresh();
           toast.success("User removed as an admin");
         }}
@@ -46,7 +47,7 @@ const CellActions = ({ user }: CellActionProps) => {
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
           <DropdownMenuItem
-            onClick={() => navigator.clipboard.writeText(user.email!)}
+            onClick={() => navigator.clipboard.writeText(optimisticUser.email!)}
           >
             Copy Email Address
           </DropdownMenuItem>

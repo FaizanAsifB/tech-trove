@@ -3,8 +3,9 @@
 import { setRole } from "@/app/(admin)/_actions/role-action";
 import { Button } from "@/components/ui/button";
 import { DeleteDialog } from "@/components/ui/delete-dialog";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { Role } from "@prisma/client";
+import { LoaderIcon } from "lucide-react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { UserColumn } from "./columns";
 
@@ -13,37 +14,69 @@ type CellActionProps = {
 };
 
 const CellActions = ({ user }: CellActionProps) => {
+  const [optimisticRole, setOptimisticRole] = useState<Role>(user.role);
+
   const [open, setOpen] = useState(false);
-  const router = useRouter();
+  const [isPending, setIsPending] = useState(false);
+
+  useEffect(() => {
+    setOptimisticRole(user.role);
+  }, [user.role]);
+
+  const handleRoleChange = async (newRole: Role) => {
+    setIsPending(true);
+    setOptimisticRole(newRole);
+
+    try {
+      await setRole(user.userId, newRole);
+      toast.success(
+        `User ${newRole === "ADMIN" ? "added as" : "removed as"} an admin`,
+      );
+    } catch (error) {
+      toast.error("Failed to change role. Please try again");
+      setOptimisticRole(user.role);
+    } finally {
+      setIsPending(false);
+    }
+  };
+
   return (
     <>
       <DeleteDialog
         open={open}
         setOpen={setOpen}
-        onConfirm={async () => {
-          await setRole(user.userId, "USER");
-          router.refresh();
-          toast.success("User removed as an admin");
-        }}
+        onConfirm={() => handleRoleChange("USER")}
         infoText="remove this user as an admin."
       />
-      {user.role === "ADMIN" ? (
+      {optimisticRole === "ADMIN" && !isPending ? (
         <Button
+          disabled={isPending}
           size={"sm"}
           variant={"destructive"}
           onClick={() => setOpen(true)}
         >
-          Remove Admin
+          {isPending ? (
+            <>
+              <LoaderIcon className="mr-2 h-4 w-4 animate-spin" />
+              <span>Updating Role</span>
+            </>
+          ) : (
+            "Remove Admin"
+          )}
         </Button>
       ) : (
         <Button
-          onClick={async () => {
-            await setRole(user.userId, "ADMIN");
-            router.refresh();
-            toast.success("User added as an admin");
-          }}
+          disabled={isPending}
+          onClick={async () => handleRoleChange("ADMIN")}
         >
-          Make Admin
+          {isPending ? (
+            <>
+              <LoaderIcon className="mr-2 h-4 w-4 animate-spin" />
+              <span>Updating Role</span>
+            </>
+          ) : (
+            "Make Admin"
+          )}
         </Button>
       )}
     </>
