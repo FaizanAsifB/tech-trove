@@ -10,19 +10,21 @@ export default async function SettingsPage() {
   }
 
   return (
-    <section className="flex flex-1 flex-col space-y-6">
+    <section className="flex-1 space-y-6">
       <Heading
         title={"Settings"}
         description="Manage settings for your store"
       />
 
-      <Button asChild variant={"outline"}>
-        <Link href={"/admin/settings/admins"}>View Admins</Link>
-      </Button>
+      <div className="flex w-1/5 flex-col gap-2">
+        <Button asChild variant={"outline"}>
+          <Link href={"/admin/settings/admins"}>View Admins</Link>
+        </Button>
 
-      <Button asChild variant={"outline"}>
-        <Link href={"/admin/settings/add-new"}>Add Admin</Link>
-      </Button>
+        <Button asChild variant={"outline"}>
+          <Link href={"/admin/settings/add-new"}>Add Admin</Link>
+        </Button>
+      </div>
     </section>
   );
 }

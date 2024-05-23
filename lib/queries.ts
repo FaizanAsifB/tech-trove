@@ -381,11 +381,13 @@ export const fetchUsersSearch = async (query: string) => {
         {
           email: {
             contains: query,
+            mode: "insensitive",
           },
         },
         {
           email: {
             contains: query,
+            mode: "insensitive",
           },
         },
       ],

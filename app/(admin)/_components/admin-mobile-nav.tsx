@@ -2,6 +2,7 @@
 
 import Logo from "@/components/logo";
 import { Separator } from "@/components/ui/separator";
+import { SignedIn, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import MobileNav from "../../../components/ui/mobile-nav";
@@ -14,7 +15,7 @@ const AdminMobileNav = () => {
     <MobileNav>
       <Logo />
       <Separator />
-      <nav>
+      <nav className="flex flex-1 flex-col">
         {navLinks.map((link) => {
           return (
             <Link
@@ -31,6 +32,11 @@ const AdminMobileNav = () => {
             </Link>
           );
         })}
+        <SignedIn>
+          <div className="mt-auto">
+            <UserButton />
+          </div>
+        </SignedIn>
       </nav>
     </MobileNav>
   );

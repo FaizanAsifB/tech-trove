@@ -39,18 +39,18 @@ export const navLinks = [
     href: "/admin/settings",
     icon: <Cog6ToothIcon className="size-6" />,
   },
-  {
-    title: "Logout",
-    href: "/admin/logout",
-    icon: <ArrowLeftEndOnRectangleIcon className="size-6" />,
-  },
+  // {
+  //   title: "Logout",
+  //   href: "/admin/logout",
+  //   icon: <ArrowLeftEndOnRectangleIcon className="size-6" />,
+  // },
 ];
 
 const Nav = () => {
   const pathname = usePathname();
 
   return (
-    <div className="hidden border-r bg-muted/40 md:block">
+    <div className="hidden border-r bg-muted/40 lg:block">
       <div className="flex h-full max-h-screen flex-col gap-2">
         <div className="grid items-center border-b px-4 lg:h-[60px] lg:px-6">
           <div className="w-32">
