@@ -28,14 +28,16 @@ import { useState } from "react";
 type DataTableProps<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  placeHolder: string;
+  placeHolder?: string;
+  filterVisible?: boolean;
   filterValue?: string;
 };
 
 export function DataTable<TData, TValue>({
   columns,
   data,
-  placeHolder,
+  placeHolder = "",
+  filterVisible = true,
   filterValue = "title",
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -58,18 +60,20 @@ export function DataTable<TData, TValue>({
 
   return (
     <div>
-      <div className="flex items-center py-4">
-        <Input
-          placeholder={`Filter ${placeHolder}...`}
-          value={
-            (table.getColumn(filterValue)?.getFilterValue() as string) ?? ""
-          }
-          onChange={(event) =>
-            table.getColumn(filterValue)?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
-      </div>
+      {filterVisible && (
+        <div className="flex items-center py-4">
+          <Input
+            placeholder={`Filter ${placeHolder}...`}
+            value={
+              (table.getColumn(filterValue)?.getFilterValue() as string) ?? ""
+            }
+            onChange={(event) =>
+              table.getColumn(filterValue)?.setFilterValue(event.target.value)
+            }
+            className="max-w-sm"
+          />
+        </div>
+      )}
       <div className="rounded-md border">
         <Table>
           <TableHeader>

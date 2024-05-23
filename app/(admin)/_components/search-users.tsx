@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { usePathname, useRouter } from "next/navigation";
 
 export const SearchUsers = () => {
@@ -21,10 +20,14 @@ export const SearchUsers = () => {
           router.push(pathname + "?search=" + queryTerm);
         }}
       >
-        <Label htmlFor="search">Search for Users</Label>
         <div className="flex items-center gap-2">
-          <Input id="search" name="search" type="text" />
-          <Button type="submit">Submit</Button>
+          <Input
+            id="search"
+            name="search"
+            type="text"
+            placeholder="Search for Users"
+          />
+          <Button type="submit">Search</Button>
         </div>
       </form>
     </div>

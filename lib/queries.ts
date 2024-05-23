@@ -372,3 +372,8 @@ export const fetchAdmins = async () => {
 
   return admins;
 };
+
+const fetchUsers = async () => {
+  const users = prismaDb.user.findMany();
+  return users;
+};
