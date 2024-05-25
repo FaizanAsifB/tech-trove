@@ -1,8 +1,7 @@
 import { SearchUsers } from "@/app/(admin)/_components/search-users";
-import { DataTable } from "@/components/ui/data-table";
 import { Heading } from "@/components/ui/heading";
 import { fetchUsersSearch } from "@/lib/queries";
-import { columns } from "./_components/columns";
+import DataTableWrapper from "./_components/data-table-wrapper";
 
 const AddAdminPage = async (params: { searchParams: { search?: string } }) => {
   const query = params.searchParams.search;
@@ -16,7 +15,7 @@ const AddAdminPage = async (params: { searchParams: { search?: string } }) => {
         description="Add new Admins to your store"
       />
       <SearchUsers />
-      <DataTable columns={columns} data={users} filterVisible={false} />
+      <DataTableWrapper users={users} />
     </section>
   );
 };

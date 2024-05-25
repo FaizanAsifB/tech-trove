@@ -15,7 +15,7 @@ const DataTableWrapper = ({
 }) => {
   const [optimisticCategories, setOptimisticCategories] = useOptimistic(
     categories,
-    (state, optimisticValue) => {
+    (state, optimisticValue: string) => {
       return state.filter((item) => item.id !== optimisticValue);
     },
   );

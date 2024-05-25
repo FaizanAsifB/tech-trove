@@ -5,27 +5,28 @@ import { Button } from "@/components/ui/button";
 import { DeleteDialog } from "@/components/ui/delete-dialog";
 import { Role } from "@prisma/client";
 import { LoaderIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 import { UserColumn } from "./columns";
 
 type CellActionProps = {
   user: UserColumn;
+  handleOptimisticUpdate: (userId: string, newRole: Role) => void;
 };
 
-const CellActions = ({ user }: CellActionProps) => {
-  const [optimisticRole, setOptimisticRole] = useState<Role>(user.role);
+const CellActions = ({ user, handleOptimisticUpdate }: CellActionProps) => {
+  // const [optimisticRole, setOptimisticRole] = useState<Role>(user.role);
 
   const [open, setOpen] = useState(false);
   const [isPending, setIsPending] = useState(false);
 
-  useEffect(() => {
-    setOptimisticRole(user.role);
-  }, [user.role]);
+  // useEffect(() => {
+  //   setOptimisticRole(user.role);
+  // }, [user.role]);
 
   const handleRoleChange = async (newRole: Role) => {
     setIsPending(true);
-    setOptimisticRole(newRole);
+    handleOptimisticUpdate(user.userId, newRole);
 
     try {
       await setRole(user.userId, newRole);
@@ -34,7 +35,7 @@ const CellActions = ({ user }: CellActionProps) => {
       );
     } catch (error) {
       toast.error("Failed to change role. Please try again");
-      setOptimisticRole(user.role);
+      // setOptimisticUser(user.role);
     } finally {
       setIsPending(false);
     }
@@ -48,7 +49,7 @@ const CellActions = ({ user }: CellActionProps) => {
         onConfirm={() => handleRoleChange("USER")}
         infoText="remove this user as an admin."
       />
-      {optimisticRole === "ADMIN" && !isPending ? (
+      {user.role === "ADMIN" && !isPending ? (
         <Button
           disabled={isPending}
           size={"sm"}
