@@ -6,5 +6,5 @@ export const checkRole = (role: Role) => {
 
   const userMetadata = sessionClaims?.metadata as CustomJwtSessionClaims;
 
-  return userMetadata.role === role;
+  return userMetadata?.role === role;
 };
