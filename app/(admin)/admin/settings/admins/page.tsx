@@ -6,7 +6,7 @@ import { checkRole } from "@/lib/roles";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import React from "react";
-import { columns } from "../_components/columns";
+import DataTableWrapper from "./_components/data-table-wrapper";
 
 const AdminsPage = async () => {
   if (!checkRole("ADMIN")) {
@@ -21,12 +21,7 @@ const AdminsPage = async () => {
           <Link href={"/admin/settings/add-new"}>Add Admin</Link>
         </Button>
       </Heading>
-      <DataTable
-        columns={columns}
-        data={admins}
-        filterValue="email"
-        placeHolder="admins"
-      />
+      <DataTableWrapper admins={admins} />
     </section>
   );
 };
