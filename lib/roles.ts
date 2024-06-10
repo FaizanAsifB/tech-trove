@@ -4,5 +4,7 @@ import { Role } from "@prisma/client";
 export const checkRole = (role: Role) => {
   const { sessionClaims } = auth();
 
-  return sessionClaims?.metadata.role === role;
+  const userMetadata = sessionClaims?.metadata as CustomJwtSessionClaims;
+
+  return userMetadata.role === role;
 };
