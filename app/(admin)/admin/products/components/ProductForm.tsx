@@ -6,7 +6,6 @@ import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -21,12 +20,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { createProduct, toggleIsPrimary, updateProduct } from "@/lib/actions";
 import { ProductFormSchema, ProductFormValues } from "@/lib/definitions";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Category, Image, Product } from "@prisma/client";
+import { Category } from "@prisma/client";
+import { Loader2 } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -41,11 +40,6 @@ const ProductForm = ({ initialData, categories }: ProductFormProps) => {
   const params = useParams();
   const router = useRouter();
 
-  const title = initialData ? "Edit product" : "Create product";
-  const description = initialData ? "Edit a product." : "Add a new product";
-  const toastMessage = initialData ? "Product updated." : "Product created.";
-  const action = initialData ? "Save changes" : "Create";
-
   const form = useForm<ProductFormValues>({
     resolver: zodResolver(ProductFormSchema),
     defaultValues: initialData
@@ -59,6 +53,25 @@ const ProductForm = ({ initialData, categories }: ProductFormProps) => {
           images: [],
         },
   });
+
+  const title = initialData ? "Edit product" : "Create product";
+  const description = initialData ? "Edit a product." : "Add a new product";
+  const toastMessage = initialData ? "Product updated." : "Product created.";
+  const action = initialData ? "Save changes" : "Create Product";
+  const loadingText = initialData ? "Updating Product" : "Creating Product";
+  const submittedText = initialData ? "Product Updated" : "Product Created";
+  const buttonText = () => {
+    if (form.formState.isSubmitting)
+      return (
+        <>
+          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          <span>{loadingText}</span>
+        </>
+      );
+
+    if (form.formState.isSubmitSuccessful) return submittedText;
+    else return action;
+  };
 
   async function handleSubmit(data: ProductFormValues) {
     try {
@@ -221,7 +234,7 @@ const ProductForm = ({ initialData, categories }: ProductFormProps) => {
               form.formState.isSubmitting || form.formState.isSubmitSuccessful
             }
           >
-            {action}
+            {buttonText()}
           </Button>
         </form>
       </Form>

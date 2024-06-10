@@ -12,11 +12,11 @@ import {
 } from "@/components/ui/form";
 import { Heading } from "@/components/ui/heading";
 import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
 import { createCategory, toggleIsPrimary, updateCategory } from "@/lib/actions";
 import { CategoryFormSchema, CategoryFormValues } from "@/lib/definitions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Category, Image } from "@prisma/client";
+import { Loader2 } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -29,11 +29,6 @@ const CategoryForm = ({ initialData }: CategoryFormProps) => {
   const params = useParams();
   const router = useRouter();
 
-  const title = initialData ? "Edit category" : "Create category";
-  const description = initialData ? "Edit a category." : "Add a new category";
-  const toastMessage = initialData ? "Category updated." : "Category created.";
-  const action = initialData ? "Save changes" : "Create";
-
   const form = useForm<CategoryFormValues>({
     resolver: zodResolver(CategoryFormSchema),
     defaultValues: initialData || {
@@ -42,6 +37,25 @@ const CategoryForm = ({ initialData }: CategoryFormProps) => {
       images: [],
     },
   });
+
+  const title = initialData ? "Edit category" : "Create category";
+  const description = initialData ? "Edit a category." : "Add a new category";
+  const toastMessage = initialData ? "Category updated." : "Category created.";
+  const action = initialData ? "Save changes" : "Create Category";
+  const loadingText = initialData ? "Updating Category" : "Creating Category";
+  const submittedText = initialData ? "Category Updated" : "Category Created";
+  const buttonText = () => {
+    if (form.formState.isSubmitting)
+      return (
+        <>
+          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          <span>{loadingText}</span>
+        </>
+      );
+
+    if (form.formState.isSubmitSuccessful) return submittedText;
+    else return action;
+  };
 
   async function handleSubmit(data: CategoryFormValues) {
     try {
@@ -140,7 +154,7 @@ const CategoryForm = ({ initialData }: CategoryFormProps) => {
               form.formState.isSubmitting || form.formState.isSubmitSuccessful
             }
           >
-            {action}
+            {buttonText()}
           </Button>
         </form>
       </Form>
