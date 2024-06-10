@@ -7,7 +7,7 @@ import StoreMobileNav from "./store-mobile-nav";
 
 const Header = () => {
   return (
-    <header className="my-8 border-b pb-4">
+    <header className="my-8 border-b pb-4 xl:mb-8 xl:mt-4">
       <nav className="container flex items-center gap-4 lg:gap-6">
         <StoreMobileNav />
         <Link href="/" className="w-36">
