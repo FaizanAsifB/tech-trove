@@ -84,7 +84,7 @@ const CategoryForm = ({ initialData }: CategoryFormProps) => {
               <FormItem>
                 <FormLabel>Title</FormLabel>
                 <FormControl>
-                  <Input placeholder="Category title" {...field} />
+                  <Input placeholder="Category Title" {...field} />
                 </FormControl>
 
                 <FormMessage />
