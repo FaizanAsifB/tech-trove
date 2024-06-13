@@ -25,6 +25,7 @@ export const SearchUsers = () => {
             id="search"
             name="search"
             type="text"
+            autoComplete="off"
             placeholder="Search for Users"
           />
           <Button type="submit">Search</Button>

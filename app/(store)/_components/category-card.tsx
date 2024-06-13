@@ -12,7 +12,7 @@ const CategoryCard = ({ title, imgUrl }: CategoryCardProps) => {
   return (
     <Card className="relative flex min-h-[360px] w-full items-end bg-secondary">
       <CardContent className="grid w-full">
-        <Image src={imgUrl} alt={title} fill className="object-cover" />
+        <Image src={imgUrl} alt={title} fill className="object-contain" />
         <Button asChild className="z-10">
           <Link href={`/products?filter=${title} `}>{title}</Link>
         </Button>
