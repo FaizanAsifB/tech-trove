@@ -6,11 +6,11 @@ import { FaXTwitter } from "react-icons/fa6";
 const Footer = () => {
   return (
     <footer className="mt-24 bg-primary py-8 text-primary-foreground">
-      <div className="container flex justify-between">
+      <div className="container flex items-center justify-between gap-4">
         <Link href="/" className="w-36" aria-label="Go to home page">
           <Logo />
         </Link>
-        <div>2024 Tech Trove. All Rights are Reserved</div>
+        <p className="text-xs">2024 Tech Trove. All Rights Reserved</p>
         <div>
           <ul className="flex gap-4">
             <li>

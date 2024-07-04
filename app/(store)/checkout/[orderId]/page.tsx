@@ -63,7 +63,7 @@ const CheckoutResultPage = async ({
                     <div className="flex items-center gap-4">
                       <Image
                         alt="Product Image"
-                        className="size-32 rounded-md object-contain lg:size-24"
+                        className="size-24 rounded-md object-contain lg:size-32"
                         height={96}
                         src={product.images[0].url}
                         width={96}
