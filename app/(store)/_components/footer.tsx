@@ -7,24 +7,36 @@ const Footer = () => {
   return (
     <footer className="mt-24 bg-primary py-8 text-primary-foreground">
       <div className="container flex justify-between">
-        <Link href="/" target="_blank" className="w-36 ">
+        <Link href="/" className="w-36" aria-label="Go to home page">
           <Logo />
         </Link>
         <div>2024 Tech Trove. All Rights are Reserved</div>
         <div>
           <ul className="flex gap-4">
             <li>
-              <Link href="https://www.facebook.com" target="_blank">
+              <Link
+                href="https://www.facebook.com"
+                target="_blank"
+                aria-label="Tech trove facebook page"
+              >
                 <FaFacebookF />
               </Link>
             </li>
             <li>
-              <Link href="https://www.instagram.com" target="_blank">
+              <Link
+                href="https://www.instagram.com"
+                target="_blank"
+                aria-label="Tech trove instagram page"
+              >
                 <FaInstagram />
               </Link>
             </li>
             <li>
-              <Link href="https://www.twitter.com" target="_blank">
+              <Link
+                href="https://www.twitter.com"
+                target="_blank"
+                aria-label="Tech trove twitter page"
+              >
                 <FaXTwitter />
               </Link>
             </li>

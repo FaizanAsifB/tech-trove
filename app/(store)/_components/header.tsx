@@ -10,7 +10,7 @@ const Header = () => {
     <header className="my-8 border-b pb-4 xl:mb-8 xl:mt-4">
       <nav className="container flex items-center gap-4 lg:gap-6">
         <StoreMobileNav />
-        <Link href="/" className="w-36">
+        <Link href="/" className="w-36" aria-label="Go to home page">
           <Logo />
         </Link>
         <div className="hidden flex-1 items-center justify-between lg:flex">
