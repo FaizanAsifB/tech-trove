@@ -2,6 +2,8 @@
 
 Tech Trove is a comprehensive e-commerce solution built with Next.js and PostgreSQL, incorporating a powerful CMS for seamless content management and an intuitive interface optimized for browsing and purchasing electronic products.
 
+Watch the live site [here](https://tech-trove-store.vercel.app/). Check it out to see the app in action!
+
 ## Table of Contents <!-- omit in toc -->
 
 - [About the project](#about-the-project)
@@ -9,7 +11,6 @@ Tech Trove is a comprehensive e-commerce solution built with Next.js and Postgre
 - [CMS Preview Video](#cms-preview-video)
 - [Installation](#installation)
 - [Future Enhancements](#future-enhancements)
-- [Live Site](#live-site)
 - [License](#license)
 - [Contact](#contact)
 
@@ -81,10 +82,6 @@ To install and run this project locally, follow these steps:
 ## Future Enhancements
 
 Looking ahead, there are several exciting avenues for enhancing Tech Trove that align with expanding my skills as a developer. One area of focus could be implementing an advanced search functionality, which would deepen my understanding of query optimization and user experience design. Enhancing my full-stack skills by implementing personalized features such as user favorites. Another worthwhile project enhancement could involve setting up a newsletter system, providing an opportunity to delve into email marketing integration and user engagement strategies.
-
-## Live Site
-
-Check out the live site [here](https://tech-trove-store.vercel.app/).
 
 ## License
 
