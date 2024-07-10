@@ -75,9 +75,7 @@ To install and run this project locally, follow these steps:
    npm run dev
    ```
 
-   - The development server runs on port 3000.
-
-   - Open [http://localhost:3000](http://localhost:3000) in your browser to play the game.
+   - The application will be accessible at [http://localhost:3000](http://localhost:3000).
 
 ## Future Enhancements
 
