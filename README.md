@@ -18,7 +18,7 @@ Watch the live site [here](https://tech-trove-store.vercel.app/). Check it out t
 
 ## About the project
 
-![Project Preview](https://github.com/FaizanAsifB/Portfolio/blob/main/src/content/projects/project-images/tech-trove-wide.jpg?raw=true)
+![Tech Trove Preview](https://github.com/FaizanAsifB/Portfolio/blob/main/src/content/projects/project-images/tech-trove-wide.jpg?raw=true)
 
 Tech Trove is a full-stack e-commerce platform built with Next.js, featuring a robust content management system (CMS) for seamless content creation and management. This comprehensive platform is dedicated to providing customers with a user-friendly interface for browsing and purchasing a diverse range of electronic products. The backend database is powered by PostgreSQL, ensuring reliability and scalability for handling large volumes of data efficiently.
 
@@ -47,7 +47,7 @@ This project was built with the following technologies:
 
 ## CMS Preview Video
 
-[![Watch the video](https://img.youtube.com/vi/on_oXOdLpzw/hqdefault.jpg)](https://www.youtube.com/watch?v=on_oXOdLpzw)
+[![Tech Trove video](https://img.youtube.com/vi/on_oXOdLpzw/hqdefault.jpg)](https://www.youtube.com/watch?v=on_oXOdLpzw)
 
 ## Installation
 
