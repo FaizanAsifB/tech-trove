@@ -47,7 +47,7 @@ This project was built with the following technologies:
 
 ## CMS Preview Video
 
-[![Watch the video](https://img.youtube.com/vi/on_oXOdLpzw/maxresdefault.jpg)](https://www.youtube.com/watch?v=on_oXOdLpzw)
+[![Watch the video](https://img.youtube.com/vi/on_oXOdLpzw/hqdefault.jpg)](https://www.youtube.com/watch?v=on_oXOdLpzw)
 
 ## Installation
 
