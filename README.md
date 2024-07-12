@@ -47,7 +47,7 @@ This project was built with the following technologies:
 
 ## CMS Preview Video
 
-[![Watch the video](https://github.com/FaizanAsifB/Portfolio/blob/main/src/content/projects/project-images/tech-trove-wide.jpg?raw=true)](https://www.youtube.com/watch?v=on_oXOdLpzw)
+[![Watch the video](https://img.youtube.com/vi/oXOdLpzw/maxresdefault.jpg)](https://www.youtube.com/watch?v=on_oXOdLpzw)
 
 ## Installation
 
