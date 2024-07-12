@@ -3,7 +3,7 @@
 Tech Trove is a comprehensive e-commerce solution built with Next.js and PostgreSQL, incorporating a powerful CMS for seamless content management and an intuitive interface optimized for browsing and purchasing electronic products.
 
 Watch the live site [here](https://tech-trove-store.vercel.app/). Check it out to see the app in action!
-^Username: john@doe.com Password: demo123
+~Username: john@doe.com Password: demo123
 
 ## Table of Contents <!-- omit in toc -->
 
